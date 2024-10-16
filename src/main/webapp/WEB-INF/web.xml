@@ -61,6 +61,10 @@
         <servlet-name>Categorie</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.CategoriaController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GestioneUtente</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.GestioneUtente</servlet-class>
+    </servlet>
     <!-- Mapping della servlet a un URL -->
 <!--    <servlet-mapping>-->
 <!--        <servlet-name>homeServlet</servlet-name>-->
@@ -89,6 +93,10 @@
     <servlet-mapping>
         <servlet-name>Categorie</servlet-name>
         <url-pattern>/admin/categorie/aggiungi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneUtente</servlet-name>
+        <url-pattern>/gestioneutente</url-pattern>
     </servlet-mapping>
 
 

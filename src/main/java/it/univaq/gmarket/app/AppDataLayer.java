@@ -3,7 +3,10 @@ package it.univaq.gmarket.app;
 import it.univaq.gmartket.data.dao.UtenteDAO;
 import it.univaq.gmartket.data.dao.impl.UtenteDAO_MySQL;
 import it.univaq.gmartket.data.model.Utente; */
+import it.univaq.gmarket.data.dao.UtenteDAO;
+import it.univaq.gmarket.data.dao.impl.UtenteDAO_SQL;
 import it.univaq.gmarket.data.model.Categoria;
+import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.dao.CategoriaDAO;
 import it.univaq.gmarket.data.model.dao.impl.CategoriaDAOImpl;
 import it.univaq.gmarket.framework.data.DataException;
@@ -23,13 +26,14 @@ public class AppDataLayer extends DataLayer {
     public void init() throws DataException {
         //registriamo i nostri dao
         //register our daos
-    //   registerDAO(Utente.class, new UtenteDAO_MySQL(this));
-        registerDAO(Categoria.class, new CategoriaDAOImpl(this));
+       registerDAO(Utente.class, new UtenteDAO_SQL(this));
+       registerDAO(Categoria.class, new CategoriaDAOImpl(this));
     }
 
-  /*  public UtenteDAO getUtenteDAO() {
+    public UtenteDAO getUtenteDAO() {
         return (UtenteDAO) getDAO(Utente.class);
-    } */
+    }
+
 
     public CategoriaDAO getCategoriaDAO() {
         return (CategoriaDAO) getDAO(Categoria.class);

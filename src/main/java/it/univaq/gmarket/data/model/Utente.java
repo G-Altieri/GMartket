@@ -1,10 +1,11 @@
 package it.univaq.gmarket.data.model;
 
 import it.univaq.gmarket.data.model.impl.Ruolo;
+import it.univaq.gmarket.framework.data.DataItem;
 
 import java.util.Date;
 
-public interface Utente {
+public interface Utente extends DataItem<Integer> {
 
     int getId();
     void setId(int id);

@@ -1,9 +1,11 @@
 package it.univaq.gmarket.data.model.impl;
 import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.framework.data.DataItem;
+import it.univaq.gmarket.framework.data.DataItemImpl;
 
 import java.util.Date;
 
-public class UtenteImpl implements Utente {
+public class UtenteImpl extends DataItemImpl<Integer> implements Utente {
 
     private int id;
     private String nome;
