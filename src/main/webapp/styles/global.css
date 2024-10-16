@@ -172,3 +172,13 @@ body::-webkit-scrollbar-thumb {
     -moz-box-shadow: 0 -40px 0 0 #ECEEF0;
     box-shadow: 0 -40px 0 0 #ECEEF0;
 }
+
+
+.icon path {
+    fill: #F3F4F6;
+}
+
+/* Colore dell'icona attiva */
+li.active .icon path {
+    fill: #FFC107; /* Cambia questo colore in base alle tue esigenze */
+}

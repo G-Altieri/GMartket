@@ -32,8 +32,8 @@ public class LoginController extends AppBaseController {
 
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
-
-        String email = request.getParameter("email");
+        response.sendRedirect("/admin");
+       /* String email = request.getParameter("email");
         String password = request.getParameter("password");
         Ruolo role = Ruolo.valueOf(request.getParameter("role"));
 
@@ -51,7 +51,7 @@ public class LoginController extends AppBaseController {
         } */
 
         // Se non ha inserito email e password redireziono con errore
-        if (email.isEmpty() || password.isEmpty()) {
+   /*     if (email.isEmpty() || password.isEmpty()) {
             response.sendRedirect("login?error=3");
         }
 
@@ -130,11 +130,12 @@ public class LoginController extends AppBaseController {
             handleError(e, request, response);
         }*/
 
-        TemplateResult result = new TemplateResult(getServletContext());
+   /*     TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("referrer", request.getParameter("referrer"));
         request.setAttribute("includeHeader", true);
         request.setAttribute("includeFooter", true);
-        result.activate("dashboardAdmin.ftl", request, response);
+        request.setAttribute("currentUrl", request.getRequestURI());
+        result.activate("dashboardAdmin.ftl", request, response); */
     }
 
     /*

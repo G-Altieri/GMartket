@@ -872,11 +872,6 @@ video {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
-.bg-gray-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
 .bg-gray-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
@@ -992,14 +987,14 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .text-primario {
   --tw-text-opacity: 1;
   color: rgb(62 83 160 / var(--tw-text-opacity));
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .shadow-buttonBox {
@@ -1212,14 +1207,25 @@ body::-webkit-scrollbar-thumb {
   box-shadow: 0 -40px 0 0 #ECEEF0;
 }
 
+.icon path {
+  fill: #F3F4F6;
+}
+
+/* Colore dell'icona attiva */
+
+li.active .icon path {
+  fill: #FFC107;
+  /* Cambia questo colore in base alle tue esigenze */
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
 .hover\:shadow-buttonBoxHover:hover {
-  --tw-shadow: 0px 2px 3px 0px rgba(0,0,0,0.37);
-  --tw-shadow-colored: 0px 2px 3px 0px var(--tw-shadow-color);
+  --tw-shadow:  0px 1px 4px rgba(0, 0, 0, 0.16);
+  --tw-shadow-colored: 0px 1px 4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -1289,29 +1295,8 @@ body::-webkit-scrollbar-thumb {
     border-bottom-right-radius: 1rem;
   }
 
-  .md\:rounded-t-none {
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-  }
-
   .md\:rounded-tl-none {
     border-top-left-radius: 0px;
-  }
-
-  .md\:bg-\[\#FEFFE5\]\/\[\.42\] {
-    background-color: rgb(254 255 229 / .42);
-  }
-
-  .md\:bg-\[\#5A77DF\]\/\[\.42\] {
-    background-color: rgb(90 119 223 / .42);
-  }
-
-  .md\:bg-\[\#5A77DF\]\/\[\.10\] {
-    background-color: rgb(90 119 223 / .10);
-  }
-
-  .md\:bg-\[\#5A77DF\]\/\[\.05\] {
-    background-color: rgb(90 119 223 / .05);
   }
 
   .md\:bg-\[\#5A77DF\]\/\[\.06\] {

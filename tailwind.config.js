@@ -19,7 +19,7 @@ module.exports = {
             boxShadow: {
                 buttonBox: '0px 2px 8px 0px rgba(0, 0, 0, 0.37)',
                 normalBox: '0px 3px 22px 0px rgba(0, 0, 0, 0.15)',
-                buttonBoxHover: '0px 2px 3px 0px rgba(0,0,0,0.37)',
+                buttonBoxHover: ' 0px 1px 4px rgba(0, 0, 0, 0.16)',
             },
         },
     },
