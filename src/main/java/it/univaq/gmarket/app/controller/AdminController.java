@@ -12,10 +12,9 @@ public class AdminController extends AppBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             TemplateResult result = new TemplateResult(getServletContext());
-            request.setAttribute("includeHeader", true);
-            request.setAttribute("includeFooter", true);
+            request.setAttribute("navbarTitle", "Dashboard Amministratore");
             request.setAttribute("currentUrl", request.getRequestURI());
-            result.activate("dashboardAdmin.ftl", request, response);
+            result.activate("/admin/dashboardAdmin.ftl", request, response);
         } catch (TemplateManagerException ex) {
             handleError(ex, request, response);
         }

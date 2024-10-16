@@ -1,10 +1,10 @@
 <div class="h-full flex ">
     <!-- Sidebar fissa -->
-    <div class="bg-primario text-white w-80 h-full fixed top-4 hSideBar rounded-3xl ">
+    <div class="bg-primario text-white w-24 md:w-80 h-full fixed top-4 hSideBar rounded-3xl transition-all duration-300">
         <div class=" flex flex-col  items-center">
             <a href="/admin" class="p-4 pt-8 flex flex-row items-center justify-center w-full gap-2 mb-12">
                 <img src="/images/logoGMarket.png" alt="Logo GMarket" class="w-12 h-auto">
-                <h1 class="text-3xl font-semibold">GMarket</h1>
+                <h1 class="text-3xl font-semibold hidden md:block">GMarket</h1>
             </a>
 
             <ul class="menu">
@@ -17,7 +17,7 @@
                             <path d="M11.4287 19.8235H5.13616C3.74605 19.8235 2.61914 20.9648 2.61914 22.3726V26.1961C2.61914 27.6039 3.74605 28.7451 5.13616 28.7451H11.4287C12.8188 28.7451 13.9457 27.6039 13.9457 26.1961V22.3726C13.9457 20.9648 12.8188 19.8235 11.4287 19.8235Z"/>
                             <path d="M25.2725 14.7255H18.9799C17.5898 14.7255 16.4629 15.8667 16.4629 17.2745V26.1961C16.4629 27.6038 17.5898 28.7451 18.9799 28.7451H25.2725C26.6626 28.7451 27.7895 27.6038 27.7895 26.1961V17.2745C27.7895 15.8667 26.6626 14.7255 25.2725 14.7255Z"/>
                         </svg>
-                        <div class="w-full text-2xl font-semibold">Dashboard</div>
+                        <div class="w-full text-2xl font-semibold hidden md:block">Dashboard</div>
                     </a>
                 </li>
                 <li class="<#if currentUrl?contains('utenti')>active</#if>">
@@ -38,7 +38,7 @@
                                 </clipPath>
                             </defs>
                         </svg>
-                        <div class="w-full text-2xl font-semibold ">Utenti</div>
+                        <div class="w-full text-2xl font-semibold hidden md:block">Utenti</div>
                     </a>
                 </li>
                 <li class="<#if currentUrl?contains('categorie')>active</#if>">
@@ -61,7 +61,7 @@
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                   d="M10.7515 5.3076L10.3588 6.03745C10.2973 6.14159 10.1778 6.20135 10.0651 6.13989L7.07061 4.38994C6.92805 4.30714 6.90671 4.13727 6.97159 3.99641L7.30109 3.33228L10.7515 5.3076Z"/>
                         </svg>
-                        <div class="w-full text-2xl font-semibold ">Categoria</div>
+                        <div class="w-full text-2xl font-semibold hidden md:block">Categoria</div>
                     </a>
                 </li>
             </ul>
@@ -70,7 +70,7 @@
         <div class=" relative h-full flex-1 ">
             <a href="/logout" class="flex flex-row gap-2 items-center justify-center bottom-4 ">
                 <img src="/images/icons/dashboardAdmin/logout.svg" alt="Logout" class="w-12 h-auto">
-                <div class="text-2xl font-semibold ">LogOut</div>
+                <div class="text-2xl font-semibold hidden md:block">LogOut</div>
             </a>
         </div>
     </div>

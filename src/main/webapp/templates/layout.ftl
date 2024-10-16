@@ -24,7 +24,7 @@
     <!-- Contenuto principale scrollabile -->
     <div class="flex-1 flex flex-col min-h-screen2 h-full
         <#if includeFooter?string != 'false'>hFooter</#if>
-        <#if includeHeader?string != 'false'>ml-80</#if>">
+        <#if includeHeader?string != 'false'>ml-24 md:ml-80</#if>">
         <!-- Contenuto scrollabile -->
         <main class="flex-grow overflow-y-auto <#if includeFooter?string != 'false'>p-6</#if>">
             <#include content_tpl>

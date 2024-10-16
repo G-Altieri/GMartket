@@ -17,6 +17,12 @@ public class CategoriaProxy extends CategoriaImpl implements DataItemProxy {
     }
 
     @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
+    }
+
+    @Override
     public void setNome(String nome) {
         super.setNome(nome);
         this.modified = true;
@@ -41,5 +47,9 @@ public class CategoriaProxy extends CategoriaImpl implements DataItemProxy {
         return modified;
     }
 
+    public void setPadre(int padre) {
+        super.setPadre(padre);
+        this.modified = true;
+    }
 }
 
