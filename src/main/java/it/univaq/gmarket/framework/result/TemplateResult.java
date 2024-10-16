@@ -233,6 +233,7 @@ public class TemplateResult {
     //questa versione di activate estrae un modello dati dagli attributi della request
     //this acivate method extracts the data model from the request attributes
     public void activate(String tplname, HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
+        request.setAttribute("currentUrl", request.getRequestURI());
         Map datamodel = getRequestDataModel(request);
         setupServletResponse(datamodel, response);
         try {

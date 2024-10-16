@@ -58,6 +58,10 @@
         <servlet-class>it.univaq.gmarket.app.controller.AdminController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Utenti</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.UtentiController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Categorie</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.CategoriaController</servlet-class>
     </servlet>
@@ -83,10 +87,6 @@
         <url-pattern>/admin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Admin</servlet-name>
-        <url-pattern>/admin/utenti</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Categorie</servlet-name>
         <url-pattern>/admin/categorie</url-pattern>
     </servlet-mapping>
@@ -95,8 +95,16 @@
         <url-pattern>/admin/categorie/aggiungi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Utenti</servlet-name>
+        <url-pattern>/admin/utenti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Utenti</servlet-name>
+        <url-pattern>/admin/utenti/aggiungi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>GestioneUtente</servlet-name>
-        <url-pattern>/gestioneutente</url-pattern>
+        <url-pattern>/admin/gestioneutente</url-pattern>
     </servlet-mapping>
 
 

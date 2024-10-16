@@ -26,20 +26,17 @@ public class GestioneUtente extends AppBaseController{
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());
         request.setAttribute("page_title", "Gestione Utenti");
-        res.activate("gestione_utenti.ftl.html", request, response);
+        res.activate("/admin/utenti/utenti.ftl", request, response);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         try {
-            HttpSession session = SecurityHelpers.checkSession(request);
-            if (session == null) {
-                response.sendRedirect("login");
-                return;
-            }
 
+            System.out.println("proviamo un po ");
             String action = request.getParameter("action");
+            System.out.println(action);
             if (action != null && action.equals("createUser")) {
                 action_createUser(request, response);
             } else {
@@ -59,7 +56,11 @@ public class GestioneUtente extends AppBaseController{
 
     private void action_createUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, NoSuchAlgorithmException, InvalidKeySpecException, DataException {
         String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
+        System.out.println(nome);
         String email = request.getParameter("email");
+        System.out.println(email);
+
         String password = request.getParameter("temp-password");
         String confirmPassword = request.getParameter("confirm-password");
         String roleParam = request.getParameter("role");
@@ -90,6 +91,7 @@ public class GestioneUtente extends AppBaseController{
 
         Utente utenteNuovo = new UtenteImpl();
         utenteNuovo.setNome(nome);
+        utenteNuovo.setCognome(cognome);
         utenteNuovo.setEmail(email);
         utenteNuovo.setPassword(hashedPass);
         utenteNuovo.setRuolo(role);

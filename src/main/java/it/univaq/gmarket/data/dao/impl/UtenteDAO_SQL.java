@@ -9,15 +9,33 @@ import it.univaq.gmarket.framework.data.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UtenteDAO_SQL extends DAO implements UtenteDAO {
 
-    private PreparedStatement sUserByID, sUserByEmail, sUserByUsername, iUser, uUser;
+    private PreparedStatement sUserByID, sUserByEmail, sNome, sCognome, iUser, uUser;
 
     public UtenteDAO_SQL(DataLayer data) {
         super(data);
     }
 
+    @Override
+    public void init() throws DataException {
+        try {
+            super.init();
+
+            //precompiliamo tutte le query utilizzate nella classe
+            //precompile all the queries uses in this class
+            sUserByID = connection.prepareStatement("SELECT * FROM utente WHERE ID = ?");
+            sUserByEmail = connection.prepareStatement("SELECT ID FROM utente WHERE email = ?");
+            sNome = connection.prepareStatement("SELECT ID FROM utente WHERE nome = ?");
+            sCognome = connection.prepareStatement("SELECT ID FROM utente WHERE cognome = ?");
+            iUser = connection.prepareStatement("INSERT INTO utente (email,password, ruolo, nome, cognome) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            uUser = connection.prepareStatement("UPDATE utente SET email=?,password=?, ruolo=?, nome=?, cognome=?, version=? WHERE ID=? AND version=?");
+        } catch (SQLException ex) {
+            throw new DataException("Error initializing newspaper data layer", ex);
+        }
+    }
     @Override
     public Utente createUtente() {
         return new UtenteProxy(getDataLayer());
@@ -28,7 +46,7 @@ public class UtenteDAO_SQL extends DAO implements UtenteDAO {
             UtenteProxy utenteProxy = (UtenteProxy) createUtente();
             utenteProxy.setKey(rs.getInt("id"));
             utenteProxy.setNome(rs.getString("nome"));
-            utenteProxy.setCognome(rs.getString("nome"));
+            utenteProxy.setCognome(rs.getString("cognome"));
             utenteProxy.setEmail(rs.getString("email"));
             utenteProxy.setPassword(rs.getString("password"));
             utenteProxy.setRuolo(Ruolo.valueOf(rs.getString("ruolo")));
@@ -104,11 +122,12 @@ public class UtenteDAO_SQL extends DAO implements UtenteDAO {
                 uUser.setString(2, user.getPassword());
                 uUser.setString(3, user.getRuolo().name());
                 uUser.setString(4, user.getNome());
+                uUser.setString(5, user.getCognome());
                 long oldVersion = user.getVersion();
                 long versione = oldVersion + 1;
-                uUser.setLong(5, versione);
-                uUser.setInt(6, user.getKey());
-                uUser.setLong(7, oldVersion);
+                uUser.setLong(6, versione);
+                uUser.setInt(7, user.getKey());
+                uUser.setLong(8, oldVersion);
                 if(uUser.executeUpdate() == 0){
                     throw new OptimisticLockException(user);
                 }else {
@@ -120,6 +139,7 @@ public class UtenteDAO_SQL extends DAO implements UtenteDAO {
                 iUser.setString(2, user.getPassword());
                 iUser.setString(3, user.getRuolo().name());
                 iUser.setString(4, user.getNome());
+                iUser.setString(5, user.getCognome());
 
 
                 if (iUser.executeUpdate() == 1) {
