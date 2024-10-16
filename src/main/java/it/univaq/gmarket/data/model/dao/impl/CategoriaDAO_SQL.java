@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
+public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
 
 
     private PreparedStatement iCategoria;
@@ -25,7 +25,7 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
      *
      * @param d il DataLayer da utilizzare
      */
-    public CategoriaDAOImpl(DataLayer d) {
+    public CategoriaDAO_SQL(DataLayer d) {
         super(d);
     }
 
@@ -40,10 +40,10 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
         try {
             super.init();
 
-            sCategoriaById = connection.prepareStatement("SELECT * FROM categoria WHERE ID=?");
-            sCategorie = connection.prepareStatement("SELECT nome FROM categoria");
+            sCategoriaById = connection.prepareStatement("SELECT * FROM categoria WHERE id=?");
+            sCategorie = connection.prepareStatement("SELECT * FROM categoria");
 
-            iCategoria = connection.prepareStatement("INSERT INTO categoria(nome) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            iCategoria = connection.prepareStatement("INSERT INTO categoria(nome, id_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
         } catch (SQLException e) {
             throw new DataException("Error initializing gmarket data layer", e);
@@ -85,17 +85,17 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
      * @return una nuova istanza di CategoriaProxy
      * @throws DataException se si verifica un errore durante la creazione
      */
+
     private Categoria createCategoria(ResultSet rs) throws DataException {
         try {
-            System.out.println("forse ci passo");
             CategoriaProxy cp = (CategoriaProxy) createCategoria();
-            cp.setKey(rs.getInt("ID"));
+            cp.setKey(rs.getInt("id")); // Supponendo che la colonna ID sia "id"
             cp.setNome(rs.getString("nome"));
-            cp.setPadre(rs.getInt("padre"));
-            cp.setVersion(rs.getLong("version"));
+            cp.setPadre(rs.getInt("id_padre")); // Corretto per usare "id_padre"
+            cp.setVersion(rs.getLong("version")); // Supponendo che ci sia un campo "version"
             return cp;
         } catch (SQLException ex) {
-            throw new DataException("Unable to create Categoria object form ResultSet", ex);
+            throw new DataException("Impossibile creare l'oggetto Categoria dal ResultSet", ex);
         }
     }
 
@@ -114,6 +114,7 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
         } else {
             try {
                 sCategoriaById.setInt(1, categoria_id);
+                System.out.println(sCategorie);
                 try (ResultSet rs = sCategoriaById.executeQuery()) {
                     if (rs.next()) {
                         cp = createCategoria(rs);
@@ -138,8 +139,9 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
         List<Categoria> result = new ArrayList<>();
         try {
             try (ResultSet rs = sCategorie.executeQuery()) {
+                System.out.println(rs);
                 while (rs.next()) {
-                    result.add(getCategoria(rs.getInt("ID")));
+                    result.add(getCategoria(rs.getInt("id")));
                 }
             }
             return result;
@@ -157,9 +159,16 @@ public class CategoriaDAOImpl extends DAO implements CategoriaDAO {
     @Override
     public void storeCategoria(Categoria categoria) throws DataException {
         try {
-            System.out.println("In strano modo ma ci arrivo");
             iCategoria.setString(1, categoria.getNome());
-         //   iCategoria.setInt(2, "null");//categoria.getPadre()
+
+            // Controlla se il padre è null
+            if (categoria.getPadre() != null) {
+                // Se il padre è presente, imposta il suo valore nella query
+                iCategoria.setInt(2, categoria.getPadre());
+            } else {
+                // Se il padre è null, imposta un valore NULL nel database
+                iCategoria.setNull(2, java.sql.Types.INTEGER);  // O il tipo corretto per il campo padre
+            }
 
             if (iCategoria.executeUpdate() == 1) {
                 try (ResultSet keys = iCategoria.getGeneratedKeys()) {
