@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    --sb-track-color: #e2e2e2;
+    --sb-thumb-color: #004598;
+    --sb-size: 8px;
+}
+
+body::-webkit-scrollbar {
+    width: var(--sb-size);
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 1px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 1px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    body {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
+}
+
+.shadowContainerLogin {
+    -webkit-box-shadow: 0px 0px 10px 4px rgba(38, 52, 201, 0.25);
+    box-shadow: 0px 0px 10px 4px rgba(38, 52, 201, 0.25);
+}
+
+.shadowBoxInput {
+    -webkit-box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
+}
+
+.mt-8i {
+    margin-top: 2rem !important;
+}
+
+
+.hSideBar {
+    height: calc(100% - 2rem);
+}
+.hFooter {
+    height: calc(100vh - 2rem);
+}
+
+
+.menu {
+    background: rgb(62 83 160);
+    padding: 40px 0 40px 20px;
+    list-style-type: none;
+    width: 100%;
+    position: relative;
+    color: #F3F4F6;
+}
+
+.menu > li {
+    padding: 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu > li.active::before, .menu > li.active::after {
+    content: "";
+    position: absolute;
+}
+
+.menu > li.active {
+    background: #ECEEF0;
+    border-radius: 60px 0 0 60px;
+}
+
+.menu > li > a {
+    padding: 10px 15px;
+    color: rgb(62 83 160);
+    text-decoration: none;
+}
+
+.menu > li.active > a > div {
+    color: rgb(62 83 160);
+}
+
+.menu > li > a > div {
+    color: #F3F4F6;
+}
+
+.menu > li.active::before {
+    top: -80px;
+    right: -1px;
+    height: 80px;
+    width: 40px;
+    border-bottom-right-radius: 30px;
+    -moz-border-bottom-right-radius: 30px;
+    -webkit-border-bottom-right-radius: 30px;
+    -webkit-box-shadow: 0 40px 0 0 #ECEEF0;
+    -moz-box-shadow: 0 40px 0 0 #ECEEF0;
+    box-shadow: 0 40px 0 0 #ECEEF0;
+}
+
+.menu > li.active::after {
+    top: 89px;
+    right: -1px;
+    height: 80px;
+    width: 40px;
+    border-top-right-radius: 30px;
+    -moz-border-top-right-radius: 30px;
+    -webkit-border-top-right-radius: 30px;
+    -webkit-box-shadow: 0 -40px 0 0 #ECEEF0;
+    -moz-box-shadow: 0 -40px 0 0 #ECEEF0;
+    box-shadow: 0 -40px 0 0 #ECEEF0;
+}
