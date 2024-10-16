@@ -4,7 +4,7 @@
         <div class="text-4xl font-semibold text-bluScuro">Dashboard Admin</div>
         <div class="text-2xl font-medium text-bluScuro flex flex-row items-center gap-2">
             <p>Giovanni Altieri</p>
-            <img src="/images/icons/avatarUser.svg" alt="avatar" class="w-8 h-auto">
+            <img src="/images/icons/dashboardAdmin/avatarUser.svg" alt="avatar" class="w-10 h-auto border border-bluScuro rounded-full">
         </div>
     </div>
     <div class="bg-griggioScuro h-1 w-full rounded-3xl mt-2"></div>
@@ -18,7 +18,7 @@
                 <div class="text-bluScuro font-normal text-md">e ben 23 categorie</div>
             </div>
             <div class="">
-                <img src="/images/icons/vectorAdmin.svg" alt="vectorAdmin" class="w-full max-w-[380px] h-auto -mb-4">
+                <img src="/images/icons/dashboardAdmin/vectorAdmin.svg" alt="vectorAdmin" class="w-full max-w-[380px] h-auto -mb-4">
             </div>
         </div>
         <div class="col-span-2"></div>
@@ -27,14 +27,14 @@
     <#--    Sezione 2 Gestione -->
     <div class="text-2xl font-medium text-bluScuro mt-12">Gestione Piattaforma</div>
     <div class="grid grid-cols-6 mt-2 gap-4">
-        <a href="#" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
-            <div class="text-3xl font-bold text-bluScuro ">Categorie</div>
-            <img src="/images/icons/vectorCategorie.svg" alt="vectorAdmin" class="w-full max-w-[220px] h-auto -mb-4">
+        <a href="/admin/categorie" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
+            <div class="text-3xl font-semibold text-bluScuro ">Categorie</div>
+            <img src="/images/icons/dashboardAdmin/vectorCategorie.svg" alt="vectorAdmin" class="w-full max-w-[220px] h-auto -mb-4">
         </a>
 
-        <a href="#" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
-            <div class="text-3xl font-bold text-bluScuro ">Utenti</div>
-            <img src="/images/icons/vectorUtenti.svg" alt="vectorAdmin" class="w-full max-w-[150px] h-auto -mb-4">
+        <a href="/admin/utenti" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
+            <div class="text-3xl font-semibold text-bluScuro ">Utenti</div>
+            <img src="/images/icons/dashboardAdmin/vectorUtenti.svg" alt="vectorAdmin" class="w-full max-w-[150px] h-auto -mb-4">
         </a>
 
     </div>

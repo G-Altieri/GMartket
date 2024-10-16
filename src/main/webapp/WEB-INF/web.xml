@@ -43,19 +43,19 @@
     <!-- Definizione della servlet -->
 <!--    <servlet>-->
 <!--        <servlet-name>homeServlet</servlet-name>-->
-<!--        <servlet-class>it.univaq.gmartket.app.controller.HomeServlet</servlet-class>-->
+<!--        <servlet-class>it.univaq.gmarket.app.controller.HomeServlet</servlet-class>-->
 <!--    </servlet>-->
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>it.univaq.gmartket.app.controller.LoginController</servlet-class>
+        <servlet-class>it.univaq.gmarket.app.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Logout</servlet-name>
-        <servlet-class>it.univaq.gmartket.app.controller.LogoutController</servlet-class>
+        <servlet-class>it.univaq.gmarket.app.controller.LogoutController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Admin</servlet-name>
-        <servlet-class>it.univaq.gmartket.app.controller.AdminController</servlet-class>
+        <servlet-class>it.univaq.gmarket.app.controller.AdminController</servlet-class>
     </servlet>
     <!-- Mapping della servlet a un URL -->
 <!--    <servlet-mapping>-->
@@ -90,11 +90,11 @@
     </welcome-file-list>
     <!--    Inizializzatore del Applicativo-->
     <listener>
-        <listener-class>it.univaq.gmartket.framework.application.ApplicationInitializer</listener-class>
+        <listener-class>it.univaq.gmarket.framework.application.ApplicationInitializer</listener-class>
     </listener>
     <!--recupero delle risorse-->
     <resource-ref>
-        <res-ref-name>jdbc/gmarket</res-ref-name>
+        <res-ref-name>jdbc/gmarket_db</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
