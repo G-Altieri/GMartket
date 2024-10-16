@@ -6,6 +6,8 @@ import it.univaq.gmarket.data.model.dao.CategoriaDAO;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
+import it.univaq.gmarket.framework.security.SecurityHelpers;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,20 +52,26 @@ public class CategoriaController extends AppBaseController {
             nuovaCategoria.setNome(nomeCategoria);
 
             if (padreCategoria != null && !padreCategoria.isEmpty()) {
-                nuovaCategoria.setPadre(Integer.parseInt(padreCategoria));
+                nuovaCategoria.setPadre(SecurityHelpers.checkNumeric(padreCategoria));//Integer.parseInt(padreCategoria)
             } else {
-                nuovaCategoria.setPadre(0);  // Se non c'è un padre, si imposta a 0
+                nuovaCategoria.setPadre(null);  // Se non c'è un padre, si imposta a null
             }
 
             categoriaDAO.storeCategoria(nuovaCategoria);
 
-            response.sendRedirect(request.getContextPath() + "/successo"); // Dopo l'inserimento, ridireziona l'utente
+            response.sendRedirect("/admin/categorie"); // Dopo l'inserimento, ridireziona l'utente
         } else {
             // GET: Visualizza il form per aggiungere una categoria
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Aggiungi Categoria");
             request.setAttribute("currentUrl", request.getRequestURI());
-            result.activate("/admin/categorie/aggiungi.ftl", request, response);  // Usa il template giusto per aggiungere
+            // Recupera la lista delle categorie dal database
+            CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
+            List<Categoria> categorie = categoriaDAO.getAllCategorie();  // Supponendo che ci sia un metodo per questo
+            System.out.println(categorie);
+            // Setta le categorie come attributo nella request
+            request.setAttribute("categorie", categorie);
+            result.activate("/admin/categorie/aggiungiCategoria.ftl", request, response);  // Usa il template giusto per aggiungere
         }
     }
 
@@ -79,6 +87,7 @@ public class CategoriaController extends AppBaseController {
         // Visualizza la lista delle categorie
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("navbarTitle", "Lista Categorie");
+        request.setAttribute("currentUrl", request.getRequestURI());
         result.activate("/admin/categorie/categorie.ftl", request, response);  // Usa il template giusto per la lista
     }
 }

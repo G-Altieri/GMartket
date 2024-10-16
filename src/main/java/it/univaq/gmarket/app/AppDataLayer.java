@@ -8,7 +8,7 @@ import it.univaq.gmarket.data.dao.impl.UtenteDAO_SQL;
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.dao.CategoriaDAO;
-import it.univaq.gmarket.data.model.dao.impl.CategoriaDAOImpl;
+import it.univaq.gmarket.data.model.dao.impl.CategoriaDAO_SQL;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.data.DataLayer;
 
@@ -27,7 +27,8 @@ public class AppDataLayer extends DataLayer {
         //registriamo i nostri dao
         //register our daos
        registerDAO(Utente.class, new UtenteDAO_SQL(this));
-       registerDAO(Categoria.class, new CategoriaDAOImpl(this));
+       registerDAO(Categoria.class, new CategoriaDAO_SQL(this));
+
     }
 
     public UtenteDAO getUtenteDAO() {

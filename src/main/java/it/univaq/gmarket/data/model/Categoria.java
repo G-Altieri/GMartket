@@ -22,4 +22,5 @@ public interface Categoria extends DataItem<Integer> {
     boolean getFiglio();
 
     void setFiglio(boolean figlio);
+
 }

@@ -14,14 +14,18 @@
         <div class="col-span-4"></div>
         <div class="col-span-6 my-2 text-2xl font-medium text-bluScuro">Lista Categorie</div>
         <#--    Lista Categorie -->
-        <#list 1..10 as i>
-            <a class="flex flex-row items-center justify-center gap-2 w-full bg-light px-4 py-3 rounded-full shadow-buttonBox hover:shadow-buttonBoxHover text-xl font-semibold text-bluScuro"
-               href="/admin/categorie/aggiungi">
-                <div class="">
-                    Cucina ${i}
-                </div>
-            </a>
-        </#list>
+        <#if (categorie?size>0)>
+            <#list categorie as categoria>
+                <a class="flex flex-row items-center justify-center gap-2 w-full bg-light px-4 py-3 rounded-full shadow-buttonBox hover:shadow-buttonBoxHover text-xl font-semibold text-bluScuro"
+                   href="/admin/categorie/aggiungi">
+                    <div class="">
+                       ${categoria.nome} ${categoria.getPadre()}
+                    </div>
+                </a>
+            </#list>
+        <#else>
+            <div>Nessuna categoria disponibile</div>
+        </#if>
     </div>
 
 
