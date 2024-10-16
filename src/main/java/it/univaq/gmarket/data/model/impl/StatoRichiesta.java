@@ -1,4 +1,4 @@
-package it.univaq.gmartket.data.model.impl;
+package it.univaq.gmarket.data.model.impl;
 
 public enum StatoRichiesta {
 

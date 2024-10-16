@@ -1,7 +1,7 @@
-package it.univaq.gmartket.data.model;
+package it.univaq.gmarket.data.model;
 
-import it.univaq.gmartket.data.model.impl.StatoOrdine;
-import it.univaq.gmartket.data.model.impl.StatoProposta;
+import it.univaq.gmarket.data.model.impl.StatoOrdine;
+import it.univaq.gmarket.data.model.impl.StatoProposta;
 
 import java.sql.Date;
 

@@ -1,6 +1,9 @@
-package it.univaq.gmartket.data.model.impl;
+package it.univaq.gmarket.data.model.impl;
 
-import it.univaq.gmartket.data.model.*;
+import it.univaq.gmarket.data.model.Categoria;
+import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.*;
 import java.util.Date;
 
 public class RichiestaImpl implements Richiesta {

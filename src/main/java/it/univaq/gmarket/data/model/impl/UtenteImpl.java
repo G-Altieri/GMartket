@@ -1,5 +1,5 @@
-package it.univaq.gmartket.data.model.impl;
-import it.univaq.gmartket.data.model.Utente;
+package it.univaq.gmarket.data.model.impl;
+import it.univaq.gmarket.data.model.Utente;
 
 import java.util.Date;
 

@@ -1,8 +1,8 @@
-package it.univaq.gmartket.data.model.impl;
+package it.univaq.gmarket.data.model.impl;
 
-import it.univaq.gmartket.data.model.RichiestaCaratteristica;
-import it.univaq.gmartket.data.model.Richiesta;
-import it.univaq.gmartket.data.model.Caratteristica;
+import it.univaq.gmarket.data.model.RichiestaCaratteristica;
+import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.data.model.Caratteristica;
 
 public class RichiestaCaratteristicaImpl implements RichiestaCaratteristica {
 

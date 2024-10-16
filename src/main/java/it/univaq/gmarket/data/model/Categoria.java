@@ -1,6 +1,4 @@
-package it.univaq.gmartket.data.model;
-
-import java.util.List;
+package it.univaq.gmarket.data.model;
 
 public interface Categoria {
 

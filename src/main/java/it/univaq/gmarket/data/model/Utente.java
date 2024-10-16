@@ -1,6 +1,6 @@
-package it.univaq.gmartket.data.model;
+package it.univaq.gmarket.data.model;
 
-import it.univaq.gmartket.data.model.impl.Ruolo;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 
 import java.util.Date;
 

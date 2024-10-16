@@ -1,11 +1,11 @@
-package it.univaq.gmartket.data.model.impl.proxy;
+package it.univaq.gmarket.data.model.impl.proxy;
 
 
-import it.univaq.gmartket.data.model.impl.RichiestaCaratteristicaImpl;
-import it.univaq.gmartket.data.model.Richiesta;
-import it.univaq.gmartket.data.model.Caratteristica;
-import it.univaq.gmartket.framework.data.DataItemProxy;
-import it.univaq.gmartket.framework.data.DataLayer;
+import it.univaq.gmarket.data.model.Caratteristica;
+import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.data.model.impl.RichiestaCaratteristicaImpl;
+import it.univaq.gmarket.framework.data.DataItemProxy;
+import it.univaq.gmarket.framework.data.DataLayer;
 
 public class RichiestaCaratteristicaProxy extends RichiestaCaratteristicaImpl implements DataItemProxy {
 

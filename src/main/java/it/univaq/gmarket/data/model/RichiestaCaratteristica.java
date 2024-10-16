@@ -1,4 +1,4 @@
-package it.univaq.gmartket.data.model;
+package it.univaq.gmarket.data.model;
 
 public interface RichiestaCaratteristica {
 

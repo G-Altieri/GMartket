@@ -1,9 +1,9 @@
-package it.univaq.gmartket.data.model.impl.proxy;
+package it.univaq.gmarket.data.model.impl.proxy;
 
-import it.univaq.gmartket.data.model.impl.UtenteImpl;
-import it.univaq.gmartket.data.model.impl.Ruolo;
-import it.univaq.gmartket.framework.data.DataLayer;
-import it.univaq.gmartket.framework.data.DataItemProxy;
+import it.univaq.gmarket.data.model.impl.Ruolo;
+import it.univaq.gmarket.data.model.impl.UtenteImpl;
+import it.univaq.gmarket.framework.data.DataLayer;
+import it.univaq.gmarket.framework.data.DataItemProxy;
 import java.util.Date;
 
 public class UtenteProxy extends UtenteImpl implements DataItemProxy {

@@ -1,11 +1,11 @@
-package it.univaq.gmartket.data.model.impl.proxy;
+package it.univaq.gmarket.data.model.impl.proxy;
 
-import it.univaq.gmartket.data.model.Categoria;
-import it.univaq.gmartket.data.model.Utente;
-import it.univaq.gmartket.data.model.impl.RichiestaImpl;
-import it.univaq.gmartket.data.model.impl.StatoRichiesta;
-import it.univaq.gmartket.framework.data.DataItemProxy;
-import it.univaq.gmartket.framework.data.DataLayer;
+import it.univaq.gmarket.data.model.Categoria;
+import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.impl.RichiestaImpl;
+import it.univaq.gmarket.data.model.impl.StatoRichiesta;
+import it.univaq.gmarket.framework.data.DataItemProxy;
+import it.univaq.gmarket.framework.data.DataLayer;
 
 import java.util.Date;
 

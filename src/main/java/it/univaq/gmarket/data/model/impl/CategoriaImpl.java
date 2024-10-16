@@ -1,5 +1,5 @@
-package it.univaq.gmartket.data.model.impl;
-import it.univaq.gmartket.data.model.Categoria;
+package it.univaq.gmarket.data.model.impl;
+import it.univaq.gmarket.data.model.Categoria;
 
     public class CategoriaImpl implements Categoria {
 

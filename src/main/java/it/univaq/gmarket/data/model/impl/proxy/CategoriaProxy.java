@@ -1,9 +1,9 @@
-package it.univaq.gmartket.data.model.impl.proxy;
+package it.univaq.gmarket.data.model.impl.proxy;
 
 
-import it.univaq.gmartket.data.model.impl.CategoriaImpl;
-import it.univaq.gmartket.framework.data.DataItemProxy;
-import it.univaq.gmartket.framework.data.DataLayer;
+import it.univaq.gmarket.data.model.impl.CategoriaImpl;
+import it.univaq.gmarket.framework.data.DataItemProxy;
+import it.univaq.gmarket.framework.data.DataLayer;
 
 public class CategoriaProxy extends CategoriaImpl implements DataItemProxy {
 
