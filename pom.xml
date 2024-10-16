@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.univaq.test</groupId>
+    <groupId>it.univaq.gmarket</groupId>
     <artifactId>GMarket</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
