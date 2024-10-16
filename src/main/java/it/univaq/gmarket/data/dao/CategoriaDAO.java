@@ -1,4 +1,4 @@
-package it.univaq.gmarket.data.model.dao;
+package it.univaq.gmarket.data.dao;
 
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.framework.data.DataException;
@@ -16,4 +16,10 @@ public interface CategoriaDAO {
 
     void storeCategoria(Categoria categoria) throws DataException;
 
+    Categoria getCategoriaById(int categoriaId) throws DataException;
+
+
+    void deleteCategoria(Categoria categoria) throws DataException;
+
+//    List<Categoria> getCategorieFiglie(Integer key);
 }

@@ -2,7 +2,7 @@ package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.model.Categoria;
-import it.univaq.gmarket.data.model.dao.CategoriaDAO;
+import it.univaq.gmarket.data.dao.CategoriaDAO;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -27,6 +27,9 @@ public class CategoriaController extends AppBaseController {
             } else if (path.endsWith("/categorie")) {
                 // Gestisci la richiesta per visualizzare la lista delle categorie
                 handleListaCategorie(request, response);
+            } else if (path.contains("/visualizza/")) {
+                // Gestisci la richiesta per visualizzare, modificare o eliminare una categoria
+                handleVisualizzaCategoria(request, response);
             } else {
                 // In caso di URL sconosciuto
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -64,11 +67,11 @@ public class CategoriaController extends AppBaseController {
             // GET: Visualizza il form per aggiungere una categoria
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Aggiungi Categoria");
-            request.setAttribute("currentUrl", request.getRequestURI());
+           // request.setAttribute("currentUrl", request.getRequestURI());
             // Recupera la lista delle categorie dal database
             CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
             List<Categoria> categorie = categoriaDAO.getAllCategorie();  // Supponendo che ci sia un metodo per questo
-            System.out.println(categorie);
+            //System.out.println(categorie);
             // Setta le categorie come attributo nella request
             request.setAttribute("categorie", categorie);
             result.activate("/admin/categorie/aggiungiCategoria.ftl", request, response);  // Usa il template giusto per aggiungere
@@ -87,7 +90,95 @@ public class CategoriaController extends AppBaseController {
         // Visualizza la lista delle categorie
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("navbarTitle", "Lista Categorie");
-        request.setAttribute("currentUrl", request.getRequestURI());
         result.activate("/admin/categorie/categorie.ftl", request, response);  // Usa il template giusto per la lista
     }
+
+    private void handleVisualizzaCategoria(HttpServletRequest request, HttpServletResponse response) throws ServletException, TemplateManagerException, DataException, IOException {
+        // Ottieni l'ID della categoria dall'URL
+        String path = request.getRequestURI();
+        String[] pathParts = path.split("/");
+        String idString = pathParts[pathParts.length - 1];  // Ultima parte dell'URL è l'ID
+        int categoriaId = Integer.parseInt(idString);
+
+        // Recupera la categoria dal database usando il DAO
+        CategoriaDAO categoriaDAO = ((AppDataLayer)request.getAttribute("datalayer")).getCategoriaDAO();
+        Categoria categoria = categoriaDAO.getCategoriaById(categoriaId);
+
+
+        if (categoria != null) {
+
+            if (request.getMethod().equalsIgnoreCase("POST")) {
+                String action = request.getParameter("action");
+
+                if ("modifica".equals(action)) {
+                    // Gestisci la modifica della categoria
+                    handleModificaCategoria(request, response, categoria);
+                } else if ("elimina".equals(action)) {
+                    // Gestisci l'eliminazione della categoria
+                    handleEliminaCategoria(request, response, categoria);
+                } else {
+                    // Azione non valida, invia un errore
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            } else {
+                // Render della pagina di visualizzazione/modifica categoria
+                List<Categoria> categorie = categoriaDAO.getAllCategorie();
+                // Imposta la categoria come attributo della richiesta
+                request.setAttribute("categoria", categoria);
+                request.setAttribute("categorie", categorie);
+                request.setAttribute("navbarTitle", "Categoria "+categoria.getNome());
+                // Carica il template FreeMarker per visualizzare la categoria
+                TemplateResult result = new TemplateResult(getServletContext());
+                result.activate("/admin/categorie/visualizzaCategoria.ftl", request, response);
+            }
+
+
+
+
+
+        } else {
+            // Categoria non trovata, restituisci errore 404
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Categoria non trovata");
+        }
+    }
+
+    // Metodo per gestire l'eliminazione della categoria
+    private void handleEliminaCategoria(HttpServletRequest request, HttpServletResponse response, Categoria categoria) throws IOException, DataException {
+        // Controlla se la categoria ha delle categorie figlie
+        CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
+   /*     List<Categoria> categorieFiglie = categoriaDAO.getCategorieFiglie(categoria.getKey()); // Implementa questo metodo nel DAO
+
+        if (!categorieFiglie.isEmpty()) {
+            // Se ci sono categorie figlie, restituisci un messaggio di errore
+            request.setAttribute("errorMessage", "Non puoi eliminare questa categoria perché ha delle categorie figlie.");
+            response.sendRedirect("/admin/categorie");
+            return;
+        }  */
+
+        // Se non ci sono categorie figlie, procedi con l'eliminazione
+        categoriaDAO.deleteCategoria(categoria);
+        response.sendRedirect(request.getContextPath() + "/admin/categorie");
+    }
+
+    // Metodo per gestire la modifica della categoria
+    private void handleModificaCategoria(HttpServletRequest request, HttpServletResponse response, Categoria categoria) throws IOException, DataException {
+        // Ottieni i nuovi dati dalla richiesta
+        String nuovoNome = request.getParameter("nome");
+        String nuovoPadre = request.getParameter("padre");
+
+        // Aggiorna la categoria con i nuovi dati
+        categoria.setNome(nuovoNome);
+        categoria.setPadre(nuovoPadre == null || nuovoPadre.isEmpty() ? null : Integer.parseInt(nuovoPadre));
+
+        // Recupera il DAO per la categoria
+        CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
+
+        // Salva la categoria aggiornata nel database
+        categoriaDAO.storeCategoria(categoria); // Usa storeCategoria per salvare le modifiche
+
+        // Reindirizza alla lista delle categorie dopo la modifica
+        response.sendRedirect(request.getContextPath() + "/admin/categorie");
+    }
+
+
 }

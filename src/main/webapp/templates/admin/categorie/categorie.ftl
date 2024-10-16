@@ -11,15 +11,29 @@
             </svg>
             <div class="">Aggiungi</div>
         </a>
+
         <div class="col-span-4"></div>
-        <div class="col-span-6 my-2 text-2xl font-medium text-bluScuro">Lista Categorie</div>
+        <div class="col-span-2 my-2 text-2xl font-medium text-bluScuro">Lista Categorie</div>
+        <div class="col-span-2 my-2 text-lg font-medium text-bluScuro flex-row items-center flex gap-4">
+            <div class="rounded-full h-8 w-8 bg-bluChiaro/10"></div>
+            Ha un Padre
+        </div>
+        <div class="col-span-2 my-2 text-lg font-medium text-bluScuro flex-row items-center flex gap-4">
+            <div class="rounded-full h-8 w-8 bg-primario/30"></div>
+            Non ha il Padre
+        </div>
+
         <#--    Lista Categorie -->
         <#if (categorie?size>0)>
             <#list categorie as categoria>
-                <a class="flex flex-row items-center justify-center gap-2 w-full bg-light px-4 py-3 rounded-full shadow-buttonBox hover:shadow-buttonBoxHover text-xl font-semibold text-bluScuro"
-                   href="/admin/categorie/aggiungi">
+                <a class="flex flex-row items-center justify-center gap-2 w-full px-4 py-3 rounded-full shadow-buttonBox hover:shadow-buttonBoxHover text-xl font-semibold text-bluScuro
+                <#if categoria.getPadre()?has_content && categoria.getPadre() != 0>
+                    bg-bluChiaro/10
+                <#else>
+                    bg-primario/30
+                </#if>" href="/admin/categorie/visualizza/${categoria.key}">
                     <div class="">
-                       ${categoria.nome} ${categoria.getPadre()}
+                        ${categoria.nome}
                     </div>
                 </a>
             </#list>
