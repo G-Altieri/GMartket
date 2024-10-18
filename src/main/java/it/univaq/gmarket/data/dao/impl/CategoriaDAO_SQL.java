@@ -51,7 +51,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
 
             iCategoria = connection.prepareStatement("INSERT INTO categoria(nome, id_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-            uCategoria = connection.prepareStatement("UPDATE categoria SET nome = ?, id_padre = ?, version = ? WHERE id = ? AND version = ?");
+            uCategoria = connection.prepareStatement(  "UPDATE categoria SET nome = ?, id_padre = ?, version = ?, ha_figlio = ? WHERE id = ? AND version = ?");
             dCategoria = connection.prepareStatement("DELETE FROM categoria WHERE id = ?");
 
         } catch (SQLException e) {
@@ -101,8 +101,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
             CategoriaProxy cp = (CategoriaProxy) createCategoria();
             cp.setKey(rs.getInt("id")); // Supponendo che la colonna ID sia "id"
             cp.setNome(rs.getString("nome"));
-
-            System.out.println(rs.getInt("id_padre"));
+            cp.setFiglio(rs.getBoolean("ha_figlio"));
             if (rs.getInt("id_padre") != 0)
                 cp.setPadre(rs.getInt("id_padre")); // Corretto per usare "id_padre"
             else cp.setPadre(null);
@@ -163,62 +162,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         }
     }
 
-    /**
-     * Memorizza una categoria nel database.
-     *
-     * @param categoria la categoria da memorizzare
-     * @throws DataException se si verifica un errore durante la memorizzazione
-     */
-    /*@Override
-    public void storeCategoria(Categoria categoria) throws DataException {
-        try {
-            iCategoria.setString(1, categoria.getNome());
 
-            // Controlla se il padre è null
-            if (categoria.getPadre() != null) {
-                // Se il padre è presente, imposta il suo valore nella query
-                iCategoria.setInt(2, categoria.getPadre());
-            } else {
-                // Se il padre è null, imposta un valore NULL nel database
-                iCategoria.setNull(2, java.sql.Types.INTEGER);  // O il tipo corretto per il campo padre
-            }
-
-            if (iCategoria.executeUpdate() == 1) {
-                try (ResultSet keys = iCategoria.getGeneratedKeys()) {
-                    if (keys.next()) {
-                        int key = keys.getInt(1);
-                        categoria.setKey(key);
-                        dataLayer.getCache().add(Categoria.class, categoria);
-                    }
-                }
-            }
-         /*   if (categoria.getKey() != null && categoria.getKey() > 0) { //update
-                if (categoria instanceof CategoriaProxy && !((CategoriaProxy) categoria).isModified()) {
-                    return;
-                }
-                System.out.println("Sono qui e la categoria è:" + categoria.getKey() );
-                uCategoria.setString(1, categoria.getNome());
-                long oldVersion = categoria.getVersion();
-                System.out.println("la versione è: "+oldVersion);
-                long versione = oldVersion + 1;
-                uCategoria.setLong(2, versione);
-                uCategoria.setInt(3, categoria.getKey());
-                uCategoria.setLong(4, oldVersion);
-                if(uCategoria.executeUpdate() == 0){
-                    throw new OptimisticLockException(categoria);
-                }else {
-                    categoria.setVersion(versione);
-                }
-            } else { //insert
-
-            } */
-       /*     if (categoria instanceof DataItemProxy) {
-                ((DataItemProxy) categoria).setModified(false);
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to store Categoria", ex);
-        }
-    } */
     public void storeCategoria(Categoria categoria) throws DataException {
         try {
             if (categoria.getKey() != null && categoria.getKey() > 0) {
@@ -228,7 +172,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                 // Update existing category
                 uCategoria.setString(1, categoria.getNome());
 
-                // Aggiungi l'ID del padre
+                // Add parent ID
                 if (categoria.getPadre() != null) {
                     uCategoria.setInt(2, categoria.getPadre());
                 } else {
@@ -238,9 +182,24 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                 long oldVersion = categoria.getVersion();
                 long newVersion = oldVersion + 1;
 
-                uCategoria.setLong(3, newVersion);  // Nuova versione
-                uCategoria.setInt(4, categoria.getKey());  // ID della categoria
-                uCategoria.setLong(5, oldVersion);  // Versione vecchia per il controllo di concorrenza
+                // Determine the ha_figlio value
+                boolean haFiglio = false;
+                if (categoria.getPadre() != null) {
+                    Categoria padre = getCategoria(categoria.getPadre());
+                    // If the parent category does not already have children, set ha_figlio to true
+                    if (!padre.getFiglio()) {
+                        haFiglio = true;
+                        // Optionally update the parent category to set ha_figlio to true
+                        padre.setFiglio(true);
+                        updateHaFiglio(padre);  // Method to update the parent category if needed
+                    }
+                }
+
+                uCategoria.setLong(3, newVersion);  // New version
+                uCategoria.setBoolean(4, haFiglio);  // Set ha_figlio
+                uCategoria.setInt(5, categoria.getKey());  // Category ID
+                uCategoria.setLong(6, oldVersion);  // Old version for concurrency check
+
                 System.out.println(uCategoria);
                 if (uCategoria.executeUpdate() == 0) {
                     throw new OptimisticLockException(categoria);
@@ -248,14 +207,15 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                     categoria.setVersion(newVersion);
                 }
             } else {
-                // Insert new category
+                // Inserisci una nuova categoria
                 iCategoria.setString(1, categoria.getNome());
+
                 if (categoria.getPadre() != null) {
                     iCategoria.setInt(2, categoria.getPadre());
                 } else {
                     iCategoria.setNull(2, NULL);
                 }
-                System.out.println(iCategoria);
+
                 if (iCategoria.executeUpdate() == 1) {
                     try (ResultSet keys = iCategoria.getGeneratedKeys()) {
                         if (keys.next()) {
@@ -263,6 +223,18 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                             categoria.setKey(key);
                             dataLayer.getCache().add(Categoria.class, categoria);
                         }
+                    }
+                }
+                System.out.println("PADRE DI INSERRRRTT");
+                System.out.println(categoria.getPadre());
+                // Gestione dell'attributo figlio del padre
+                if (categoria.getPadre() != null) {
+                    Categoria padre = getCategoria(categoria.getPadre());
+                    System.out.println("getFiglio");
+                    System.out.println(!padre.getFiglio());
+                    if (!padre.getFiglio()) {
+                        padre.setFiglio(true);
+                        storeCategoria(padre);  // Aggiorna il padre
                     }
                 }
             }
@@ -273,6 +245,17 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         } catch (SQLException ex) {
             throw new DataException("Unable to store Categoria", ex);
         }
+    }
+
+    // Method to update the ha_figlio attribute of the parent category
+    private void updateHaFiglio(Categoria padre) throws SQLException {
+        PreparedStatement updateHaFiglioStmt = connection.prepareStatement(
+                "UPDATE categoria SET ha_figlio = ? WHERE id = ?"
+        );
+        updateHaFiglioStmt.setBoolean(1, true);  // Set ha_figlio to true
+        updateHaFiglioStmt.setInt(2, padre.getKey());  // Parent ID
+        updateHaFiglioStmt.executeUpdate();
+        updateHaFiglioStmt.close();
     }
 
     @Override
@@ -297,17 +280,89 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         return result;
     }
 
+    /*
+        @Override
+        public void deleteCategoria(Categoria categoria) throws DataException {
+            try {
+                dataLayer.getCache().delete(Categoria.class, categoria);
+                dCategoria.setInt(1, categoria.getKey());
+                System.out.println(categoria);
+                dCategoria.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new DataException("Unable to delete Categoria", e);
+            }
+        }
+    */
     @Override
     public void deleteCategoria(Categoria categoria) throws DataException {
         try {
+            // Rimuovi la categoria dalla cache e dal database
             dataLayer.getCache().delete(Categoria.class, categoria);
             dCategoria.setInt(1, categoria.getKey());
-            System.out.println(categoria);
             dCategoria.executeUpdate();
+
+            // Gestione dell'attributo figlio del padre
+            if (categoria.getPadre() != null) {
+                List<Categoria> altreFiglie = getCategorieByPadre(categoria.getPadre());
+                if (altreFiglie.isEmpty()) {
+                    // Se non ci sono altre categorie figlie, imposta figlio a false
+                    Categoria padre = getCategoria(categoria.getPadre());
+                    if (padre.getFiglio()) {
+                        padre.setFiglio(false);
+                        storeCategoria(padre);  // Aggiorna il padre
+                    }
+                }
+            }
 
         } catch (SQLException e) {
             throw new DataException("Unable to delete Categoria", e);
         }
+    }
+
+    /**
+     * Recupera ricorsivamente tutte le sottocategorie di una categoria, inclusi i figli dei figli.
+     *
+     * @param padreId l'ID della categoria padre
+     * @return una lista contenente tutte le sottocategorie (dirette e indirette)
+     */
+    public List<Categoria> getAllSubCategorie(int padreId) throws DataException {
+        List<Categoria> result = new ArrayList<>();
+        // Prima, otteniamo i figli diretti della categoria padre
+        List<Categoria> figliDiretti = getCategorieByPadre(padreId);
+
+        // Aggiungiamo i figli diretti al risultato
+        result.addAll(figliDiretti);
+
+        // Per ogni figlio diretto, cerchiamo ricorsivamente i suoi figli
+        for (Categoria categoria : figliDiretti) {
+            // Chiamata ricorsiva per trovare i figli dei figli
+            result.addAll(getAllSubCategorie(categoria.getKey()));
+        }
+
+        System.out.println("Sottocategorie per padreId " + padreId + ": " + result);
+        return result;
+    }
+
+    @Override
+    public List<Categoria> getFiglieByCategoriaId(int categoriaId) throws DataException {
+        List<Categoria> result = new ArrayList<>();
+        try {
+            // Imposta l'ID del padre nella query preparata
+            sCategorieByPadre.setInt(1, categoriaId);
+
+            // Esegui la query e recupera i risultati
+            try (ResultSet rs = sCategorieByPadre.executeQuery()) {
+                // Itera sui risultati e aggiungi ogni categoria figlia alla lista
+                while (rs.next()) {
+                    Categoria figlia = getCategoria(rs.getInt("id"));
+                    result.add(figlia);
+                }
+            }
+        } catch (SQLException | DataException ex) {
+            throw new DataException("Error loading direct child categories for category ID: " + categoriaId, ex);
+        }
+        return result;
     }
 
 

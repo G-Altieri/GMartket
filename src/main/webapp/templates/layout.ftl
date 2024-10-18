@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="bg-griggioChiaro">
-<div class="min-h-screen h-full flex <#if includeHeader?string != 'false'>p-4</#if>">
+<div class="min-h-screen h-full flex <#if includeHeader?string != 'false'> p-0 md:p-4</#if>">
 
     <!-- Se il parametro includeHeader è true, include l'header con la sidebar -->
     <#if includeHeader?string != "false">

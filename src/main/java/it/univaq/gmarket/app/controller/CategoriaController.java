@@ -1,6 +1,8 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.dao.CaratteristicaDAO;
+import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.dao.CategoriaDAO;
 import it.univaq.gmarket.framework.data.DataException;
@@ -12,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaController extends AppBaseController {
@@ -67,7 +70,7 @@ public class CategoriaController extends AppBaseController {
             // GET: Visualizza il form per aggiungere una categoria
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Aggiungi Categoria");
-           // request.setAttribute("currentUrl", request.getRequestURI());
+            // request.setAttribute("currentUrl", request.getRequestURI());
             // Recupera la lista delle categorie dal database
             CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
             List<Categoria> categorie = categoriaDAO.getAllCategorie();  // Supponendo che ci sia un metodo per questo
@@ -101,9 +104,10 @@ public class CategoriaController extends AppBaseController {
         int categoriaId = Integer.parseInt(idString);
 
         // Recupera la categoria dal database usando il DAO
-        CategoriaDAO categoriaDAO = ((AppDataLayer)request.getAttribute("datalayer")).getCategoriaDAO();
+        CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
         Categoria categoria = categoriaDAO.getCategoriaById(categoriaId);
 
+        CaratteristicaDAO caratteristicaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCaratteristicaDAO();
 
         if (categoria != null) {
 
@@ -122,24 +126,119 @@ public class CategoriaController extends AppBaseController {
                 }
             } else {
                 // Render della pagina di visualizzazione/modifica categoria
+                // Recupera tutte le categorie per la selezione del padre
                 List<Categoria> categorie = categoriaDAO.getAllCategorie();
-                // Imposta la categoria come attributo della richiesta
+
+                // Recupera le sottocategorie (figlie) della categoria attuale
+                List<Categoria> categorieFiglie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
+                System.out.println("Figlieeeee"+categorieFiglie);
+
+
+                if (categorie == null) {
+                    categorie = new ArrayList<>(); // Evita errori di null
+                }
+
+                if (categorieFiglie == null) {
+                    categorieFiglie = new ArrayList<>(); // Evita errori di null
+                }
+
+                // Crea una lista temporanea per contenere la categoria e le sottocategorie annidate
+                List<Categoria> gerarchiaCategorie = new ArrayList<>();
+
+                // Costruisce la gerarchia delle categorie partendo dalla categoria principale
+                List<CategoriaWrapper> categoriaHierarchia = costruisciGerarchia(categoriaId,1, categoriaDAO);
+
+                // Imposta la categoria e le informazioni correlate come attributi della richiesta
                 request.setAttribute("categoria", categoria);
-                request.setAttribute("categorie", categorie);
-                request.setAttribute("navbarTitle", "Categoria "+categoria.getNome());
+                request.setAttribute("categoriaHierarchia", categoriaHierarchia); // Passa la gerarchia
+                  request.setAttribute("categorie", categorie);  // Tutte le categorie, per la selezione del padre
+              //  request.setAttribute("categorieFiglie", categorieFiglie);  // Le categorie figlie
+                request.setAttribute("navbarTitle", "Categoria " + categoria.getNome());
+                System.out.println("gerarchia: " + categoriaHierarchia);
                 // Carica il template FreeMarker per visualizzare la categoria
                 TemplateResult result = new TemplateResult(getServletContext());
+
+                System.out.println("Ci arrrivo");
+                System.out.println(categoriaId);
+                List<Caratteristica> caratteristiche = caratteristicaDAO.getCaratteristicheByCategoria(categoriaId);
+                //Recupero Caraterristiche
+                request.setAttribute("caratteristiche", caratteristiche);
+
+
                 result.activate("/admin/categorie/visualizzaCategoria.ftl", request, response);
             }
-
-
-
 
 
         } else {
             // Categoria non trovata, restituisci errore 404
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Categoria non trovata");
         }
+    }
+
+    // Classe per contenere la categoria e il livello nella gerarchia
+    public class CategoriaWrapper {
+        private Categoria categoria;
+        private int livello;
+        private List<CategoriaWrapper> sottocategorie;
+
+        public CategoriaWrapper(Categoria categoria, int livello) {
+            this.categoria = categoria;
+            this.livello = livello;
+            this.sottocategorie = new ArrayList<>();
+        }
+
+        public Categoria getCategoria() {
+            return categoria;
+        }
+
+        public int getLivello() {
+            return livello;
+        }
+
+        public List<CategoriaWrapper> getSottocategorie() {
+            return sottocategorie;
+        }
+
+        public void setSottocategorie(List<CategoriaWrapper> sottocategorie) {
+            this.sottocategorie = sottocategorie;
+        }
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("CategoriaWrapper { ");
+            sb.append("categoria = ").append(categoria != null ? categoria.getNome() : "null");
+            sb.append(", livello = ").append(livello);
+            sb.append(", sottocategorie = [");
+
+            // Aggiungiamo tutte le sottocategorie in una stringa
+            for (CategoriaWrapper sottocategoria : sottocategorie) {
+                sb.append(sottocategoria.toString()).append(", ");
+            }
+
+            // Rimuove l'ultima virgola e spazio, se ci sono sottocategorie
+            if (!sottocategorie.isEmpty()) {
+                sb.setLength(sb.length() - 2); // Rimuove l'ultimo ", "
+            }
+
+            sb.append("] }");
+            return sb.toString();
+        }
+    }
+
+    // Metodo per creare la gerarchia delle categorie con livelli
+    public List<CategoriaWrapper> costruisciGerarchia(int categoriaId, int livello, CategoriaDAO categoriaDAO) throws DataException {
+        List<Categoria> sottocategorie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
+        List<CategoriaWrapper> result = new ArrayList<>();
+        System.out.println("Sottocategorie +"+categoriaId);
+        System.out.println(sottocategorie);
+        for (Categoria categoria : sottocategorie) {
+            CategoriaWrapper wrapper = new CategoriaWrapper(categoria, livello);
+            // Chiamata ricorsiva per aggiungere le sottocategorie
+            wrapper.setSottocategorie(costruisciGerarchia(categoria.getKey(), (livello + 1), categoriaDAO));
+            result.add(wrapper);
+        }
+
+        return result;
     }
 
     // Metodo per gestire l'eliminazione della categoria
