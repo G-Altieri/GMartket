@@ -2,8 +2,9 @@ package it.univaq.gmarket.data.model.impl;
 
 import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Categoria;
+import it.univaq.gmarket.framework.data.DataItemImpl;
 
-public class CaratteristicaImpl implements Caratteristica {
+public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratteristica {
 
     private int id;
     private String nome;

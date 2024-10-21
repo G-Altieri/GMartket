@@ -61,7 +61,7 @@ public class CategoriaImpl extends DataItemImpl<Integer> implements Categoria {
 
     @Override
     public String toString() {
-        return "Categoria{id=" + this.id + ", nome='" + this.nome +  ", padre='" + this.padre + "'}";
+        return "Categoria{id=" + this.id + ", nome='" + this.nome +  ", padre='" + this.padre + ", figlio= " + this.figlio +"'}";
     }
 
 }

@@ -34,10 +34,11 @@ public class GestioneUtente extends AppBaseController{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         try {
+
             String action = request.getParameter("action");
-            System.out.println(action + "sasso");
+
             if (action != null && action.equals("createUser")) {
-                System.out.println(action);
+               
                 action_createUser(request, response);
             } else if (action != null && action.equals("listUtenti")) {
                 action_getAllUtenti(request, response);
