@@ -3,13 +3,13 @@ package it.univaq.gmarket.data.dao.impl;
 import it.univaq.gmarket.data.dao.UtenteDAO;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
+import it.univaq.gmarket.data.model.impl.UtenteImpl;
 import it.univaq.gmarket.data.model.impl.proxy.UtenteProxy;
 import it.univaq.gmarket.framework.data.*;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UtenteDAO_SQL extends DAO implements UtenteDAO {
 
@@ -178,4 +178,29 @@ public class UtenteDAO_SQL extends DAO implements UtenteDAO {
         }
     }
 
+
+    public List<Utente> getAllUtenti() throws DataException {
+        List<Utente> utenti = new ArrayList<>();
+
+        try (Connection con = this.getConnection()) {
+            String query = "SELECT * FROM utente";
+            try (PreparedStatement ps = con.prepareStatement(query)) {
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Utente utente = new UtenteImpl();
+                        utente.setId(rs.getInt("id"));
+                        utente.setNome(rs.getString("nome"));
+                        utente.setCognome(rs.getString("cognome"));
+                        utente.setEmail(rs.getString("email"));
+                        utente.setRuolo(Ruolo.valueOf(rs.getString("ruolo").toUpperCase()));
+                        utenti.add(utente);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Errore nel recupero degli utenti", ex);
+        }
+
+        return utenti;
+    }
 }

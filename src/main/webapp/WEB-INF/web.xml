@@ -69,6 +69,11 @@
         <servlet-name>GestioneUtente</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.GestioneUtente</servlet-class>
     </servlet>
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    <servlet>
+        <servlet-name>UpdateDati</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.UpdateDati</servlet-class>
+    </servlet>
     <!-- Mapping della servlet a un URL -->
 <!--    <servlet-mapping>-->
 <!--        <servlet-name>homeServlet</servlet-name>-->
@@ -109,9 +114,14 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GestioneUtente</servlet-name>
-        <url-pattern>/admin/gestioneutente</url-pattern>
+        <url-pattern>/admin/utenti/gestioneutente</url-pattern>
     </servlet-mapping>
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    <servlet-mapping>
+        <servlet-name>UpdateDati</servlet-name>
+        <url-pattern>/admin/utenti/modifica</url-pattern>
+    </servlet-mapping>
 
     <!--Index-->
     <welcome-file-list>

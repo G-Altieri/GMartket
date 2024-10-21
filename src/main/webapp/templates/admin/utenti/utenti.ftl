@@ -1,48 +1,38 @@
-<div class="">
+<div class="user-list-container">
 
 
+    <table class="user-list-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Email</th>
+            <th>Ruolo</th>
+            <th>Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list utenti as utente>
+            <tr>
+                <td>${utente.id}</td>
+                <td>${utente.nome}</td>
+                <td>${utente.cognome}</td>
+                <td>${utente.email}</td>
+                <td>${utente.ruolo}</td>
+                <td>
+                    <form method="GET" action="/admin/utenti/modifica">
+                        <input type="hidden" name="action" value="modifica">
+                        <input type="hidden" name="id" value="${utente.id}">
+                        <button type="submit" class="edit-button">Modifica</button>
+                    </form>
+                </td>
+            </tr>
+        </#list>
+        </tbody>
+    </table>
 
-    <div class="form-container shadow-lg">
-        <form method="POST" action="gestioneutente">
-            <input type="hidden" name="action" value="createUser">
-            <div class="role-selection">
-                <label class="white-label">Ruolo:</label>
-                <div class="role-buttons">
-                    <input type="radio" id="role-ordinante" name="role" value="ORDINANTE" checked>
-                    <label for="role-ordinante" class="lblue-button">Ordinante</label>
-
-                    <input type="radio" id="role-tecnico" name="role" value="TECNICO">
-                    <label for="role-tecnico" class="lblue-button">Tecnico</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Email" required="">
-            </div>
-            <div class="form-group">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" placeholder="Nome" required="">
-            </div>
-            <div class="form-group">
-                <label for="cognome">Cognome:</label>
-                <input type="text" id="cognome" name="cognome" placeholder="Cognome" required="">
-            </div>
-
-            <div class="form-group">
-                <label for="temp-password">Password temporanea:</label>
-                <input type="password" id="temp-password" name="temp-password" placeholder="Password temporanea" required>
-            </div>
-            <div class="form-group">
-                <label for="confirm-password">Ripeti password:</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Password temporanea" required>
-            </div>
-            <div class="form-buttons">
-                <a href="login">
-                    <div class="purple-button shadow-lg">INDIETRO</div>
-                </a>
-                <button type="submit"  class="orange-button shadow-lg">SALVA</button>
-            </div>
-        </form>
-    </div>
+    <a href="/admin/utenti/aggiungi" class="add-user-button-container">
+       Aggiungi Nuovo Utente
+    </a>
 </div>
-
