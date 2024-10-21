@@ -97,17 +97,28 @@ public class CategoriaController extends AppBaseController {
     }
 
     private void handleVisualizzaCategoria(HttpServletRequest request, HttpServletResponse response) throws ServletException, TemplateManagerException, DataException, IOException {
+
+
         // Ottieni l'ID della categoria dall'URL
         String path = request.getRequestURI();
         String[] pathParts = path.split("/");
         String idString = pathParts[pathParts.length - 1];  // Ultima parte dell'URL è l'ID
         int categoriaId = Integer.parseInt(idString);
 
+        // Ottieni il parametro 'status' dall'URL
+    /*    String successMessage = request.getParameter("status");
+        System.out.println(successMessage);
+        // Se 'status' è presente, impostalo come attributo della richiesta
+        if (successMessage != null) {
+            request.setAttribute("status", successMessage);
+        } */
+
         // Recupera la categoria dal database usando il DAO
         CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
         Categoria categoria = categoriaDAO.getCategoriaById(categoriaId);
 
         CaratteristicaDAO caratteristicaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCaratteristicaDAO();
+
 
         if (categoria != null) {
 
@@ -131,7 +142,7 @@ public class CategoriaController extends AppBaseController {
 
                 // Recupera le sottocategorie (figlie) della categoria attuale
                 List<Categoria> categorieFiglie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
-                System.out.println("Figlieeeee"+categorieFiglie);
+                //   System.out.println("Figlieeeee"+categorieFiglie);
 
 
                 if (categorie == null) {
@@ -146,20 +157,20 @@ public class CategoriaController extends AppBaseController {
                 List<Categoria> gerarchiaCategorie = new ArrayList<>();
 
                 // Costruisce la gerarchia delle categorie partendo dalla categoria principale
-                List<CategoriaWrapper> categoriaHierarchia = costruisciGerarchia(categoriaId,1, categoriaDAO);
+                List<CategoriaWrapper> categoriaHierarchia = costruisciGerarchia(categoriaId, 1, categoriaDAO);
 
                 // Imposta la categoria e le informazioni correlate come attributi della richiesta
                 request.setAttribute("categoria", categoria);
                 request.setAttribute("categoriaHierarchia", categoriaHierarchia); // Passa la gerarchia
-                  request.setAttribute("categorie", categorie);  // Tutte le categorie, per la selezione del padre
-              //  request.setAttribute("categorieFiglie", categorieFiglie);  // Le categorie figlie
+                request.setAttribute("categorie", categorie);  // Tutte le categorie, per la selezione del padre
+                //  request.setAttribute("categorieFiglie", categorieFiglie);  // Le categorie figlie
                 request.setAttribute("navbarTitle", "Categoria " + categoria.getNome());
-                System.out.println("gerarchia: " + categoriaHierarchia);
+                //   System.out.println("gerarchia: " + categoriaHierarchia);
                 // Carica il template FreeMarker per visualizzare la categoria
                 TemplateResult result = new TemplateResult(getServletContext());
 
-                System.out.println("Ci arrrivo");
-                System.out.println(categoriaId);
+                //  System.out.println("Ci arrrivo");
+                // System.out.println(categoriaId);
                 List<Caratteristica> caratteristiche = caratteristicaDAO.getCaratteristicheByCategoria(categoriaId);
                 //Recupero Caraterristiche
                 request.setAttribute("caratteristiche", caratteristiche);
@@ -202,6 +213,7 @@ public class CategoriaController extends AppBaseController {
         public void setSottocategorie(List<CategoriaWrapper> sottocategorie) {
             this.sottocategorie = sottocategorie;
         }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -229,8 +241,8 @@ public class CategoriaController extends AppBaseController {
     public List<CategoriaWrapper> costruisciGerarchia(int categoriaId, int livello, CategoriaDAO categoriaDAO) throws DataException {
         List<Categoria> sottocategorie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
         List<CategoriaWrapper> result = new ArrayList<>();
-        System.out.println("Sottocategorie +"+categoriaId);
-        System.out.println(sottocategorie);
+        //     System.out.println("Sottocategorie +"+categoriaId);
+        //     System.out.println(sottocategorie);
         for (Categoria categoria : sottocategorie) {
             CategoriaWrapper wrapper = new CategoriaWrapper(categoria, livello);
             // Chiamata ricorsiva per aggiungere le sottocategorie

@@ -34,9 +34,7 @@ public class GestioneUtente extends AppBaseController{
             throws ServletException {
         try {
 
-            System.out.println("proviamo un po ");
             String action = request.getParameter("action");
-            System.out.println(action);
             if (action != null && action.equals("createUser")) {
                 action_createUser(request, response);
             } else {

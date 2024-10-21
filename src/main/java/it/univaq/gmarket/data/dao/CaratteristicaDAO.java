@@ -11,5 +11,13 @@ public interface CaratteristicaDAO {
 
    // Caratteristica getCaratteristicheByCategoria();
 
+    Caratteristica getCaratteristica(int id) throws DataException;
+
+    // Metodo per eliminare la caratteristica
+    void deleteCaratteristica(int id) throws DataException;
+
+    // Metodo per aggiornare la caratteristica
+    void storeCaratteristica(Caratteristica caratteristica) throws DataException;
+
     List<Caratteristica> getCaratteristicheByCategoria(int categoria) throws DataException;
 }

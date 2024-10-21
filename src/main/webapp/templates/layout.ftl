@@ -10,8 +10,11 @@
     <link href="/styles/global.css" rel="stylesheet"/>
     <link href="/styles/tailwind2.css" rel="stylesheet"/>
 
+    <script type="application/javascript" src="/scripts/sweetAlert2.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
+
 <body class="bg-griggioChiaro">
 <div class="min-h-screen h-full flex <#if includeHeader?string != 'false'> p-0 md:p-4</#if>">
 
@@ -39,4 +42,5 @@
 </div>
 
 </body>
+
 </html>

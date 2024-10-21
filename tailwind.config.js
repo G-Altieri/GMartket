@@ -25,3 +25,4 @@ module.exports = {
     },
     plugins: [],
 }
+//npx tailwindcss -i ./src/main/webapp/styles/global.css -o ./src/main/webapp/styles/tailwind2.css --watch

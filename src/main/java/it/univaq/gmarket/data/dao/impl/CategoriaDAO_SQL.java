@@ -200,7 +200,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                 uCategoria.setInt(5, categoria.getKey());  // Category ID
                 uCategoria.setLong(6, oldVersion);  // Old version for concurrency check
 
-                System.out.println(uCategoria);
+
                 if (uCategoria.executeUpdate() == 0) {
                     throw new OptimisticLockException(categoria);
                 } else {
@@ -225,13 +225,10 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
                         }
                     }
                 }
-                System.out.println("PADRE DI INSERRRRTT");
-                System.out.println(categoria.getPadre());
+
                 // Gestione dell'attributo figlio del padre
                 if (categoria.getPadre() != null) {
                     Categoria padre = getCategoria(categoria.getPadre());
-                    System.out.println("getFiglio");
-                    System.out.println(!padre.getFiglio());
                     if (!padre.getFiglio()) {
                         padre.setFiglio(true);
                         storeCategoria(padre);  // Aggiorna il padre
@@ -340,7 +337,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
             result.addAll(getAllSubCategorie(categoria.getKey()));
         }
 
-        System.out.println("Sottocategorie per padreId " + padreId + ": " + result);
+       // System.out.println("Sottocategorie per padreId " + padreId + ": " + result);
         return result;
     }
 
