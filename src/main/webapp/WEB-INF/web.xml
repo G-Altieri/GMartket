@@ -69,9 +69,16 @@
         <servlet-name>GestioneUtente</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.GestioneUtente</servlet-class>
     </servlet>
+
+    <servlet>
+        <servlet-name>UpdateDati</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.UpdateDati</servlet-class>
+    </servlet>
+
     <servlet>
         <servlet-name>Caratteristica</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.CaratteristicaController</servlet-class>
+
     </servlet>
 
     <!--    Ordinante-->
@@ -122,9 +129,14 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GestioneUtente</servlet-name>
-        <url-pattern>/admin/gestioneutente</url-pattern>
+        <url-pattern>/admin/utenti/gestioneutente</url-pattern>
     </servlet-mapping>
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    <servlet-mapping>
+        <servlet-name>UpdateDati</servlet-name>
+        <url-pattern>/admin/utenti/modifica</url-pattern>
+    </servlet-mapping>
 
     <!--    Ordinante-->
     <servlet-mapping>

@@ -1,5 +1,6 @@
 package it.univaq.gmarket.app.controller;
 
+import com.sun.jdi.connect.spi.Connection;
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
@@ -15,11 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
+
 
 public class GestioneUtente extends AppBaseController{
 
@@ -35,30 +36,28 @@ public class GestioneUtente extends AppBaseController{
         try {
 
             String action = request.getParameter("action");
+
             if (action != null && action.equals("createUser")) {
+               
                 action_createUser(request, response);
+            } else if (action != null && action.equals("listUtenti")) {
+                action_getAllUtenti(request, response);
             } else {
                 action_default(request, response);
             }
 
-        } catch (IOException | TemplateManagerException | DataException ex) {
+        } catch (IOException | TemplateManagerException | DataException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
             handleError(ex, request, response);
-        }   catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(GestioneUtente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(GestioneUtente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 
 
 
     private void action_createUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, NoSuchAlgorithmException, InvalidKeySpecException, DataException {
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
-        System.out.println(nome);
         String email = request.getParameter("email");
-        System.out.println(email);
-
         String password = request.getParameter("temp-password");
         String confirmPassword = request.getParameter("confirm-password");
         String roleParam = request.getParameter("role");
@@ -125,8 +124,30 @@ public class GestioneUtente extends AppBaseController{
         }
 
          */
-        request.setAttribute("success", "Utente creato con successo!");
-        action_default(request, response);
+
+       // action_default(request, response);
+        response.sendRedirect("/admin/utenti");
     }
+
+
+    private void action_getAllUtenti(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
+        try {
+            // Ottieni la lista di tutti gli utenti tramite il DAO
+            List<Utente> utenti = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getAllUtenti();
+
+            // Imposta la lista degli utenti come attributo nella request
+            request.setAttribute("utenti", utenti);
+            request.setAttribute("page_title", "Lista Utenti");
+
+            // Attiva il template FreeMarker per visualizzare la lista
+            TemplateResult res = new TemplateResult(getServletContext());
+            res.activate("/admin/utenti/utenti.ftl", request, response);
+        } catch (DataException ex) {
+            throw new ServletException("Errore nel recupero degli utenti dal database", ex);
+        }
+    }
+
+
+
 
 }
