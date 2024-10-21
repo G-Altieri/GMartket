@@ -19,6 +19,8 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
     private PreparedStatement iCategoria;
 
     private PreparedStatement sCategoriaById;
+    private PreparedStatement sCategoriePadri;
+
     private PreparedStatement sCategorie;
     private PreparedStatement sCategorieByPadre;
 
@@ -48,6 +50,8 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
             sCategoriaById = connection.prepareStatement("SELECT * FROM categoria WHERE id=?");
             sCategorie = connection.prepareStatement("SELECT * FROM categoria");
             sCategorieByPadre = connection.prepareStatement("SELECT * FROM categoria WHERE id_padre=?");
+            sCategoriePadri = connection.prepareStatement("SELECT * FROM categoria WHERE id_padre IS NULL");
+
 
             iCategoria = connection.prepareStatement("INSERT INTO categoria(nome, id_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -69,6 +73,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         try {
             sCategoriaById.close();
             sCategorie.close();
+            sCategoriePadri.close();
             iCategoria.close();
             sCategorieByPadre.close();
         } catch (SQLException ex) {
@@ -358,6 +363,22 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
             }
         } catch (SQLException | DataException ex) {
             throw new DataException("Error loading direct child categories for category ID: " + categoriaId, ex);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<Categoria> getCategoriePadri() throws DataException {
+        List<Categoria> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategoriePadri.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getCategoria(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Error loading parent categories", ex);
         }
         return result;
     }
