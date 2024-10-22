@@ -1,5 +1,18 @@
 $(document).ready(function() {
 
+    // Gestione della disabilitazione degli input con checkbox "Indifferente"
+    $('.checkbox-disabilita').on('change', function () {
+        const inputId = $(this).data('target');
+        const input = $('#' + inputId);
+
+        if ($(this).is(':checked')) {
+            input.prop('disabled', true);
+            input.val(''); // Imposta il valore a vuoto
+        } else {
+            input.prop('disabled', false);
+        }
+    });
+
     // Variabile per memorizzare l'ID dell'ultima categoria figlia
     let ultimaCategoriaFigliaId = null;
 

@@ -124,7 +124,7 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
                 }else {
                     richiestaCaratteristica.setVersion(versione);
                 }
-            } else {
+            } else {//INSERT
                 iRichiestaCaratteristica.setInt(1, richiestaCaratteristica.getRichiesta().getKey());
                 iRichiestaCaratteristica.setInt(2, richiestaCaratteristica.getCaratteristica().getKey());
                 iRichiestaCaratteristica.setString(3, richiestaCaratteristica.getValore());

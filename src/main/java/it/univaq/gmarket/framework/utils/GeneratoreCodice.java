@@ -19,12 +19,9 @@ public class GeneratoreCodice {
     public static String generaCodiceUnivoco(RichiestaDAO richiestaDAO) throws DataException {
         String codice;
         boolean isUnico;
-        System.out.println("sono dentro codiceUnivoco");
         do {
             codice = generaCodiceCasuale();  // Genera un codice casuale
-            System.out.println(codice);
             isUnico = verificaUnicita(codice, richiestaDAO);  // Verifica che il codice sia unico nel DB
-            System.out.println(isUnico);
         } while (!isUnico);  // Continua a rigenerare il codice finché non è unico
 
         return codice;  // Ritorna il codice univoco
@@ -32,7 +29,6 @@ public class GeneratoreCodice {
 
     // Funzione per generare un codice casuale di 5 caratteri
     private static String generaCodiceCasuale() {
-        System.out.println("sono dentro codiceCasuale");
         StringBuilder codiceBuilder = new StringBuilder(CODICE_LENGTH);
         for (int i = 0; i < CODICE_LENGTH; i++) {
             int randomIndex = random.nextInt(CHAR_SET.length());

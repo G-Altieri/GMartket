@@ -119,7 +119,7 @@ public class CaratteristicaDAO_SQL extends DAO implements CaratteristicaDAO {
     public Caratteristica getCaratteristica(int id) throws DataException {
         Caratteristica result = null;
         try {
-
+            // Imposta il valore dell'ID sulla PreparedStatement
             sCaratteristicaById.setInt(1, id);
 
             // Esecuzione della query
@@ -130,14 +130,12 @@ public class CaratteristicaDAO_SQL extends DAO implements CaratteristicaDAO {
                 }
             }
 
-            // Chiusura della PreparedStatement
-            sCaratteristicaById.close();
-
         } catch (SQLException ex) {
             throw new DataException("Unable to load caratteristica by ID", ex);
         }
         return result;
     }
+
 
 
     // Metodo per eliminare la caratteristica
