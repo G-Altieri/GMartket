@@ -3,7 +3,7 @@
 <script type="module" src="/scripts/crea_richiesta.js"></script>
 
 <div class="flex flex-col items-center mt-12">  <!-- Centrato orizzontalmente, ma verso l'alto -->
-    <h2 class="text-3xl font-bold text-primary mb-8">Seleziona una Categoria</h2>
+    <h2 class="text-3xl font-bold text-primary mb-8">Scegli una Categoria</h2>
 
     <form id="richiestaForm" class="w-full max-w-lg"> <!-- Max larghezza 500px -->
         <!-- Select della categoria padre -->

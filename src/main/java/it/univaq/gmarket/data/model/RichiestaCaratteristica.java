@@ -5,6 +5,7 @@ import it.univaq.gmarket.framework.data.DataItemImpl;
 
 public interface RichiestaCaratteristica extends DataItem<Integer> {
 
+
     int getId();
     void setId(int id);
 

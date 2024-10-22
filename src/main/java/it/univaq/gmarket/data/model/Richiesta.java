@@ -6,11 +6,13 @@ import it.univaq.gmarket.framework.data.DataItemImpl;
 
 import java.util.Date;
 
+
 public interface Richiesta extends DataItem<Integer> {
 
 
     int getId();
     void setId(int id);
+
 
     String getCodice();
     void setCodice(String codice);
