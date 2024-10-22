@@ -99,6 +99,7 @@
         <servlet-class>it.univaq.gmarket.app.controller.GestioneRichieste</servlet-class>
     </servlet>
 
+
     <!--    Tecnico-->
     <servlet>
         <servlet-name>Tecnico</servlet-name>
@@ -171,6 +172,14 @@
     <servlet-mapping>
         <servlet-name>GestioneRichiesta</servlet-name>
         <url-pattern>/ordinante/invia-richiesta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Ordinante</servlet-name>
+        <url-pattern>/ordinante/lista-richieste</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Ordinante</servlet-name>
+        <url-pattern>/ordinante/lista-richieste/dettagli-richiesta</url-pattern>
     </servlet-mapping>
 
     <!--    Tecnico-->

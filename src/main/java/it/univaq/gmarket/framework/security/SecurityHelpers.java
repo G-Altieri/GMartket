@@ -348,4 +348,28 @@ public class SecurityHelpers {
     }
 
 
+    public static Utente getUserSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = SecurityHelpers.checkSession(request);
+        if (session == null) {
+            // Se la sessione non è valida, torno al login
+            response.sendRedirect("login");
+            return null;
+        }
+
+        // Trovo l'utente
+        int userId = (int) session.getAttribute("id");
+        Utente u = null;
+        try {
+            u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (u != null) {
+            return u;
+        }
+        response.sendRedirect("login");
+        return null;
+    }
+
 }

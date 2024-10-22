@@ -20,5 +20,7 @@ public interface RichiestaDAO {
 
         boolean isCodiceUnico(String codice) throws DataException;
 
-        List<Richiesta> getAllRichieste() throws DataException;
+        List<Richiesta> getAllRichiesteOrdinante(int utente_key) throws DataException;
+
+        List<Richiesta> getAllRichiesteTecnico() throws DataException;
 }

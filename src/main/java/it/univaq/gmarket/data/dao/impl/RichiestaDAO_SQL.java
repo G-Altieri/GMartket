@@ -31,8 +31,8 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 super.init();
 
                 sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ?");
-                sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY data DESC");
-                sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY data DESC");
+                sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY created_at DESC");
+                sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
 
@@ -73,7 +73,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 richiesta.setNote(rs.getString("note"));
                 richiesta.setStato(StatoRichiesta.valueOf(rs.getString("stato")));
                 richiesta.setCreated_at(rs.getDate("created_at"));
-                richiesta.setUpdate_at(rs.getDate("update_at"));
+                //richiesta.setUpdate_at(rs.getDate("update_at"));
                 richiesta.setCodice(rs.getString("codice"));
                 richiesta.setVersion(rs.getLong("version"));
 
@@ -210,7 +210,24 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         }
 
     @Override
-    public List<Richiesta> getAllRichieste() throws DataException {
+    public List<Richiesta> getAllRichiesteOrdinante(int utente_key) throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try {
+            sRichiesteByOrdinante.setInt(1, utente_key);
+            try (ResultSet rs = sRichiesteByOrdinante.executeQuery()) {
+                while (rs.next()) {
+                    richieste.add(getRichiesta(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Richieste by Ordinante", ex);
+        }
+
+        return richieste;
+    }
+
+    @Override
+    public List<Richiesta> getAllRichiesteTecnico() throws DataException {
         List<Richiesta> richieste = new ArrayList<>();
         try (Connection con = this.getConnection()) {
             String query = "SELECT * FROM richiesta";

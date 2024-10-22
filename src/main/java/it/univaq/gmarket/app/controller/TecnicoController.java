@@ -38,7 +38,7 @@ public class TecnicoController  extends AppBaseController {
         }
     }
 
-
+/*
     private void action_getAllRichieste(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
         // Ottieni la lista di tutti gli utenti tramite il DAO
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichieste();
@@ -51,4 +51,6 @@ public class TecnicoController  extends AppBaseController {
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaRichieste.ftl", request, response);
     }
+
+ */
 }
