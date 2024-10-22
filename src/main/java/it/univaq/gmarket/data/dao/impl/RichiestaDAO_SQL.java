@@ -33,6 +33,9 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ?");
                 sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY data DESC");
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY data DESC");
+                iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+
             } catch (SQLException ex) {
                 throw new DataException("Error initializing RichiestaOrdine data layer", ex);
             }
@@ -133,7 +136,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         @Override
         public void storeRichiesta(Richiesta richiesta) throws DataException {
             try {
-                if (richiesta.getKey() != null & richiesta.getKey() > 0) {
+                if (richiesta.getKey() != null && richiesta.getKey() > 0) {
                     if (richiesta instanceof RichiestaProxy && !((RichiestaProxy) richiesta).isModified()) {
                         return;
                     }
@@ -159,11 +162,13 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                     iRichiesta.setString(1, richiesta.getNote());
                     iRichiesta.setString(2, richiesta.getStato().name());
                     iRichiesta.setDate(3, new java.sql.Date(richiesta.getCreated_at().getTime()));
-                    iRichiesta.setDate(4, new java.sql.Date(richiesta.getUpdate_at().getTime()));
-                    iRichiesta.setString(5, richiesta.getCodice());
-                    iRichiesta.setInt(6, richiesta.getTecnico().getKey());
-                    iRichiesta.setInt(7, richiesta.getOrdinante().getKey());
-                    iRichiesta.setInt(8, richiesta.getCategoria().getKey());
+                    iRichiesta.setInt(4, richiesta.getCategoria().getKey());
+                    iRichiesta.setInt(5, richiesta.getOrdinante().getKey());
+                 //   iRichiesta.setDate(4, new java.sql.Date(richiesta.getUpdate_at().getTime()));
+                    iRichiesta.setString(6, richiesta.getCodice());
+                 //   iRichiesta.setInt(6, richiesta.getTecnico().getKey());
+
+
 
 
                     if (iRichiesta.executeUpdate() == 1) {
@@ -247,6 +252,23 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         }
 
         return utenti;
+    }
+
+    public boolean isCodiceUnico(String codice) throws DataException {
+        try {
+            String query = "SELECT COUNT(*) FROM richiesta WHERE codice = ?";
+            try (PreparedStatement ps = connection.prepareStatement(query)) {
+                ps.setString(1, codice);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt(1) == 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataException("Errore durante la verifica del codice univoco", e);
+        }
+        return false;
     }
 
 }

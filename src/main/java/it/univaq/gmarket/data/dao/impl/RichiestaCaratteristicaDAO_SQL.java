@@ -8,9 +8,7 @@ import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.impl.proxy.RichiestaCaratteristicaProxy;
-import it.univaq.gmarket.framework.data.DAO;
-import it.univaq.gmarket.framework.data.DataException;
-import it.univaq.gmarket.framework.data.DataLayer;
+import it.univaq.gmarket.framework.data.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +16,7 @@ import java.sql.SQLException;
 
 public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCaratteristicaDAO {
 
-    private PreparedStatement sCaratteristicaRichiestaByID, sCaratteristicheByRichiesta, sRichiesteByCaratteristica, iCaratteristicaRichiesta, uCaratteristicaRichiesta;
+    private PreparedStatement sRichiestaCaratteristicaByID, sCaratteristicheByRichiesta, sRichiesteByCaratteristica, iRichiestaCaratteristica, uRichiestaCaratteristica;
 
 
     /**
@@ -40,11 +38,11 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
     public void init() throws DataException {
         try {
             super.init();
-            sCaratteristicaRichiestaByID = connection.prepareStatement("SELECT * FROM caratteristica_richiesta WHERE ID = ?");
-            sCaratteristicheByRichiesta = connection.prepareStatement("SELECT * FROM caratteristica_richiesta WHERE richiesta_id = ?");
-            sRichiesteByCaratteristica = connection.prepareStatement("SELECT * FROM caratteristica_richiesta WHERE caratteristica_id = ?");
-            iCaratteristicaRichiesta = connection.prepareStatement("INSERT INTO caratteristica_richiesta (richiesta_id, caratteristica_id, valore) VALUES(?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            uCaratteristicaRichiesta = connection.prepareStatement("UPDATE caratteristica_richiesta SET richiesta_id=?, caratteristica_id=?, valore=?, version=? WHERE ID=? AND version=?");
+            sRichiestaCaratteristicaByID = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE ID = ?");
+            sCaratteristicheByRichiesta = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE id_richiesta = ?");
+            sRichiesteByCaratteristica = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE id_caratteristica = ?");
+            iRichiestaCaratteristica = connection.prepareStatement("INSERT INTO richiesta_caratteristica (id_richiesta, id_caratteristica, valore) VALUES(?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            uRichiestaCaratteristica = connection.prepareStatement("UPDATE richiesta_caratteristica SET id_richiesta=?, id_caratteristica=?, valore=?, version=? WHERE ID=? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing data layer", ex);
         }
@@ -59,15 +57,15 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
     @Override
     public void destroy() throws DataException {
         try {
-                sCaratteristicaRichiestaByID.close();
+                sRichiestaCaratteristicaByID.close();
                 sCaratteristicheByRichiesta.close();
                 sRichiesteByCaratteristica.close();
-                iCaratteristicaRichiesta.close();
-                uCaratteristicaRichiesta.close();
+                iRichiestaCaratteristica.close();
+                uRichiestaCaratteristica.close();
         } catch (SQLException ex) {
-            throw new DataException("Error while closing resources in CaratteristicaRichiestaDAO_MySQL", ex);
+            throw new DataException("Error while closing resources in RichiestaCaratteristicaDAO_SQL", ex);
         } finally {
-            // Assicuriamoci di chiamare il destroy() della classe padre
+
             super.destroy();
         }
     }
@@ -78,7 +76,7 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
      * @return una nuova istanza di CaratteristicaRichiestaProxy
      */
     @Override
-    public RichiestaCaratteristica createCaratteristicaRichiesta() {
+    public RichiestaCaratteristica createRichiestaCaratteristica() {
         return new RichiestaCaratteristicaProxy(getDataLayer());
     }
 
@@ -90,21 +88,62 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
      * @return una nuova istanza di CaratteristicaRichiestaProxy
      * @throws DataException se si verifica un errore durante la creazione
      */
-    private RichiestaCaratteristicaProxy createCaratteristicaRichiesta(ResultSet rs) throws DataException {
+    private RichiestaCaratteristicaProxy createRichiestaCaratteristica(ResultSet rs) throws DataException {
         try{
-            RichiestaCaratteristicaProxy cr = (RichiestaCaratteristicaProxy) createCaratteristicaRichiesta();
+            RichiestaCaratteristicaProxy cr = (RichiestaCaratteristicaProxy) createRichiestaCaratteristica();
             cr.setKey(rs.getInt("id"));
-            RichiestaDAO richiestaOrdineDAO = (RichiestaDAO) dataLayer.getDAO(Richiesta.class);
-            cr.setRichiesta(richiestaOrdineDAO.getRichiesta(rs.getInt("richiesta_id")));
+            RichiestaDAO richiestaDAO = (RichiestaDAO) dataLayer.getDAO(Richiesta.class);
+            cr.setRichiesta(richiestaDAO.getRichiesta(rs.getInt("id_richiesta")));
             CaratteristicaDAO caratteristicaDAO = (CaratteristicaDAO) dataLayer.getDAO(Caratteristica.class);
-            cr.setCaratteristica(caratteristicaDAO.getCaratteristica(rs.getInt("caratteristica_id")));
+            cr.setCaratteristica(caratteristicaDAO.getCaratteristica(rs.getInt("id_caratteristica")));
             cr.setValore(rs.getString("valore"));
             cr.setVersion(rs.getLong("version"));
             return cr;
         } catch (SQLException ex) {
-            throw new DataException("Unable to create CaratteristicaRichiesta from ResultSet", ex);
+            throw new DataException("Unable to create RichiestaCaratteristica from ResultSet", ex);
         }
     }
 
+    @Override
+    public void storeRichiestaCaratteristica(RichiestaCaratteristica richiestaCaratteristica) throws DataException {
+        try {
+            if (richiestaCaratteristica.getKey() != null && richiestaCaratteristica.getKey() > 0) {
+                if (richiestaCaratteristica instanceof RichiestaCaratteristicaProxy && !((RichiestaCaratteristicaProxy) richiestaCaratteristica).isModified()) {
+                    return;
+                }
+                uRichiestaCaratteristica.setInt(1, richiestaCaratteristica.getRichiesta().getKey());
+                uRichiestaCaratteristica.setInt(2, richiestaCaratteristica.getCaratteristica().getKey());
+                uRichiestaCaratteristica.setString(3, richiestaCaratteristica.getValore());
+                long oldVersion = richiestaCaratteristica.getVersion();
+                long versione = oldVersion + 1;
+                uRichiestaCaratteristica.setLong(4, versione);
+                uRichiestaCaratteristica.setInt(5, richiestaCaratteristica.getKey());
+                uRichiestaCaratteristica.setLong(6, oldVersion);
+                if(uRichiestaCaratteristica.executeUpdate() == 0){
+                    throw new OptimisticLockException(richiestaCaratteristica);
+                }else {
+                    richiestaCaratteristica.setVersion(versione);
+                }
+            } else {
+                iRichiestaCaratteristica.setInt(1, richiestaCaratteristica.getRichiesta().getKey());
+                iRichiestaCaratteristica.setInt(2, richiestaCaratteristica.getCaratteristica().getKey());
+                iRichiestaCaratteristica.setString(3, richiestaCaratteristica.getValore());
+                if (iRichiestaCaratteristica.executeUpdate() == 1) {
+                    try (ResultSet keys = iRichiestaCaratteristica.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            richiestaCaratteristica.setKey(key);
+                            dataLayer.getCache().add(RichiestaCaratteristica.class, richiestaCaratteristica);
+                        }
+                    }
+                }
+            }
+            if (richiestaCaratteristica instanceof DataItemProxy) {
+                ((DataItemProxy) richiestaCaratteristica).setModified(false);
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to store RichiestaCaratteristica", ex);
+        }
+    }
 
 }

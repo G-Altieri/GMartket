@@ -94,7 +94,10 @@
         <servlet-name>Richiesta</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.RichiestaController</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>GestioneRichiesta</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.GestioneRichieste</servlet-class>
+    </servlet>
 
     <!--    Tecnico-->
     <servlet>
@@ -165,11 +168,18 @@
         <servlet-name>Richiesta</servlet-name>
         <url-pattern>/ordinante/crea-richiesta-caratteristiche</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneRichiesta</servlet-name>
+        <url-pattern>/ordinante/invia-richiesta</url-pattern>
+    </servlet-mapping>
+
     <!--    Tecnico-->
     <servlet-mapping>
         <servlet-name>Tecnico</servlet-name>
         <url-pattern>/tecnico</url-pattern>
     </servlet-mapping>
+
+
 
     <!--Index-->
     <welcome-file-list>

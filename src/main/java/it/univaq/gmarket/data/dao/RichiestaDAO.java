@@ -18,6 +18,7 @@ public interface RichiestaDAO {
 
         void deleteRichiesta(int richiesta_key) throws DataException;
 
+        boolean isCodiceUnico(String codice) throws DataException;
 
         List<Richiesta> getAllRichieste() throws DataException;
 }

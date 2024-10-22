@@ -3,9 +3,7 @@ package it.univaq.gmarket.app;
 import it.univaq.gmartket.data.dao.UtenteDAO;
 import it.univaq.gmartket.data.dao.impl.UtenteDAO_MySQL;
 import it.univaq.gmartket.data.model.Utente; */
-import it.univaq.gmarket.data.dao.CaratteristicaDAO;
-import it.univaq.gmarket.data.dao.RichiestaDAO;
-import it.univaq.gmarket.data.dao.UtenteDAO;
+import it.univaq.gmarket.data.dao.*;
 import it.univaq.gmarket.data.dao.impl.CaratteristicaDAO_SQL;
 import it.univaq.gmarket.data.dao.impl.RichiestaDAO_SQL;
 import it.univaq.gmarket.data.dao.impl.UtenteDAO_SQL;
@@ -13,7 +11,6 @@ import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
-import it.univaq.gmarket.data.dao.CategoriaDAO;
 import it.univaq.gmarket.data.dao.impl.CategoriaDAO_SQL;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.data.DataLayer;
@@ -58,5 +55,7 @@ public class AppDataLayer extends DataLayer {
     }
 
 
-
+    public RichiestaCaratteristicaDAO getRichiestaCaratteristicaDAO() {
+        return (RichiestaCaratteristicaDAO) getDAO(RichiestaCaratteristicaDAO.class);
+    }
 }

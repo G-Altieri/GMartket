@@ -62,7 +62,7 @@ public class RichiestaController extends AppBaseController {
         // Imposta le caratteristiche nella richiesta per FreeMarker
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Crea Richiesta 2/2");
-
+        request.setAttribute("categoria_figlio", categoriaFiglio.getKey());
         // Attiva il template FreeMarker
         result.activate("/ordinante/creaRichiesta/creaRichiesta_caratteristiche.ftl", request, response);
     }
