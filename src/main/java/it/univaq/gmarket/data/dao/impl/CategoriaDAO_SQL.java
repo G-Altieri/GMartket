@@ -19,6 +19,8 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
     private PreparedStatement iCategoria;
 
     private PreparedStatement sCategoriaById;
+    private PreparedStatement sCategoriePadri;
+
     private PreparedStatement sCategorie;
     private PreparedStatement sCategorieByPadre;
 
@@ -48,6 +50,8 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
             sCategoriaById = connection.prepareStatement("SELECT * FROM categoria WHERE id=?");
             sCategorie = connection.prepareStatement("SELECT * FROM categoria");
             sCategorieByPadre = connection.prepareStatement("SELECT * FROM categoria WHERE id_padre=?");
+            sCategoriePadri = connection.prepareStatement("SELECT * FROM categoria WHERE id_padre IS NULL");
+
 
             iCategoria = connection.prepareStatement("INSERT INTO categoria(nome, id_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -69,6 +73,7 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         try {
             sCategoriaById.close();
             sCategorie.close();
+            sCategoriePadri.close();
             iCategoria.close();
             sCategorieByPadre.close();
         } catch (SQLException ex) {
@@ -362,5 +367,54 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         return result;
     }
 
+
+    @Override
+    public List<Categoria> getCategoriePadri() throws DataException {
+        List<Categoria> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategoriePadri.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getCategoria(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Error loading parent categories", ex);
+        }
+        return result;
+    }
+
+    /**
+     * Recupera ricorsivamente tutti i padri di una categoria figlia.
+     *
+     * @param figliaId l'ID della categoria figlia
+     * @return una lista contenente tutte le categorie padre
+     * @throws DataException se si verifica un errore durante il recupero
+     */
+    @Override
+    public List<Categoria> getPadriByCategoriaId(int figliaId) throws DataException {
+        List<Categoria> padri = new ArrayList<>();
+        Categoria figlia = getCategoria(figliaId);
+
+        // Verifica se la categoria figlia esiste
+        if (figlia == null) {
+            return padri; // Se la categoria non esiste, ritorna una lista vuota
+        }
+
+        // Raccogliamo i padri fino a quando non troviamo un padre senza padre (cioè, il radice)
+        while (figlia.getPadre() != null) {
+            padri.add(figlia);
+            figlia = getCategoria(figlia.getPadre());
+            if (figlia == null) {
+                break; // Se non troviamo più categorie, interrompiamo il ciclo
+            }
+        }
+
+        // Aggiungiamo l'ultimo padre (se esiste) che non ha padre
+        if (figlia != null) {
+            padri.add(figlia);
+        }
+
+        return padri;
+    }
 
 }

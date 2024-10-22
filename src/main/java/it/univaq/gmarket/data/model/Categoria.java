@@ -2,6 +2,8 @@ package it.univaq.gmarket.data.model;
 
 import it.univaq.gmarket.framework.data.DataItem;
 
+import java.util.List;
+
 public interface Categoria extends DataItem<Integer> {
 
     int getId();

@@ -41,10 +41,10 @@
     </context-param>
 
     <!-- Definizione della servlet -->
-<!--    <servlet>-->
-<!--        <servlet-name>homeServlet</servlet-name>-->
-<!--        <servlet-class>it.univaq.gmarket.app.controller.HomeServlet</servlet-class>-->
-<!--    </servlet>-->
+    <!--    <servlet>-->
+    <!--        <servlet-name>homeServlet</servlet-name>-->
+    <!--        <servlet-class>it.univaq.gmarket.app.controller.HomeServlet</servlet-class>-->
+    <!--    </servlet>-->
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.LoginController</servlet-class>
@@ -78,13 +78,18 @@
     <servlet>
         <servlet-name>Caratteristica</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.CaratteristicaController</servlet-class>
+    </servlet>
 
+    <!--    Ordinante-->
+    <servlet>
+        <servlet-name>Richiesta</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.RichiestaController</servlet-class>
     </servlet>
     <!-- Mapping della servlet a un URL -->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>homeServlet</servlet-name>-->
-<!--        <url-pattern>/home</url-pattern>-->
-<!--    </servlet-mapping>-->
+    <!--    <servlet-mapping>-->
+    <!--        <servlet-name>homeServlet</servlet-name>-->
+    <!--        <url-pattern>/home</url-pattern>-->
+    <!--    </servlet-mapping>-->
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -110,7 +115,6 @@
         <url-pattern>/admin/caratteristica</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>Utenti</servlet-name>
         <url-pattern>/admin/utenti</url-pattern>
     </servlet-mapping>
@@ -132,6 +136,17 @@
         <servlet-name>UpdateDati</servlet-name>
         <url-pattern>/admin/utenti/modifica</url-pattern>
     </servlet-mapping>
+
+    <!--    Ordinante-->
+    <servlet-mapping>
+        <servlet-name>Richiesta</servlet-name>
+        <url-pattern>/ordinante/crea-richiesta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Richiesta</servlet-name>
+        <url-pattern>/ordinante/crea-richiesta-caratteristiche</url-pattern>
+    </servlet-mapping>
+
 
     <!--Index-->
     <welcome-file-list>
