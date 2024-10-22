@@ -64,14 +64,14 @@ public class GestioneRichieste extends AppBaseController{
             throws ServletException {
         try {
             String action = request.getParameter("action");
-            System.out.println("Arrivi qua?");
+
             if (action != null && action.equals("submitRichiesta")) {
-                // Processa i dati del form dinamico e memorizza nel database
+
                 action_storeRichiesta(request, response);
-                System.out.println("ci è entrato ");
+
             } else {
                 action_default(request, response);
-                System.out.println("non gli piace ");
+
             }
 
         } catch (IOException | TemplateManagerException | DataException ex) {
@@ -82,31 +82,30 @@ public class GestioneRichieste extends AppBaseController{
     private void action_storeRichiesta(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException, DataException {
         Richiesta richiesta = new RichiestaImpl();  // Creo un'istanza di Richiesta
-        System.out.println("1");
-        // Trovo l'utente ordinante dalla sessione
+
+
         HttpSession session = SecurityHelpers.checkSession(request);
         int userId = (int) session.getAttribute("id");
         Utente ordinante = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
-        System.out.println("asd "+ userId);
-        System.out.println(ordinante);
+
         richiesta.setOrdinante(ordinante);
-        System.out.println("2");
-        // Imposto lo stato della richiesta
+
+
         richiesta.setStato(StatoRichiesta.IN_ATTESA);
-        System.out.println("3");
-        // Trovo la categoria figlio (n = id della categoria)
+
+
         Categoria categoria = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO().getCategoria(SecurityHelpers.checkNumeric(request.getParameter("categoria_figlio")));
         richiesta.setCategoria(categoria);
-        System.out.println("4");
+
 
         String codice = GeneratoreCodice.generaCodiceUnivoco(
                 ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO());
         richiesta.setCodice(codice);
         System.out.println(codice);
-        // Imposto la data di creazione
+
         richiesta.setCreated_at(new Date());
-        System.out.println("5");
-        // Recupero le note dalla richiesta, se presenti
+
+
         String note = request.getParameter("note");
         if (note != null && !note.isEmpty()) {
             richiesta.setNote(note);
@@ -155,16 +154,6 @@ public class GestioneRichieste extends AppBaseController{
 
 
 
-    private void action_getAllRichieste(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
-        // Ottieni la lista di tutti gli utenti tramite il DAO
-        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichieste();
-
-        // Imposta la lista delle richieste come attributo nella request
-        request.setAttribute("richieste", richieste);
 
 
-        // Attiva il template FreeMarker per visualizzare la lista
-        TemplateResult res = new TemplateResult(getServletContext());
-        res.activate("/tecnico/listaRichieste.ftl", request, response);
-    }
 }
