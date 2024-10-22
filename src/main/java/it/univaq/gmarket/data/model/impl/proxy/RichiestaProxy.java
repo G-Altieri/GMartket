@@ -21,6 +21,7 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
         this.modified = false;
     }
 
+
     @Override
     public void setCodice(String codice) {
         super.setCodice(codice);

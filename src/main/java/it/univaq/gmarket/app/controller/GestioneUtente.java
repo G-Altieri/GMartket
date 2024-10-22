@@ -38,7 +38,7 @@ public class GestioneUtente extends AppBaseController{
             String action = request.getParameter("action");
 
             if (action != null && action.equals("createUser")) {
-               
+
                 action_createUser(request, response);
             } else if (action != null && action.equals("listUtenti")) {
                 action_getAllUtenti(request, response);

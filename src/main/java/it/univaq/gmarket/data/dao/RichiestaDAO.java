@@ -1,0 +1,23 @@
+package it.univaq.gmarket.data.dao;
+
+import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.framework.data.DataException;
+
+import java.util.List;
+
+
+public interface RichiestaDAO {
+
+        Richiesta createRichiesta();
+
+        Richiesta getRichiesta(int Richiesta_key) throws DataException;
+
+
+        // Per metterlo nel db
+        void storeRichiesta(Richiesta Richiesta) throws DataException;
+
+        void deleteRichiesta(int richiesta_key) throws DataException;
+
+
+        List<Richiesta> getAllRichieste() throws DataException;
+}

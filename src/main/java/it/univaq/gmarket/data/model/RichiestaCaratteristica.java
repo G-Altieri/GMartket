@@ -1,6 +1,9 @@
 package it.univaq.gmarket.data.model;
 
-public interface RichiestaCaratteristica {
+import it.univaq.gmarket.framework.data.DataItem;
+import it.univaq.gmarket.framework.data.DataItemImpl;
+
+public interface RichiestaCaratteristica extends DataItem<Integer> {
 
     int getId();
     void setId(int id);

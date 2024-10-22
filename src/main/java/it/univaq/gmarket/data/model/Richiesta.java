@@ -1,10 +1,16 @@
 package it.univaq.gmarket.data.model;
 
 import it.univaq.gmarket.data.model.impl.StatoRichiesta;
+import it.univaq.gmarket.framework.data.DataItem;
+import it.univaq.gmarket.framework.data.DataItemImpl;
 
 import java.util.Date;
 
-public interface Richiesta {
+public interface Richiesta extends DataItem<Integer> {
+
+
+    int getId();
+    void setId(int id);
 
     String getCodice();
     void setCodice(String codice);

@@ -3,10 +3,13 @@ package it.univaq.gmarket.data.model.impl;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.*;
+import it.univaq.gmarket.framework.data.DataItemImpl;
+
 import java.sql.Date;
 
-public class PropostaImpl implements Proposta {
+public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
+    private int id;
     private String codiceProdotto;
     private String nomeProduttore;
     private String nomeProdotto;
@@ -20,6 +23,16 @@ public class PropostaImpl implements Proposta {
     private String motivazione;
     private StatoOrdine statoOrdine;
     private Date dataOrdine;
+
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id= id;
+    }
 
     @Override
     public String getCodiceProdotto() {

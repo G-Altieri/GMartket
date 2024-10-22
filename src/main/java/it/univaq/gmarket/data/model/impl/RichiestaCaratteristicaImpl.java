@@ -3,8 +3,9 @@ package it.univaq.gmarket.data.model.impl;
 import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Caratteristica;
+import it.univaq.gmarket.framework.data.DataItemImpl;
 
-public class RichiestaCaratteristicaImpl implements RichiestaCaratteristica {
+public class RichiestaCaratteristicaImpl extends DataItemImpl<Integer> implements RichiestaCaratteristica {
 
     private int id;
     private Richiesta richiesta;

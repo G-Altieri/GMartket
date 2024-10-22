@@ -4,10 +4,13 @@ import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.*;
+import it.univaq.gmarket.framework.data.DataItemImpl;
+
 import java.util.Date;
 
-public class RichiestaImpl implements Richiesta {
+public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
+    private int id;
     private String codice;
     private Utente ordinante;
     private Utente tecnico;
@@ -17,6 +20,14 @@ public class RichiestaImpl implements Richiesta {
     private Date created_at;
     private Date update_at;
 
+    @Override
+    public int getId() {
+        return id;
+    }
+    @Override
+    public void setId(int id) {
+        this.id= id;
+    }
     @Override
     public String getCodice() {
         return codice;

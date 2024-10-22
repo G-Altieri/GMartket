@@ -2,10 +2,15 @@ package it.univaq.gmarket.data.model;
 
 import it.univaq.gmarket.data.model.impl.StatoOrdine;
 import it.univaq.gmarket.data.model.impl.StatoProposta;
+import it.univaq.gmarket.framework.data.DataItem;
+import it.univaq.gmarket.framework.data.DataItemImpl;
 
 import java.sql.Date;
 
-public interface Proposta {
+public interface Proposta extends DataItem<Integer> {
+
+    int getId();
+    void setId(int id);
 
     String getCodiceProdotto();
     void setCodiceProdotto(String codiceProdotto);

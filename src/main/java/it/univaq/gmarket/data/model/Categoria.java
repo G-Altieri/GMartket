@@ -5,11 +5,9 @@ import it.univaq.gmarket.framework.data.DataItem;
 public interface Categoria extends DataItem<Integer> {
 
     int getId();
-
     void setId(int id);
 
     String getNome();
-
     void setNome(String nome);
 
 //    Categoria getPadre();
