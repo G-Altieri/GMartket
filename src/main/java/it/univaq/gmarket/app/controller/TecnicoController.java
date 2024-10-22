@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class AdminController extends AppBaseController {
+public class TecnicoController  extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -33,8 +33,8 @@ public class AdminController extends AppBaseController {
             }
 
             TemplateResult result = new TemplateResult(getServletContext());
-            request.setAttribute("navbarTitle", "Dashboard Amministratore");
-            result.activate("/admin/dashboardAdmin.ftl", request, response);
+            request.setAttribute("navbarTitle", "Dashboard Tecnico");
+            result.activate("/tecnico/dashboardTecnico.ftl", request, response);
 
 
         } catch (TemplateManagerException ex) {
@@ -46,4 +46,3 @@ public class AdminController extends AppBaseController {
         }
     }
 }
-

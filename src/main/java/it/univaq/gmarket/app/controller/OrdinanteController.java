@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class AdminController extends AppBaseController {
+public class OrdinanteController extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
 
             HttpSession session = SecurityHelpers.checkSession(request);
+            System.out.println("Ci arrivo");
+            System.out.println(session);
             if (session == null) {
                 // Se la sessione non è valida, torno login
                 response.sendRedirect("login");
@@ -26,6 +28,8 @@ public class AdminController extends AppBaseController {
             }
             // trovo user
             int userId = (int) session.getAttribute("id");
+            System.out.println("userId");
+            System.out.println(userId);
             Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
 
             if (u != null) {
@@ -33,8 +37,8 @@ public class AdminController extends AppBaseController {
             }
 
             TemplateResult result = new TemplateResult(getServletContext());
-            request.setAttribute("navbarTitle", "Dashboard Amministratore");
-            result.activate("/admin/dashboardAdmin.ftl", request, response);
+            request.setAttribute("navbarTitle", "Dashboard Ordinante");
+            result.activate("/ordinante/dashboardOrdinante.ftl", request, response);
 
 
         } catch (TemplateManagerException ex) {
@@ -46,4 +50,3 @@ public class AdminController extends AppBaseController {
         }
     }
 }
-

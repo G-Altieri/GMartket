@@ -7,7 +7,12 @@
     <context-param>
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
-        <param-value>/home</param-value>
+        <param-value>
+            /admin,
+            /admin/categorie/visualizza,
+            /admin/categorie/visualizza/*,
+        </param-value>
+
     </context-param>
     <context-param>
         <param-name>data.source</param-name>
@@ -82,9 +87,22 @@
 
     <!--    Ordinante-->
     <servlet>
+        <servlet-name>Ordinante</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.OrdinanteController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Richiesta</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.RichiestaController</servlet-class>
     </servlet>
+
+
+    <!--    Tecnico-->
+    <servlet>
+        <servlet-name>Tecnico</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.TecnicoController</servlet-class>
+    </servlet>
+
+
     <!-- Mapping della servlet a un URL -->
     <!--    <servlet-mapping>-->
     <!--        <servlet-name>homeServlet</servlet-name>-->
@@ -130,14 +148,15 @@
         <servlet-name>GestioneUtente</servlet-name>
         <url-pattern>/admin/utenti/gestioneutente</url-pattern>
     </servlet-mapping>
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
     <servlet-mapping>
         <servlet-name>UpdateDati</servlet-name>
         <url-pattern>/admin/utenti/modifica</url-pattern>
     </servlet-mapping>
-
     <!--    Ordinante-->
+    <servlet-mapping>
+        <servlet-name>Ordinante</servlet-name>
+        <url-pattern>/ordinante</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Richiesta</servlet-name>
         <url-pattern>/ordinante/crea-richiesta</url-pattern>
@@ -146,7 +165,11 @@
         <servlet-name>Richiesta</servlet-name>
         <url-pattern>/ordinante/crea-richiesta-caratteristiche</url-pattern>
     </servlet-mapping>
-
+    <!--    Tecnico-->
+    <servlet-mapping>
+        <servlet-name>Tecnico</servlet-name>
+        <url-pattern>/tecnico</url-pattern>
+    </servlet-mapping>
 
     <!--Index-->
     <welcome-file-list>

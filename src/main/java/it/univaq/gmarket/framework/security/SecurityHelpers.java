@@ -6,7 +6,7 @@ package it.univaq.gmarket.framework.security;
 
 
 
-import it.univaq.gmarket.framework.utils.Ruolo;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
