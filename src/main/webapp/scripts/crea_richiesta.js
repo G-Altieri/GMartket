@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+    // Variabile per memorizzare l'ID dell'ultima categoria figlia
+    let ultimaCategoriaFigliaId = null;
+
+
     // Funzione per caricare le categorie figlie
     function caricaCategorieFiglie(categoriaId, container) {
         // Effettua la richiesta AJAX per ottenere le categorie figlie
@@ -10,6 +15,7 @@ $(document).ready(function() {
             success: function(data) {
                 // Rimuovi tutte le select figlie che sono state create dopo questa
                 $(container).nextAll('.categoriaFiglia').remove();
+                 ultimaCategoriaFigliaId = null;  // Resetta l'ID dell'ultima categoria figlia
 
                 // Verifica se ci sono categorie figlie
                 if (data.length > 0) {
@@ -31,9 +37,12 @@ $(document).ready(function() {
 
                 // Mostra il pulsante "Avanti" solo se non ci sono più categorie figlie
                 if (data.length === 0) {
-                    $('#submitButton').removeClass('hidden');
+                    $('#btnAvanti').removeClass('hidden');
+                    // Aggiorna l'href del pulsante Avanti
+                    $('#btnAvanti').attr('href', '/ordinante/crea-richiesta-caratteristiche?categoria_figlio=' + categoriaId);
+                    ultimaCategoriaFigliaId = categoriaId; // Salva l'ID dell'ultima categoria figlia
                 } else {
-                    $('#submitButton').addClass('hidden');
+                    $('#btnAvanti').addClass('hidden');
                 }
             },
             error: function(xhr, status, error) {

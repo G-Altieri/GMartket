@@ -240,4 +240,6 @@ public class CaratteristicaDAO_SQL extends DAO implements CaratteristicaDAO {
         }
         return result;
     }
+
+
 }

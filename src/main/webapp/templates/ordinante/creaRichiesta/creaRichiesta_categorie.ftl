@@ -1,4 +1,4 @@
-<#include "../navbar.ftl">
+<#include "../../navbar.ftl">
 
 <script type="module" src="/scripts/crea_richiesta.js"></script>
 
@@ -23,10 +23,10 @@
 
         <!-- Pulsante Avanti (inizialmente nascosto) -->
         <div id="submitButtonContainer" class="mt-8 flex justify-end">
-            <button type="button" id="submitButton"
+            <a type="button" id="btnAvanti" href="/ordinante/crea-richiesta-caratteristiche"
                     class="hidden bg-green-500 text-white font-semibold py-3 px-6 rounded-md hover:bg-green-600">
                 Avanti
-            </button>
+            </a>
         </div>
     </form>
 </div>

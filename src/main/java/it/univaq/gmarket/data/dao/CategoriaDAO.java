@@ -27,5 +27,7 @@ public interface CategoriaDAO {
 
     List<Categoria> getCategoriePadri() throws DataException;
 
+    List<Categoria> getPadriByCategoriaId(int figliaId) throws DataException;
+
 //    List<Categoria> getCategorieFiglie(Integer key);
 }

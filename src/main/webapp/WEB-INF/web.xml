@@ -78,7 +78,6 @@
     <servlet>
         <servlet-name>Caratteristica</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.CaratteristicaController</servlet-class>
-
     </servlet>
 
     <!--    Ordinante-->
@@ -142,6 +141,10 @@
     <servlet-mapping>
         <servlet-name>Richiesta</servlet-name>
         <url-pattern>/ordinante/crea-richiesta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Richiesta</servlet-name>
+        <url-pattern>/ordinante/crea-richiesta-caratteristiche</url-pattern>
     </servlet-mapping>
 
 

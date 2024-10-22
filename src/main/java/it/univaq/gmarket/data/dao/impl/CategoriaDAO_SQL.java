@@ -383,5 +383,38 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         return result;
     }
 
+    /**
+     * Recupera ricorsivamente tutti i padri di una categoria figlia.
+     *
+     * @param figliaId l'ID della categoria figlia
+     * @return una lista contenente tutte le categorie padre
+     * @throws DataException se si verifica un errore durante il recupero
+     */
+    @Override
+    public List<Categoria> getPadriByCategoriaId(int figliaId) throws DataException {
+        List<Categoria> padri = new ArrayList<>();
+        Categoria figlia = getCategoria(figliaId);
+
+        // Verifica se la categoria figlia esiste
+        if (figlia == null) {
+            return padri; // Se la categoria non esiste, ritorna una lista vuota
+        }
+
+        // Raccogliamo i padri fino a quando non troviamo un padre senza padre (cioè, il radice)
+        while (figlia.getPadre() != null) {
+            padri.add(figlia);
+            figlia = getCategoria(figlia.getPadre());
+            if (figlia == null) {
+                break; // Se non troviamo più categorie, interrompiamo il ciclo
+            }
+        }
+
+        // Aggiungiamo l'ultimo padre (se esiste) che non ha padre
+        if (figlia != null) {
+            padri.add(figlia);
+        }
+
+        return padri;
+    }
 
 }
