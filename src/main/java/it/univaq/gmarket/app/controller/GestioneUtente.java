@@ -26,7 +26,7 @@ public class GestioneUtente extends AppBaseController{
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
         TemplateResult res = new TemplateResult(getServletContext());
-        request.setAttribute("page_title", "Gestione Utenti");
+        request.setAttribute("navbarTitle", "Gestione Utenti");
         res.activate("/admin/utenti/utenti.ftl", request, response);
     }
 
@@ -141,7 +141,7 @@ public class GestioneUtente extends AppBaseController{
 
             // Imposta la lista degli utenti come attributo nella request
             request.setAttribute("utenti", utenti);
-            request.setAttribute("page_title", "Lista Utenti");
+            request.setAttribute("navbarTitle", "Gestione Utenti");
 
             // Attiva il template FreeMarker per visualizzare la lista
             TemplateResult res = new TemplateResult(getServletContext());
