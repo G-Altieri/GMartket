@@ -69,9 +69,13 @@ public class UpdateDati extends AppBaseController {
 
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)  throws ServletException {
         try {
+            //Check dei ruoli del utente
+            Ruolo[] allowedRoles = {Ruolo.AMMINISTRATORE};
+            SecurityHelpers.checkUserRole(request, response, allowedRoles);
+            if (response.isCommitted()) return;
+
             // Recupera l'ID dall'input hidden del form
             int userId = Integer.parseInt(request.getParameter("id")); // Recupero dell'ID
 

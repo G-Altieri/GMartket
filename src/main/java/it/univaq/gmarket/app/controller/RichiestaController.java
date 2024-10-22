@@ -7,6 +7,7 @@ import it.univaq.gmarket.data.dao.CaratteristicaDAO;
 import it.univaq.gmarket.data.dao.CategoriaDAO;
 import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Categoria;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -22,6 +23,11 @@ public class RichiestaController extends AppBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Check dei ruoli del utente
+        Ruolo[] allowedRoles = {Ruolo.ORDINANTE, Ruolo.TECNICO};
+        SecurityHelpers.checkUserRole(request, response, allowedRoles);
+        if (response.isCommitted()) return;
 
         //Controllo se devo renderizzare la pagina per l'inserimento delle categorie
         String categoriaFiglio = request.getParameter("categoria_figlio");

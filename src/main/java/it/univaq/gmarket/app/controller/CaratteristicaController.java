@@ -4,6 +4,7 @@ import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.CaratteristicaDAO;
 import it.univaq.gmarket.data.dao.CategoriaDAO;
 import it.univaq.gmarket.data.model.Caratteristica;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
 
@@ -14,6 +15,11 @@ import java.io.IOException;
 public class CaratteristicaController extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Check dei ruoli del utente
+        Ruolo[] allowedRoles = {Ruolo.AMMINISTRATORE};
+        SecurityHelpers.checkUserRole(request, response, allowedRoles);
+        if (response.isCommitted()) return;
 
         String action = request.getParameter("action");
         if (action != null) {

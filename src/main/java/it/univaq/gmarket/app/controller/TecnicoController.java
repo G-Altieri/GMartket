@@ -2,6 +2,7 @@ package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -18,19 +19,10 @@ public class TecnicoController  extends AppBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
 
-            HttpSession session = SecurityHelpers.checkSession(request);
-            if (session == null) {
-                // Se la sessione non è valida, torno login
-                response.sendRedirect("login");
-                return;
-            }
-            // trovo user
-            int userId = (int) session.getAttribute("id");
-            Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+            Ruolo[] allowedRoles = { Ruolo.TECNICO };
+            SecurityHelpers.checkUserRole(request, response, allowedRoles);
+            if (response.isCommitted()) return;
 
-            if (u != null) {
-                request.setAttribute("user", u);
-            }
 
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Dashboard Tecnico");
@@ -40,8 +32,6 @@ public class TecnicoController  extends AppBaseController {
         } catch (TemplateManagerException ex) {
             handleError(ex, request, response);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (DataException e) {
             throw new RuntimeException(e);
         }
     }

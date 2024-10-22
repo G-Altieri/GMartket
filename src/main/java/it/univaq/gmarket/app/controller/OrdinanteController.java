@@ -2,6 +2,7 @@ package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -17,35 +18,18 @@ public class OrdinanteController extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-
-            HttpSession session = SecurityHelpers.checkSession(request);
-            System.out.println("Ci arrivo");
-            System.out.println(session);
-            if (session == null) {
-                // Se la sessione non è valida, torno login
-                response.sendRedirect("login");
-                return;
-            }
-            // trovo user
-            int userId = (int) session.getAttribute("id");
-            System.out.println("userId");
-            System.out.println(userId);
-            Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
-
-            if (u != null) {
-                request.setAttribute("user", u);
-            }
+            //Check Ruoli
+            Ruolo[] allowedRoles = { Ruolo.ORDINANTE };
+            SecurityHelpers.checkUserRole(request, response, allowedRoles);
+            if (response.isCommitted()) return;
 
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Dashboard Ordinante");
             result.activate("/ordinante/dashboardOrdinante.ftl", request, response);
 
-
         } catch (TemplateManagerException ex) {
             handleError(ex, request, response);
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (DataException e) {
             throw new RuntimeException(e);
         }
     }
