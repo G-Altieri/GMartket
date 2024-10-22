@@ -3,11 +3,12 @@ package it.univaq.gmarket.framework.security;
 //import it.univaq.f4i.iw.ex.webmarket.data.model.impl.TipologiaUtente;
 
 
-
-
-
+import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
+import it.univaq.gmarket.framework.data.DataException;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -15,12 +16,14 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class SecurityHelpers {
@@ -312,5 +315,37 @@ public class SecurityHelpers {
         System.arraycopy(hexStringToBytes(passwordhash), 0, salt, 0, 16);
         return (getPasswordHashPBKDF2(password, salt)).equals(passwordhash);
     }
+
+    //Controllo per vedere se l utente puo accedere a tale rotta
+    public static void checkUserRole(HttpServletRequest request, HttpServletResponse response, Ruolo[] allowedRoles) throws IOException {
+        HttpSession session = SecurityHelpers.checkSession(request);
+        if (session == null) {
+            // Se la sessione non è valida, torno al login
+            response.sendRedirect("login");
+            return;
+        }
+
+        // Trovo l'utente
+        int userId = (int) session.getAttribute("id");
+        Utente u = null;
+        try {
+            u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+        } catch (DataException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (u != null) {
+            Ruolo userRole = u.getRuolo(); // Assicurati che getRuolo ritorni un enum
+
+            // Controllo se il ruolo è tra quelli consentiti
+            if (Arrays.asList(allowedRoles).contains(userRole)) {
+                request.setAttribute("user", u);
+            } else {
+                response.sendRedirect("/logout");
+                return;
+            }
+        }
+    }
+
 
 }

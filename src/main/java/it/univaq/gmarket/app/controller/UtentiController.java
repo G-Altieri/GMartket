@@ -2,9 +2,11 @@ package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
+import it.univaq.gmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,12 +16,15 @@ import java.util.List;
 public class UtentiController extends AppBaseController {
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Check dei ruoli del utente
+        Ruolo[] allowedRoles = {Ruolo.AMMINISTRATORE};
+        SecurityHelpers.checkUserRole(request, response, allowedRoles);
+        if (response.isCommitted()) return;
+
         String path = request.getRequestURI();  // Ottieni l'URL della richiesta
-        System.out.println("Ci passo?");
         try {
             if (path.endsWith("/aggiungi")) {
-                System.out.println("qua si");
                 rendereizzaFormAggiungi(request, response);
             } else if (path.endsWith("/utenti")) {
                 renderizzaUtenti(request, response);

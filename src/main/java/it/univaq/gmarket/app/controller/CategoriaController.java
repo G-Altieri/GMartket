@@ -5,6 +5,7 @@ import it.univaq.gmarket.data.dao.CaratteristicaDAO;
 import it.univaq.gmarket.data.model.Caratteristica;
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.dao.CategoriaDAO;
+import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -20,7 +21,14 @@ import java.util.List;
 public class CategoriaController extends AppBaseController {
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //Check dei ruoli del utente
+        Ruolo[] allowedRoles = {Ruolo.AMMINISTRATORE};
+        SecurityHelpers.checkUserRole(request, response, allowedRoles);
+        if (response.isCommitted()) return;
+
+
         String path = request.getRequestURI();  // Ottieni l'URL della richiesta
 
         try {

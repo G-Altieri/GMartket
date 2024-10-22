@@ -27,9 +27,12 @@ public class GestioneRichieste extends AppBaseController{
     }
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+            //Check dei ruoli del utente
+            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE};
+            SecurityHelpers.checkUserRole(request, response, allowedRoles);
+            if (response.isCommitted()) return;
 
             String action = request.getParameter("action");
 
