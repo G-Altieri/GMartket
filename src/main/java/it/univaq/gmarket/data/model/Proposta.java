@@ -3,17 +3,17 @@ package it.univaq.gmarket.data.model;
 import it.univaq.gmarket.data.model.impl.StatoOrdine;
 import it.univaq.gmarket.data.model.impl.StatoProposta;
 import it.univaq.gmarket.framework.data.DataItem;
-import it.univaq.gmarket.framework.data.DataItemImpl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public interface Proposta extends DataItem<Integer> {
 
     int getId();
     void setId(int id);
 
-    String getCodiceProdotto();
-    void setCodiceProdotto(String codiceProdotto);
+    String getCodiceProposta();
+    void setCodiceProposta(String codiceProdotto);
 
     String getNomeProduttore();
     void setNomeProduttore(String nomeProduttore);
@@ -38,11 +38,11 @@ public interface Proposta extends DataItem<Integer> {
     StatoProposta getStatoProposta();
     void setStatoProposta(StatoProposta statoProposta);
 
-    Date getCreated_at ();
-    void setCreated_at (Date created_at);
+    Timestamp getCreated_at ();
+    void setCreated_at (Timestamp created_at);
 
-    Date getUpdate_at ();
-    void setUpdate_at (Date update_at);
+    Timestamp getUpdate_at ();
+    void setUpdate_at (Timestamp update);
 
     String getMotivazione();
     void setMotivazione(String motivazione);
@@ -50,7 +50,7 @@ public interface Proposta extends DataItem<Integer> {
     StatoOrdine getStatoOrdine();
     void setStatoOrdine(StatoOrdine statoOrdine);
 
-    Date getDataOrdine ();
-    void setDataOrdine (Date dataOrdine);
+    Timestamp getDataOrdine ();
+    void setDataOrdine (Timestamp data);
 
 }

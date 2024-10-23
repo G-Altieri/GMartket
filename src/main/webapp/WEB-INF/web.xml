@@ -105,7 +105,10 @@
         <servlet-name>Tecnico</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.TecnicoController</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>GestioneProposta</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.GestioneProposta</servlet-class>
+    </servlet>
 
     <!-- Mapping della servlet a un URL -->
     <!--    <servlet-mapping>-->
@@ -200,8 +203,13 @@
         <url-pattern>/tecnico/dettagli-richiesta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>GestioneRichiesta</servlet-name>
         <url-pattern>/tecnico/presa-in-carico</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneProposta</servlet-name>
+        <url-pattern>/tecnico/creazioneProposta</url-pattern>
     </servlet-mapping>
 
 

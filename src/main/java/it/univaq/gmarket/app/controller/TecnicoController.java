@@ -1,7 +1,10 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+
+import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
+import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.Utente;
@@ -34,7 +37,7 @@ public class TecnicoController  extends AppBaseController {
 
                 action_getAllRichiesteTecnico(request, response);
             } else if  (path.endsWith("/lista-richiesteProprie")) {
-                System.out.println("Entrato dentro process");
+
                 assert u != null;
                 action_getAllRichiesteByTecnico(request, response, u.getKey());
             }
@@ -68,13 +71,11 @@ public class TecnicoController  extends AppBaseController {
     }
 
     private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
-        System.out.println("Entrato dentro il metodo giusto");
+
 
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(key);
-        System.out.println("1");
         request.setAttribute("richieste", richieste);
         request.setAttribute("navbarTitle", "Lista delle tue Richieste");
-        System.out.println("Stai per entrare nel temp");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
     }
@@ -84,6 +85,7 @@ public class TecnicoController  extends AppBaseController {
 
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(richiestaId);
         RichiestaCaratteristicaDAO richiestaCaratteristicaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaCaratteristicaDAO();
+
         List<RichiestaCaratteristica> caratteristicheList = richiestaCaratteristicaDAO.getRichiesteCaratteristicaByRichiesta(richiesta.getKey());
 
         if (richiesta == null) {
@@ -91,6 +93,7 @@ public class TecnicoController  extends AppBaseController {
             return;
         }
 
+        request.setAttribute("richiesta", richiesta);
         request.setAttribute("codice", richiesta.getCodice());
         request.setAttribute("nomeOrdinante", richiesta.getOrdinante().getNome());
 
@@ -104,8 +107,20 @@ public class TecnicoController  extends AppBaseController {
         request.setAttribute("statoRichiesta", richiesta.getStato());
         request.setAttribute("dataCreazione", richiesta.getCreated_at());
         request.setAttribute("categoria", richiesta.getCategoria());
+
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+
+
+        request.setAttribute("caratteristicheList", caratteristicheList);
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+
+        //Proposte
+        PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
+        List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
+
+        request.setAttribute("listProposte", listProposte);
+
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);

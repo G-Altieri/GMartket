@@ -31,4 +31,13 @@
         </p>
     </div>
 
+
+    <#list listProposte as proposta>
+        <div class="text-bluScuro">${proposta.codiceProposta}: <strong></strong> </div>
+    </#list>
+
+    <div class="mt-6">
+        <a href="/tecnico/creazioneProposta?idRichiesta=${richiesta.key}" class="rounded-full bg-verde font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">Crea Proposta</a>
+    </div>
+
 </div>

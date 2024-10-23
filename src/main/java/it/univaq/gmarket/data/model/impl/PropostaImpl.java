@@ -2,15 +2,14 @@ package it.univaq.gmarket.data.model.impl;
 
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
-import it.univaq.gmarket.data.model.*;
 import it.univaq.gmarket.framework.data.DataItemImpl;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
     private int id;
-    private String codiceProdotto;
+    private String codiceProposta;
     private String nomeProduttore;
     private String nomeProdotto;
     private double prezzo;
@@ -18,11 +17,11 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     private String note;
     private Richiesta richiesta;
     private StatoProposta statoProposta;
-    private Date created_at;
-    private Date update_at;
+    private Timestamp created_at;
+    private Timestamp update_at;
     private String motivazione;
     private StatoOrdine statoOrdine;
-    private Date dataOrdine;
+    private Timestamp dataOrdine;
 
     @Override
     public int getId() {
@@ -35,13 +34,13 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public String getCodiceProdotto() {
-        return codiceProdotto;
+    public String getCodiceProposta() {
+        return codiceProposta;
     }
 
     @Override
-    public void setCodiceProdotto(String codiceProdotto) {
-        this.codiceProdotto = codiceProdotto;
+    public void setCodiceProposta(String codiceProdotto) {
+        this.codiceProposta = codiceProdotto;
     }
 
     @Override
@@ -115,23 +114,23 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public Date getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
     @Override
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 
     @Override
-    public Date getUpdate_at() {
+    public Timestamp getUpdate_at() {
         return update_at;
     }
 
     @Override
-    public void setUpdate_at(Date update_at) {
-        this.update_at = update_at;
+    public void setUpdate_at(Timestamp update) {
+        this.update_at = update;
     }
 
     @Override
@@ -155,13 +154,13 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public Date getDataOrdine() {
+    public Timestamp getDataOrdine() {
         return dataOrdine;
     }
 
     @Override
-    public void setDataOrdine(Date dataOrdine) {
-        this.dataOrdine = dataOrdine;
+    public void setDataOrdine(Timestamp data) {
+        this.dataOrdine = data;
     }
 }
 

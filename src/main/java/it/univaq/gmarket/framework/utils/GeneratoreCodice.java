@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.Set;
 
+import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaDAO;
 
 import it.univaq.gmarket.framework.data.DataException;
@@ -43,4 +44,24 @@ public class GeneratoreCodice {
         // Controlla nel database se il codice è già presente (puoi adattare la query nel DAO)
         return richiestaDAO.isCodiceUnico(codice);
     }
+
+
+    // Funzione per generare un codice alfanumerico casuale di 5 caratteri
+    public static String generaCodiceUnivocoProposta(PropostaDAO propostaDAO) throws DataException {
+        String codice;
+        boolean isUnico;
+        do {
+            codice = generaCodiceCasuale();  // Genera un codice casuale
+            isUnico = verificaUnicitaProposta(codice, propostaDAO);  // Verifica che il codice sia unico nel DB
+        } while (!isUnico);  // Continua a rigenerare il codice finché non è unico
+
+        return codice;  // Ritorna il codice univoco
+    }
+
+    // Funzione per verificare se il codice è unico nel database
+    private static boolean verificaUnicitaProposta(String codice, PropostaDAO propostaDAO) throws DataException {
+        // Controlla nel database se il codice è già presente (puoi adattare la query nel DAO)
+        return propostaDAO.isCodiceUnico(codice);
+    }
+
 }

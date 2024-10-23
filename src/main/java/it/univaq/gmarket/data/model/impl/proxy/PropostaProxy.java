@@ -7,7 +7,7 @@ import it.univaq.gmarket.data.model.impl.StatoProposta;
 import it.univaq.gmarket.framework.data.DataItemProxy;
 import it.univaq.gmarket.framework.data.DataLayer;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PropostaProxy extends PropostaImpl implements DataItemProxy {
 
@@ -34,8 +34,8 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     }
 
     @Override
-    public void setCodiceProdotto(String codiceProdotto) {
-        super.setCodiceProdotto(codiceProdotto);
+    public void setCodiceProposta(String codiceProposta) {
+        super.setCodiceProposta(codiceProposta);
         this.modified = true;
     }
 
@@ -66,19 +66,19 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
 
 
     @Override
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Timestamp created_at) {
         super.setCreated_at(created_at);
         this.modified = true;
     }
 
     @Override
-    public void setUpdate_at(Date update) {
+    public void setUpdate_at(Timestamp update) {
         super.setUpdate_at(update);
         this.modified = true;
     }
 
     @Override
-    public void setDataOrdine(Date data) {
+    public void setDataOrdine(Timestamp data) {
         super.setDataOrdine(data);
         this.modified = true;
     }
