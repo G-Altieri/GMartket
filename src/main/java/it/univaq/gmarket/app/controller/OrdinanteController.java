@@ -57,6 +57,7 @@ public class OrdinanteController extends AppBaseController {
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteOrdinante(key);
         request.setAttribute("richieste", richieste);
         request.setAttribute("codice", richieste);
+        request.setAttribute("navbarTitle", "Lista Richieste Effettuate");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaRichieste.ftl", request, response);
     }

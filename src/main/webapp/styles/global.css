@@ -182,3 +182,52 @@ body::-webkit-scrollbar-thumb {
 li.active .icon path {
     fill: #FFC107; /* Cambia questo colore in base alle tue esigenze */
 }
+
+/* TABLE */
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.user-list-container .border {
+    padding: 0; /* Assicurati che il padding sia 0 */
+    margin: 0; /* Elimina eventuali margini del div */
+}
+
+.user-list-table {
+    width: 100%;
+    border-collapse: collapse; /* Unisce i bordi delle celle */
+    border-spacing: 0; /* Rimuove lo spazio tra celle */
+    border-radius: 16px; /* Arrotondamento della tabella */
+    border: none; /* Rimuovi il bordo qui perché già impostato nel div */
+    overflow: hidden;
+}
+
+.user-list-table th, .user-list-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #B0BEC5; /* Bordi sottili tra le celle */
+}
+
+.edit-button {
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bg-trTable {
+    background-color: #D6E6F2;
+}
+
+/* Arrotonda solo gli angoli della tabella */
+.user-list-table th:first-child {
+    border-top-left-radius: 10px; /* Arrotonda l'angolo in alto a sinistra */
+}
+
+.user-list-table th:last-child {
+    border-top-right-radius: 10px; /* Arrotonda l'angolo in alto a destra */
+}
