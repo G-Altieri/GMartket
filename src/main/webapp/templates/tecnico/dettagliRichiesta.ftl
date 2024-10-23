@@ -1,4 +1,5 @@
 <#include "../navbar.ftl">
+<script type="module" src="/scripts/table.js"></script>
 <div class=" p-6 rounded-2xl shadow-normalBox mt-8">
     <h1 class="text-primario text-2xl font-bold mb-4 text-center">Richiesta</h1>
 
@@ -136,7 +137,7 @@
         </div>
 
         <div class="pl-14">
-            <ol class="text-bluScuro text-lg "  style="list-style-type: decimal;">
+            <ol class="text-bluScuro text-lg " style="list-style-type: decimal;">
                 <#list caratteristicheList as richCar>
                     <li class="mt-1">${richCar.caratteristica.nome}:
                         <strong>${richCar.valore}</strong> ${richCar.caratteristica.misura}
@@ -148,20 +149,63 @@
 </div>
 
 <div class=" p-6 rounded-2xl shadow-normalBox mt-8">
-    <h1 class="text-primario text-2xl font-bold mb-4 text-center">Proposta</h1>
-    <#if isPrimoInSospeso?exists && isPrimoInSospeso == "true">
-        <div class="mt-6">
+    <h1 class="text-primario text-2xl font-bold text-center">Proposte</h1>
+    <div class="my-6 text-xl text-bluScuro font-semibold flex flex-row items-center justify-center">
+        <#if isPrimoInSospeso?exists && isPrimoInSospeso == "true">
             <p>In Attesa Di Risposta dal Ordinante</p>
-        </div>
-    <#else>
-        <div class="mt-6">
+        <#else>
             <a href="/tecnico/creazioneProposta?idRichiesta=${richiesta.key}"
                class="rounded-full bg-verde font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">Crea
-                Proposta</a>
-        </div>
-    </#if>
+                una nuova Proposta</a>
+        </#if>
+    </div>
+    <div class="border border-primario rounded-2xl">
+        <table class="user-list-table rounded-2xl" id="userTable">
+            <thead>
+            <tr class="bg-trTable">
+                <th>#</th>
+                <th>Codice Proposta</th>
+                <th>Nome Produttore</th>
+                <th>Prezzo</th>
+                <th>Stato Proposta</th>
+                <th>Azioni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list listProposte as proposta>
+                <tr>
+                    <td class="index-column"></td>
+                    <td>#${proposta.codiceProposta}</td>
+                    <td>${proposta.nomeProduttore}</td>
+                    <td>${proposta.prezzo}</td>
+                    <td>${proposta.statoProposta}</td>
+                    <td class="">
+                        <#if proposta.statoProposta == "IN_SOSPESO">
+                            <form method="GET" action="/ordinante/lista-richieste/modProposta"
+                                  class="flex justify-center">
+                                <input type="hidden" name="action" value="modProposta">
+                                <input type="hidden" name="valoreMod" value="accetta">
+                                <input type="hidden" name="key" value="${proposta.key}">
+                                <button type="submit"
+                                        class="edit-button bg-verde hover:bg-yellow-700 font-medium mx-auto">Accetta
+                                    Proposta
+                                </button>
+                            </form>
 
-    <#list listProposte as proposta>
-        <div class="text-bluScuro">${proposta.codiceProposta}: <strong></strong></div>
-    </#list>
+                            <button onclick="rejectProposta('${proposta.key}')"
+                                    class="edit-button bg-rosso2 hover:bg-yellow-700 font-medium mx-auto">Rifiuta
+                                Proposta
+                            </button>
+                        <#elseif proposta.statoProposta == "ACCETTATO">
+                            <p class="text-green-600 font-medium mx-auto">Proposta Accettata</p>
+                        <#elseif proposta.statoProposta == "RIFIUTATO">
+                            <p class="text-red-600 font-medium mx-auto">Proposta Rifiutata</p>
+                        </#if>
+                    </td>
+                </tr>
+            </#list>
+
+            </tbody>
+        </table>
+    </div>
 </div>

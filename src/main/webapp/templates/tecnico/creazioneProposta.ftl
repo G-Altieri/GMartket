@@ -46,7 +46,7 @@
         </ul>
 
         <!-- Pulsante di invio -->
-        <button type="submit" class="mt-6 bg-verde font-semibold text-white rounded-full py-2 px-4 w-full">
+        <button type="submit" class="mt-6 bg-verde font-semibold text-white rounded-full py-2 px-4 w-full shadow-buttonBox hover:shadow-buttonBoxHover">
             Invia Richiesta
         </button>
     </form>
