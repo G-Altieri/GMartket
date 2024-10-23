@@ -90,8 +90,6 @@ public class OrdinanteController extends AppBaseController {
         request.setAttribute("statoRichiesta", richiesta.getStato());
         request.setAttribute("dataCreazione", richiesta.getCreated_at());
         request.setAttribute("categoria", richiesta.getCategoria());
-        System.out.println("caratteristicheList");
-        System.out.println(caratteristicheList);
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
 

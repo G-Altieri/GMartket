@@ -35,6 +35,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'IN_ATTESA' ORDER BY created_at DESC");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?, created_at=?, id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 
 
             } catch (SQLException ex) {
@@ -144,16 +145,16 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                     uRichiesta.setString(1, richiesta.getNote());
                     uRichiesta.setString(2, richiesta.getStato().name());
                     uRichiesta.setDate(3, new java.sql.Date(richiesta.getCreated_at().getTime()));
-                    uRichiesta.setDate(4, new java.sql.Date(richiesta.getUpdate_at().getTime()));
-                    uRichiesta.setString(5, richiesta.getCodice());
-                    uRichiesta.setInt(6, richiesta.getTecnico().getKey());
-                    uRichiesta.setInt(7, richiesta.getOrdinante().getKey());
-                    uRichiesta.setInt(8, richiesta.getCategoria().getKey());
+                    uRichiesta.setInt(4, richiesta.getCategoria().getKey());
+                    uRichiesta.setInt(5, richiesta.getOrdinante().getKey());
+                    uRichiesta.setString(6, richiesta.getCodice());
+                    uRichiesta.setInt(7, richiesta.getTecnico().getKey());
+
                     long oldVersion = richiesta.getVersion();
                     long versione = oldVersion + 1;
-                    uRichiesta.setLong(9, versione);
-                    uRichiesta.setInt(10, richiesta.getKey());
-                    uRichiesta.setLong(11, oldVersion);
+                    uRichiesta.setLong(8, versione);
+                    uRichiesta.setInt(9, richiesta.getKey());
+                    uRichiesta.setLong(10, oldVersion);
                     if(uRichiesta.executeUpdate() == 0){
                         throw new OptimisticLockException(richiesta);
                     }else {

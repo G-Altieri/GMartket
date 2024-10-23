@@ -37,6 +37,13 @@
                             <button type="submit" class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli Richiesta</button>
                         </form>
                     </td>
+                    <td class="">
+                        <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
+                            <input type="hidden" name="action" value="inCarico">
+                            <input type="hidden" name="key" value="${richiesta.key}">
+                            <button type="submit" class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Prendi in Carico</button>
+                        </form>
+                    </td>
                 </tr>
             </#list>
             </tbody>

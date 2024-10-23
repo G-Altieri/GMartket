@@ -1,7 +1,9 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
 import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
@@ -37,7 +39,8 @@ public class TecnicoController  extends AppBaseController {
                 action_getAllRichiesteByTecnico(request, response, u.getKey());
             }
             else if (path.endsWith("/dettagli-richiesta")) {
-
+                TemplateResult result = new TemplateResult(getServletContext());
+                request.setAttribute("navbarTitle", "Dettagli Richiesta");
                 int richiestaId = Integer.parseInt(request.getParameter("key"));
                 action_getDettagliRichiestaTec(request, response, richiestaId);
             }
@@ -80,6 +83,8 @@ public class TecnicoController  extends AppBaseController {
             throws IOException, ServletException, TemplateManagerException, DataException {
 
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(richiestaId);
+        RichiestaCaratteristicaDAO richiestaCaratteristicaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaCaratteristicaDAO();
+        List<RichiestaCaratteristica> caratteristicheList = richiestaCaratteristicaDAO.getRichiesteCaratteristicaByRichiesta(richiesta.getKey());
 
         if (richiesta == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Richiesta non trovata");
@@ -98,6 +103,9 @@ public class TecnicoController  extends AppBaseController {
         request.setAttribute("note", richiesta.getNote());
         request.setAttribute("statoRichiesta", richiesta.getStato());
         request.setAttribute("dataCreazione", richiesta.getCreated_at());
+        request.setAttribute("categoria", richiesta.getCategoria());
+        request.setAttribute("caratteristicheList", caratteristicheList);
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);
