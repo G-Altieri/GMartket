@@ -35,11 +35,13 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
             iProposta = connection.prepareStatement("INSERT INTO proposta (codice_proposta, id_richiesta, nome_produttore, nome_prodotto, prezzo, link, note, stato, motivazione, created_at,  stato_ordine, data_ordine, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ?");
+            uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing RichiestaOrdine data layer", ex);
         }
     }
+
+
 
     @Override
     public void destroy() throws DataException {
@@ -139,7 +141,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
                     return; // Se la proposta non è stata modificata, non fare nulla
                 }
 
-                // Aggiorna la proposta
+                // Prepara la query di aggiornamento
                 uProposta.setString(1, proposta.getCodiceProposta());
                 uProposta.setString(2, proposta.getNomeProduttore());
                 uProposta.setString(3, proposta.getNomeProdotto());
@@ -149,32 +151,33 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
                 uProposta.setString(7, proposta.getStatoProposta().name());
                 uProposta.setString(8, proposta.getMotivazione());
 
+                // Gestione del campo stato_ordine
                 if (proposta.getStatoOrdine() == null) {
                     uProposta.setNull(9, Types.NULL);
                 } else {
                     uProposta.setString(9, proposta.getStatoOrdine().name());
                 }
 
-                // Gestione del timestamp e della versione
-                // (Codice commentato per chiarezza)
-                // uProposta.setTimestamp(10, new java.sql.Timestamp(proposta.getUpdate_at().getTime()));
+                // Gestione del campo data_ordine
                 if (proposta.getDataOrdine() == null) {
-                    uProposta.setNull(10, Types.TIMESTAMP); // Usa setNull invece di setTimestamp con null
+                    uProposta.setNull(10, Types.TIMESTAMP);
                 } else {
                     uProposta.setTimestamp(10, new java.sql.Timestamp(proposta.getDataOrdine().getTime()));
                 }
 
+                // Gestione della versione (optimistic locking)
                 long oldVersion = proposta.getVersion();
                 long newVersion = oldVersion + 1;
                 uProposta.setLong(11, newVersion);
                 uProposta.setInt(12, proposta.getKey());
                 uProposta.setLong(13, oldVersion);
 
-                // Gestione Optimistic Locking
+                // Tentativo di aggiornamento con controllo versione
                 if (uProposta.executeUpdate() == 0) {
-                    throw new OptimisticLockException(proposta);
+                    throw new OptimisticLockException(proposta); // Se l'aggiornamento non modifica alcuna riga, la versione non corrisponde
                 } else {
                     proposta.setVersion(newVersion); // Aggiorna la versione della proposta
+                    proposta.setUpdate_at(new Timestamp(System.currentTimeMillis())); // Imposta l'update_at all'attuale timestamp
                 }
 
             } else { // Se la proposta non esiste ancora (insert)

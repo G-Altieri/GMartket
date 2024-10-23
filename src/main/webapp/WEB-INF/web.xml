@@ -184,6 +184,11 @@
         <servlet-name>Ordinante</servlet-name>
         <url-pattern>/ordinante/lista-richieste/dettagli-richiesta</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneProposta</servlet-name>
+        <url-pattern>/ordinante/lista-richieste/modProposta</url-pattern>
+    </servlet-mapping>
+
 
     <!--    Tecnico-->
     <servlet-mapping>
