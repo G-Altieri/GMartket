@@ -269,4 +269,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         }
         return false;
     }
+
+
+
 }

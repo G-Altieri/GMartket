@@ -9,6 +9,7 @@ import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
+import it.univaq.gmarket.data.model.impl.StatoProposta;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -94,19 +95,7 @@ public class TecnicoController  extends AppBaseController {
         }
 
         request.setAttribute("richiesta", richiesta);
-        request.setAttribute("codice", richiesta.getCodice());
-        request.setAttribute("nomeOrdinante", richiesta.getOrdinante().getNome());
 
-        if (richiesta.getTecnico() != null) {
-            request.setAttribute("nomeTecnico", richiesta.getTecnico().getNome());
-        } else {
-            request.setAttribute("nomeTecnico", "Non assegnato");
-        }
-
-        request.setAttribute("note", richiesta.getNote());
-        request.setAttribute("statoRichiesta", richiesta.getStato());
-        request.setAttribute("dataCreazione", richiesta.getCreated_at());
-        request.setAttribute("categoria", richiesta.getCategoria());
 
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
@@ -119,8 +108,11 @@ public class TecnicoController  extends AppBaseController {
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
         List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
 
-        request.setAttribute("listProposte", listProposte);
+        if (listProposte.get(0).getStatoProposta() == StatoProposta.IN_SOSPESO) {
+            request.setAttribute("isPrimoInSospeso", "true");
+        }
 
+        request.setAttribute("listProposte", listProposte);
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);
