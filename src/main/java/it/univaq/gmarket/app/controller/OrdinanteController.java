@@ -1,7 +1,9 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
+import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.RichiestaCaratteristica;
 import it.univaq.gmarket.data.model.Utente;
@@ -40,6 +42,7 @@ public class OrdinanteController extends AppBaseController {
             }
             else {
 
+
                 TemplateResult result = new TemplateResult(getServletContext());
                 request.setAttribute("navbarTitle", "Dashboard Ordinante");
                 result.activate("/ordinante/dashboardOrdinante.ftl", request, response);
@@ -77,6 +80,7 @@ public class OrdinanteController extends AppBaseController {
             return;
         }
 
+
         request.setAttribute("codice", richiesta.getCodice());
         request.setAttribute("nomeOrdinante", richiesta.getOrdinante().getNome());
 
@@ -90,11 +94,18 @@ public class OrdinanteController extends AppBaseController {
         request.setAttribute("statoRichiesta", richiesta.getStato());
         request.setAttribute("dataCreazione", richiesta.getCreated_at());
         request.setAttribute("categoria", richiesta.getCategoria());
-
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+
+
+        PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
+        List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
+
+        request.setAttribute("proposte", listProposte);
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/dettagliRichiesta.ftl", request, response);
     }
+
+
 }
