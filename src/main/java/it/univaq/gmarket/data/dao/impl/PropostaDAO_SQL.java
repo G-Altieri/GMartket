@@ -148,7 +148,6 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
                 uProposta.setString(6, proposta.getNote());
                 uProposta.setString(7, proposta.getStatoProposta().name());
                 uProposta.setString(8, proposta.getMotivazione());
-                //  uProposta.setTimestamp(9, new java.sql.Timestamp(proposta.getUpdate_at().getTime()));
 
                 if (proposta.getStatoOrdine() == null) {
                     uProposta.setNull(9, Types.NULL);
@@ -156,22 +155,22 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
                     uProposta.setString(9, proposta.getStatoOrdine().name());
                 }
 
-
-
+                // Gestione del timestamp e della versione
+                // (Codice commentato per chiarezza)
+                // uProposta.setTimestamp(10, new java.sql.Timestamp(proposta.getUpdate_at().getTime()));
                 if (proposta.getDataOrdine() == null) {
-                    // Imposta il valore come NULL per il database
-                    iProposta.setNull(13, java.sql.Types.TIMESTAMP); // Usa setNull invece di setTimestamp con null
+                    uProposta.setNull(10, Types.TIMESTAMP); // Usa setNull invece di setTimestamp con null
                 } else {
-                    // Imposta il timestamp se dataOrdine è disponibile
-                    iProposta.setTimestamp(13, new java.sql.Timestamp(proposta.getDataOrdine().getTime()));
+                    uProposta.setTimestamp(10, new java.sql.Timestamp(proposta.getDataOrdine().getTime()));
                 }
+
                 long oldVersion = proposta.getVersion();
                 long newVersion = oldVersion + 1;
-                uProposta.setLong(12, newVersion);
-                uProposta.setInt(13, proposta.getKey());
-                uProposta.setLong(14, oldVersion);
+                uProposta.setLong(11, newVersion);
+                uProposta.setInt(12, proposta.getKey());
+                uProposta.setLong(13, oldVersion);
 
-                // Gestione Optimistic Locking: se la versione non corrisponde, fallisce l'aggiornamento
+                // Gestione Optimistic Locking
                 if (uProposta.executeUpdate() == 0) {
                     throw new OptimisticLockException(proposta);
                 } else {
@@ -190,18 +189,17 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
                 iProposta.setString(8, proposta.getStatoProposta().name());
                 iProposta.setString(9, proposta.getMotivazione());
                 iProposta.setTimestamp(10, new java.sql.Timestamp(proposta.getCreated_at().getTime()));
-                //  iProposta.setTimestamp(11, new java.sql.Timestamp(proposta.getUpdate_at().getTime()));
+
+                // CORREZIONE QUI
                 if (proposta.getStatoOrdine() == null) {
-                    uProposta.setNull(11, Types.NULL);
+                    iProposta.setNull(11, Types.NULL); // Modifica qui
                 } else {
-                    uProposta.setString(11, proposta.getStatoOrdine().name());
+                    iProposta.setString(11, proposta.getStatoOrdine().name()); // Modifica qui
                 }
 
                 if (proposta.getDataOrdine() == null) {
-                    // Imposta il valore come NULL per il database
-                    iProposta.setNull(12, java.sql.Types.TIMESTAMP); // Usa setNull invece di setTimestamp con null
+                    iProposta.setNull(12, Types.TIMESTAMP); // Imposta NULL se non c'è data
                 } else {
-                    // Imposta il timestamp se dataOrdine è disponibile
                     iProposta.setTimestamp(12, new java.sql.Timestamp(proposta.getDataOrdine().getTime()));
                 }
 
@@ -227,7 +225,6 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             throw new DataException("Unable to store Proposta", ex);
         }
     }
-
 
     @Override
     public List<Proposta> getAllProposteByRichiesta(Richiesta richiesta) throws DataException {
