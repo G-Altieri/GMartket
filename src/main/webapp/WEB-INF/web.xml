@@ -187,7 +187,18 @@
         <servlet-name>Tecnico</servlet-name>
         <url-pattern>/tecnico</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>Tecnico</servlet-name>
+        <url-pattern>/tecnico/lista-richieste</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Tecnico</servlet-name>
+        <url-pattern>/tecnico/lista-richiesteProprie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Tecnico</servlet-name>
+        <url-pattern>/tecnico/dettagli-richiesta</url-pattern>
+    </servlet-mapping>
 
 
     <!--Index-->

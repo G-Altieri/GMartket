@@ -23,4 +23,5 @@ public interface RichiestaDAO {
         List<Richiesta> getAllRichiesteOrdinante(int utente_key) throws DataException;
 
         List<Richiesta> getAllRichiesteTecnico() throws DataException;
+        List<Richiesta> getAllRichiesteByTecnico(int key) throws DataException;
 }

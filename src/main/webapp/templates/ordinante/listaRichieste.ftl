@@ -1,9 +1,6 @@
 <#include "../navbar.ftl">
 <script type="module" src="/scripts/table.js"></script>
-<div class="mt-6">
-    <a href="/admin/richieste/aggiungi"
-       class="mt-12 rounded-full bg-verde font-semibold text-white text-xl px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">Aggiungi Nuova Richiesta</a>
-</div>
+
 
 <div class="user-list-container mt-6">
     <input type="text" id="searchInput" placeholder="Cerca per Codice, Nome Ordinante, Tecnico o Stato" class="search-bar rounded-xl"/>

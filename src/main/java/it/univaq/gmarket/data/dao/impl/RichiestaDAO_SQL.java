@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
 
-        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, uRichiesta, iRichiesta;
+        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, uRichiesta, iRichiesta;
 
         public RichiestaDAO_SQL(AppDataLayer data) {
             super(data);
@@ -33,6 +33,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ?");
                 sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY created_at DESC");
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
+                sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'IN_ATTESA' ORDER BY created_at DESC");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
 
@@ -227,48 +228,35 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public List<Richiesta> getAllRichiesteTecnico() throws DataException {
+    public List<Richiesta> getAllRichiesteByTecnico(int utente_key) throws DataException {
         List<Richiesta> richieste = new ArrayList<>();
-        try (Connection con = this.getConnection()) {
-            String query = "SELECT * FROM richiesta";
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        richieste.add(getRichiesta(rs.getInt("id")));
-                    }
-                } catch (DataException e) {
-                    throw new RuntimeException(e);
+        try {
+            sRichiesteByTecnico.setInt(1, utente_key);
+            try (ResultSet rs = sRichiesteByTecnico.executeQuery()) {
+                while (rs.next()) {
+                    richieste.add(getRichiesta(rs.getInt("id")));
                 }
             }
         } catch (SQLException ex) {
-            throw new DataException("Errore nel recupero degli utenti", ex);
+            throw new DataException("Unable to load Richieste by Tecnico", ex);
         }
+
         return richieste;
     }
 
-    public List<Utente> getAllUtenti() throws DataException {
-        List<Utente> utenti = new ArrayList<>();
 
-        try (Connection con = this.getConnection()) {
-            String query = "SELECT * FROM utente";
-            try (PreparedStatement ps = con.prepareStatement(query)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        Utente utente = new UtenteImpl();
-                        utente.setId(rs.getInt("id"));
-                        utente.setNome(rs.getString("nome"));
-                        utente.setCognome(rs.getString("cognome"));
-                        utente.setEmail(rs.getString("email"));
-                        utente.setRuolo(Ruolo.valueOf(rs.getString("ruolo").toUpperCase()));
-                        utenti.add(utente);
-                    }
+
+    @Override
+    public List<Richiesta> getAllRichiesteTecnico() throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+            try (ResultSet rs = sAllRichiesteLibere.executeQuery()) {
+                while (rs.next()) {
+                    richieste.add(getRichiesta(rs.getInt("id")));
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException ex) {
-            throw new DataException("Errore nel recupero degli utenti", ex);
-        }
-
-        return utenti;
+        return richieste;
     }
 
     public boolean isCodiceUnico(String codice) throws DataException {
