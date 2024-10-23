@@ -16,6 +16,7 @@
             <th>Nome Ordinante</th>
             <th>Tecnico incaricato</th>
             <th>Stato Richiesta</th>
+            <th>Data</th>
             <th>Azioni</th>
         </tr>
         </thead>
@@ -33,6 +34,8 @@
                     </#if>
                 </td>
                 <td>${richiesta.stato}</td>
+                <td>${richiesta.created_at}</td>
+<#--                <td>${richiesta.created_at?string("dd MMM yyyy HH:mm")}</td>-->
                 <td class="">
                     <form method="GET" action="/ordinante/lista-richieste/dettagli-richiesta" class="flex justify-center">
                         <input type="hidden" name="action" value="modifica">

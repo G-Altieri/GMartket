@@ -13,10 +13,13 @@ import it.univaq.gmarket.framework.data.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCaratteristicaDAO {
 
-    private PreparedStatement sRichiestaCaratteristicaByID, sCaratteristicheByRichiesta, sRichiesteByCaratteristica, iRichiestaCaratteristica, uRichiestaCaratteristica;
+    private PreparedStatement sRichiestaCaratteristicaByID, sRichiesteCaratteristicheByRichiesta,
+            sRichiesteByCaratteristica, iRichiestaCaratteristica, uRichiestaCaratteristica;
 
 
     /**
@@ -39,7 +42,7 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
         try {
             super.init();
             sRichiestaCaratteristicaByID = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE ID = ?");
-            sCaratteristicheByRichiesta = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE id_richiesta = ?");
+            sRichiesteCaratteristicheByRichiesta = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE id_richiesta = ?");
             sRichiesteByCaratteristica = connection.prepareStatement("SELECT * FROM richiesta_caratteristica WHERE id_caratteristica = ?");
             iRichiestaCaratteristica = connection.prepareStatement("INSERT INTO richiesta_caratteristica (id_richiesta, id_caratteristica, valore) VALUES(?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             uRichiestaCaratteristica = connection.prepareStatement("UPDATE richiesta_caratteristica SET id_richiesta=?, id_caratteristica=?, valore=?, version=? WHERE ID=? AND version=?");
@@ -57,11 +60,11 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
     @Override
     public void destroy() throws DataException {
         try {
-                sRichiestaCaratteristicaByID.close();
-                sCaratteristicheByRichiesta.close();
-                sRichiesteByCaratteristica.close();
-                iRichiestaCaratteristica.close();
-                uRichiestaCaratteristica.close();
+            sRichiestaCaratteristicaByID.close();
+            sRichiesteCaratteristicheByRichiesta.close();
+            sRichiesteByCaratteristica.close();
+            iRichiestaCaratteristica.close();
+            uRichiestaCaratteristica.close();
         } catch (SQLException ex) {
             throw new DataException("Error while closing resources in RichiestaCaratteristicaDAO_SQL", ex);
         } finally {
@@ -89,7 +92,7 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
      * @throws DataException se si verifica un errore durante la creazione
      */
     private RichiestaCaratteristicaProxy createRichiestaCaratteristica(ResultSet rs) throws DataException {
-        try{
+        try {
             RichiestaCaratteristicaProxy cr = (RichiestaCaratteristicaProxy) createRichiestaCaratteristica();
             cr.setKey(rs.getInt("id"));
             RichiestaDAO richiestaDAO = (RichiestaDAO) dataLayer.getDAO(Richiesta.class);
@@ -119,9 +122,9 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
                 uRichiestaCaratteristica.setLong(4, versione);
                 uRichiestaCaratteristica.setInt(5, richiestaCaratteristica.getKey());
                 uRichiestaCaratteristica.setLong(6, oldVersion);
-                if(uRichiestaCaratteristica.executeUpdate() == 0){
+                if (uRichiestaCaratteristica.executeUpdate() == 0) {
                     throw new OptimisticLockException(richiestaCaratteristica);
-                }else {
+                } else {
                     richiestaCaratteristica.setVersion(versione);
                 }
             } else {//INSERT
@@ -145,5 +148,53 @@ public class RichiestaCaratteristicaDAO_SQL extends DAO implements RichiestaCara
             throw new DataException("Unable to store RichiestaCaratteristica", ex);
         }
     }
+
+    /**
+     * Recupera una richiesta dato il suo ID.
+     *
+     * @param richiestaCaratteristica_key l'ID della richiesta
+     * @return la richiesta corrispondente all'ID
+     * @throws DataException se si verifica un errore durante il recupero
+     */
+    @Override
+    public RichiestaCaratteristica getRichiestaCaratteristica(int richiestaCaratteristica_key) throws DataException {
+        RichiestaCaratteristica richiestaCaratteristica = null;
+        if (dataLayer.getCache().has(RichiestaCaratteristica.class, richiestaCaratteristica_key)) {
+            richiestaCaratteristica = dataLayer.getCache().get(RichiestaCaratteristica.class, richiestaCaratteristica_key);
+        } else {
+            try {
+                sRichiestaCaratteristicaByID.setInt(1, richiestaCaratteristica_key);
+                try (ResultSet rs = sRichiestaCaratteristicaByID.executeQuery()) {
+                    if (rs.next()) {
+                        richiestaCaratteristica = createRichiestaCaratteristica(rs);
+                        dataLayer.getCache().add(RichiestaCaratteristica.class, richiestaCaratteristica);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load Richiesta by ID", ex);
+            }
+        }
+        return richiestaCaratteristica;
+    }
+
+
+    @Override
+    public List<RichiestaCaratteristica> getRichiesteCaratteristicaByRichiesta(Integer key) throws DataException {
+        List<RichiestaCaratteristica> richiestaCaratteristica = new ArrayList<>();
+        try {
+            sRichiesteCaratteristicheByRichiesta.setInt(1, key);
+            try (ResultSet rs = sRichiesteCaratteristicheByRichiesta.executeQuery()) {
+                while (rs.next()) {
+                    richiestaCaratteristica.add(getRichiestaCaratteristica(rs.getInt("id")));
+                }
+            }
+        } catch (SQLException | DataException ex) {
+            throw new DataException("Unable to load Richieste by Ordinante", ex);
+        }
+
+        return richiestaCaratteristica;
+    }
+
+
 
 }

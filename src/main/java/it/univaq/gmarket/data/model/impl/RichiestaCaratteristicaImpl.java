@@ -51,5 +51,17 @@ public class RichiestaCaratteristicaImpl extends DataItemImpl<Integer> implement
     public void setValore(String valore) {
         this.valore = valore;
     }
+
+    @Override
+    public String toString() {
+        return "RichiestaCaratteristicaImpl{" +
+                "id=" + id +
+                ", richiesta=" + (richiesta != null ? richiesta.toString() : "null") +
+                ", caratteristica=" + (caratteristica != null ? caratteristica.toString() : "null") +
+                ", valore='" + valore + '\'' +
+                '}';
+    }
+
+
 }
 
