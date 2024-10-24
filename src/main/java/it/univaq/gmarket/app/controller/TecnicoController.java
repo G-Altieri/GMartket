@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TecnicoController extends AppBaseController {
@@ -71,10 +72,22 @@ public class TecnicoController extends AppBaseController {
 
     private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(key);
+        List<Proposta> proposte = new ArrayList<>();
 
+        PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
+        for(Richiesta richiesta: richieste){
+            List<Proposta> tempProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
+            if(tempProposte.isEmpty()){
+                proposte.add(null);
+            }else{
+                proposte.add(tempProposte.get(0));
+            }
+        }
         request.setAttribute("richieste", richieste);
-        request.setAttribute("navbarTitle", "Lista delle tue Richieste");
+        request.setAttribute("proposte", proposte);
+        request.setAttribute("navbarTitle", "Listari delle tue Richieste");
         TemplateResult res = new TemplateResult(getServletContext());
+
 
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
     }

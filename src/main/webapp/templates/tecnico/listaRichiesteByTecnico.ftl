@@ -20,9 +20,9 @@
                 <th>#</th>
                 <th>Codice</th>
                 <th>Nome Ordinante</th>
-                <th>Categoria </th>
+                <th>Categoria</th>
                 <th>Stato Richiesta</th>
-                <th>Azioni</th>
+                <th>Stato Ultima Proposta</th>
             </tr>
             </thead>
             <tbody>
@@ -42,12 +42,18 @@
                         <#if richiesta.stato == 'SPEDITO'>bg-TviolaChiaro</#if>">
                         ${richiesta.stato}
                     </td>
-                    <td class="">
-                        <form method="GET" action="/tecnico/dettagli-richiesta" class="flex justify-center">
-                            <input type="hidden" name="keyRichiesta" value="${richiesta.key}">
-                            <button type="submit" class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli Richiesta</button>
-                        </form>
-                    </td>
+                    <td class="font-semibold
+                        <#if proposte[richiesta_index]?has_content>
+                            <#if proposte[richiesta_index].statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'ACCETTATO'>bg-TverdeChiaro</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'RIFIUTATO'>bg-TrossoChiaro</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'SPEDITO'>bg-TviolaChiaro</#if>
+                        <#else>
+
+                        </#if>">
+                        <#if proposte[richiesta_index]?has_content>                        ${proposte[richiesta_index].statoProposta}     <#else>
+                            Nessuna Proposta
+                        </#if>      </td>
                 </tr>
             </#list>
             </tbody>
