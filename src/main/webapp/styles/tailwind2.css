@@ -1138,10 +1138,6 @@ video {
   padding-top: 2rem;
 }
 
-.pl-16 {
-  padding-left: 4rem;
-}
-
 .text-left {
   text-align: left;
 }
@@ -1554,6 +1550,26 @@ li.active .icon path {
   /* Arrotonda l'angolo in alto a destra */
 }
 
+.bg-TgialloChiaro {
+  background-color: #FFF9C4;
+  /* Giallo chiaro e delicato */
+}
+
+.bg-TverdeChiaro {
+  background-color: #DCEDC8;
+  /* Verde chiaro simile a pastello */
+}
+
+.bg-TrossoChiaro {
+  background-color: #FFCDD2;
+  /* Rosso chiaro e delicato */
+}
+
+.bg-TviolaChiaro {
+  background-color: #d5bee7;
+  /* Viola chiaro e pastello */
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -1684,3 +1700,4 @@ li.active .icon path {
     padding: 1rem;
   }
 }
+
