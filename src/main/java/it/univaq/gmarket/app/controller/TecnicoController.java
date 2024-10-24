@@ -71,9 +71,11 @@ public class TecnicoController extends AppBaseController {
 
     private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(key);
+
         request.setAttribute("richieste", richieste);
         request.setAttribute("navbarTitle", "Lista delle tue Richieste");
         TemplateResult res = new TemplateResult(getServletContext());
+
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
     }
 

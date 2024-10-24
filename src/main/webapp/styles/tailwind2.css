@@ -799,6 +799,10 @@ video {
   height: 100%;
 }
 
+.h-9 {
+  height: 2.25rem;
+}
+
 .min-h-\[240px\] {
   min-height: 240px;
 }
@@ -835,6 +839,10 @@ video {
   width: 100%;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .max-w-4xl {
   max-width: 56rem;
 }
@@ -857,6 +865,14 @@ video {
 
 .max-w-xl {
   max-width: 36rem;
+}
+
+.max-w-\[200px\] {
+  max-width: 200px;
+}
+
+.max-w-\[300px\] {
+  max-width: 300px;
 }
 
 .flex-1 {
@@ -929,6 +945,10 @@ video {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.justify-items-center {
+  justify-items: center;
 }
 
 .gap-2 {
@@ -1085,6 +1105,10 @@ video {
 
 .bg-no-repeat {
   background-repeat: no-repeat;
+}
+
+.fill-bluScuro {
+  fill: #323954;
 }
 
 .p-0 {
@@ -1307,6 +1331,10 @@ video {
 
 .duration-300 {
   transition-duration: 300ms;
+}
+
+.duration-100 {
+  transition-duration: 100ms;
 }
 
 .ease-in {
@@ -1612,6 +1640,20 @@ li.active .icon path {
   /* Viola chiaro e pastello */
 }
 
+/* Stile per evidenziare la riga al passaggio del mouse */
+
+.hover-row {
+  cursor: pointer;
+  /* Cambia il cursore in una mano quando il mouse è sopra */
+  transition: background-color 0.3s ease;
+  /* Animazione fluida */
+}
+
+.hover-row:hover {
+  background-color: #fff4b5;
+  /* Colore di evidenziazione quando si passa sopra */
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -1637,9 +1679,18 @@ li.active .icon path {
   background-color: rgb(161 98 7 / var(--tw-bg-opacity));
 }
 
+.hover\:fill-primario:hover {
+  fill: #3E53A0;
+}
+
 .hover\:text-red-500:hover {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.hover\:text-bluScuro:hover {
+  --tw-text-opacity: 1;
+  color: rgb(50 57 84 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-buttonBoxHover:hover {
@@ -1708,6 +1759,10 @@ li.active .icon path {
     width: 20rem;
   }
 
+  .md\:grid-flow-col {
+    grid-auto-flow: column;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1742,4 +1797,3 @@ li.active .icon path {
     padding: 1rem;
   }
 }
-

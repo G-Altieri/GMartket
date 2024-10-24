@@ -51,6 +51,10 @@
     <!--        <servlet-class>it.univaq.gmarket.app.controller.HomeServlet</servlet-class>-->
     <!--    </servlet>-->
     <servlet>
+        <servlet-name>Generale</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.GeneralController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.LoginController</servlet-class>
     </servlet>
@@ -235,9 +239,11 @@
     <servlet-mapping>
         <servlet-name>Ordine</servlet-name>
         <url-pattern>/tecnico/lista-ordini</url-pattern>
-
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>Generale</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
 
     <!--Index-->
     <welcome-file-list>

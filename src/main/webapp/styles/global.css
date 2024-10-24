@@ -268,3 +268,16 @@ li.active .icon path {
     background-color: #d5bee7; /* Viola chiaro e pastello */
 }
 
+/* Stile per evidenziare la riga al passaggio del mouse */
+.hover-row {
+    cursor: pointer; /* Cambia il cursore in una mano quando il mouse è sopra */
+    transition: background-color 0.3s ease; /* Animazione fluida */
+}
+
+.hover-row:hover {
+    background-color: #fff4b5; /* Colore di evidenziazione quando si passa sopra */
+}
+
+.w-richiesteLibere{
+    width: 3.2rem;
+}
