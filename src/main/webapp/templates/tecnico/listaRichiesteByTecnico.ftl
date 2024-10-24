@@ -28,8 +28,7 @@
                     <td>${richiesta.stato}</td>
                     <td class="">
                         <form method="GET" action="/tecnico/dettagli-richiesta" class="flex justify-center">
-                            <input type="hidden" name="action" value="modifica">
-                            <input type="hidden" name="key" value="${richiesta.key}">
+                            <input type="hidden" name="keyRichiesta" value="${richiesta.key}">
                             <button type="submit" class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli Richiesta</button>
                         </form>
                     </td>

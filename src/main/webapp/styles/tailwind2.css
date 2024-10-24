@@ -1159,6 +1159,10 @@ video {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -1177,6 +1181,11 @@ video {
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .text-xl {
@@ -1528,7 +1537,7 @@ li.active .icon path {
 .search-bar {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
+  /*margin-bottom: 20px;*/
   font-size: 16px;
 }
 

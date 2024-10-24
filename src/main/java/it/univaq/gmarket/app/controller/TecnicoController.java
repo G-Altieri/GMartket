@@ -35,17 +35,17 @@ public class TecnicoController extends AppBaseController {
             Utente u = SecurityHelpers.getUserSession(request, response);
 
             if (path.endsWith("/lista-richieste")) {
-
                 action_getAllRichiesteTecnico(request, response);
-            } else if (path.endsWith("/lista-richiesteProprie")) {
-
-                assert u != null;
+            } else if (path.endsWith("/lista-richiesteProprie") && u != null) {
                 action_getAllRichiesteByTecnico(request, response, u.getKey());
             } else if (path.endsWith("/dettagli-richiesta")) {
                 TemplateResult result = new TemplateResult(getServletContext());
-                request.setAttribute("navbarTitle", "Dettagli Richiesta");
-                int richiestaId = Integer.parseInt(request.getParameter("key"));
+                int richiestaId = SecurityHelpers.checkNumeric(request.getParameter("keyRichiesta"));
                 action_getDettagliRichiestaTec(request, response, richiestaId);
+            } else if (path.endsWith("/dettagli-proposta")) {
+                TemplateResult result = new TemplateResult(getServletContext());
+                int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
+                action_getDettagliPropostaTec(request, response, propostaId);
             } else {
                 TemplateResult result = new TemplateResult(getServletContext());
                 request.setAttribute("navbarTitle", "Dashboard Tecnico");
@@ -70,8 +70,6 @@ public class TecnicoController extends AppBaseController {
     }
 
     private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
-
-
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(key);
         request.setAttribute("richieste", richieste);
         request.setAttribute("navbarTitle", "Lista delle tue Richieste");
@@ -120,5 +118,22 @@ public class TecnicoController extends AppBaseController {
 
     }
 
+    private void action_getDettagliPropostaTec(HttpServletRequest request, HttpServletResponse response, int propostaId)
+            throws IOException, ServletException, TemplateManagerException, DataException {
+
+        Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(propostaId);
+
+        if (proposta == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Proposta non trovata");
+            return;
+        }
+
+        request.setAttribute("proposta", proposta);
+        request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+
+        TemplateResult res = new TemplateResult(getServletContext());
+        res.activate("/tecnico/dettagliProposta.ftl", request, response);
+
+    }
 
 }
