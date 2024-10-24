@@ -775,6 +775,14 @@ video {
   height: 0.25rem;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -1059,6 +1067,11 @@ video {
 .bg-verde {
   --tw-bg-opacity: 1;
   background-color: rgb(67 160 71 / var(--tw-bg-opacity));
+}
+
+.bg-viola {
+  --tw-bg-opacity: 1;
+  background-color: rgb(138 71 160 / var(--tw-bg-opacity));
 }
 
 .bg-white {
@@ -1384,16 +1397,36 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-track {
   background: var(--sb-track-color);
-  border-radius: 1px;
+  border-radius: 5px;
 }
 
 body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
-  border-radius: 1px;
+  border-radius: 5px;
 }
 
 @supports not selector(::-webkit-scrollbar) {
   body {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+main::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+main::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 5px;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 5px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  main {
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }

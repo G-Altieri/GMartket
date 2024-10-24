@@ -18,22 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class GestioneOrdine extends AppBaseController{
+public class GestioneOrdine extends AppBaseController {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            Ruolo[] allowedRoles = { Ruolo.TECNICO, Ruolo.ORDINANTE };
+
+            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
             Utente u = SecurityHelpers.getUserSession(request, response);
 
-            String path = request.getRequestURI();
-//N CAMBIA ACTION
-            if (path.endsWith("/robadiGiova")) {
+            String action = request.getParameter("action");
 
-                int keyRichiesta = Integer.parseInt(request.getParameter("keyRichiesta"));
-                actionOrdine(request, response, keyRichiesta);
+            if (action != null && action.equals("spedizioneOrdine")) {
+                int keyRichiesta = SecurityHelpers.checkNumeric(request.getParameter("keyRichiesta"));
+                actionSpedisciOrdine(request, response, keyRichiesta);
             } else {
 
             }
@@ -45,7 +45,8 @@ public class GestioneOrdine extends AppBaseController{
         }
 
     }
-    private void actionOrdine(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
+
+    private void actionSpedisciOrdine(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
 
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(key);
 
@@ -59,9 +60,8 @@ public class GestioneOrdine extends AppBaseController{
         proposta.setStatoOrdine(StatoOrdine.IN_ATTESA);
         propostaDAO.storeProposta(proposta);
 
-        response.sendRedirect("Giova pensaci tu ti prego");
+        response.sendRedirect("/tecnico");
     }
-
 
 
 }

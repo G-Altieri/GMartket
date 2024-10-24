@@ -27,7 +27,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             super.init();
             sProposteByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? ORDER BY created_at DESC");
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE id = ?");
-            sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETATO'");
+            sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETTATO'");
             iProposta = connection.prepareStatement("INSERT INTO proposta (codice_proposta, id_richiesta, nome_produttore, nome_prodotto, prezzo, link, note, stato, motivazione, created_at,  stato_ordine, data_ordine, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ? AND version=?");
         } catch (SQLException ex) {
@@ -261,6 +261,8 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         }
 
         try {
+            System.out.println("Ci arrivo");
+            System.out.println(richiesta.getKey());
             // Prepara e imposta il parametro per la query
             sPropostaAccettataByRichiesta.setInt(1, richiesta.getKey());
 

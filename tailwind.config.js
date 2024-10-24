@@ -15,6 +15,7 @@ module.exports = {
                 griggioChiaro: '#ECEEF0',
                 griggioScuro: '#CCD4DE',
                 giallino: '#FEFFE5',
+                viola:'#8A47A0'
             },
             boxShadow: {
                 buttonBox: '0px 2px 8px 0px rgba(0, 0, 0, 0.37)',

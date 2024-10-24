@@ -22,12 +22,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class TecnicoController  extends AppBaseController {
+public class TecnicoController extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
 
-            Ruolo[] allowedRoles = { Ruolo.TECNICO };
+            Ruolo[] allowedRoles = {Ruolo.TECNICO};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
@@ -37,18 +37,16 @@ public class TecnicoController  extends AppBaseController {
             if (path.endsWith("/lista-richieste")) {
 
                 action_getAllRichiesteTecnico(request, response);
-            } else if  (path.endsWith("/lista-richiesteProprie")) {
+            } else if (path.endsWith("/lista-richiesteProprie")) {
 
                 assert u != null;
                 action_getAllRichiesteByTecnico(request, response, u.getKey());
-            }
-            else if (path.endsWith("/dettagli-richiesta")) {
+            } else if (path.endsWith("/dettagli-richiesta")) {
                 TemplateResult result = new TemplateResult(getServletContext());
                 request.setAttribute("navbarTitle", "Dettagli Richiesta");
                 int richiestaId = Integer.parseInt(request.getParameter("key"));
                 action_getDettagliRichiestaTec(request, response, richiestaId);
-            }
-            else {
+            } else {
                 TemplateResult result = new TemplateResult(getServletContext());
                 request.setAttribute("navbarTitle", "Dashboard Tecnico");
                 result.activate("/tecnico/dashboardTecnico.ftl", request, response);
@@ -98,11 +96,11 @@ public class TecnicoController  extends AppBaseController {
 
 
         request.setAttribute("caratteristicheList", caratteristicheList);
-        request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #" + richiesta.getCodice());
 
 
         request.setAttribute("caratteristicheList", caratteristicheList);
-        request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #" + richiesta.getCodice());
 
         //Proposte
 
@@ -110,11 +108,9 @@ public class TecnicoController  extends AppBaseController {
         List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
 
         if (listProposte != null && !listProposte.isEmpty()) {
-            if (listProposte.get(0).getStatoProposta() == StatoProposta.IN_SOSPESO) {
-                request.setAttribute("isPrimoInSospeso", "true");
-            }
+            request.setAttribute("ultimaProposta", listProposte.get(0).getStatoProposta());
         } else {
-            request.setAttribute("isPrimoInSospeso", "false");
+            request.setAttribute("ultimaProposta", "");
         }
 
         request.setAttribute("listProposte", listProposte);
