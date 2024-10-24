@@ -105,17 +105,23 @@ public class TecnicoController  extends AppBaseController {
         request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
 
         //Proposte
+
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
         List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
 
-        if (listProposte.get(0).getStatoProposta() == StatoProposta.IN_SOSPESO) {
-            request.setAttribute("isPrimoInSospeso", "true");
+        if (listProposte != null && !listProposte.isEmpty()) {
+            if (listProposte.get(0).getStatoProposta() == StatoProposta.IN_SOSPESO) {
+                request.setAttribute("isPrimoInSospeso", "true");
+            }
+        } else {
+            request.setAttribute("isPrimoInSospeso", "false");
         }
 
         request.setAttribute("listProposte", listProposte);
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);
+
     }
 
 

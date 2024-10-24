@@ -2,16 +2,11 @@ package it.univaq.gmarket.data.dao.impl;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.PropostaDAO;
-import it.univaq.gmarket.data.dao.RichiestaDAO;
-import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
-import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.StatoOrdine;
 import it.univaq.gmarket.data.model.impl.StatoProposta;
-import it.univaq.gmarket.data.model.impl.StatoRichiesta;
 import it.univaq.gmarket.data.model.impl.proxy.PropostaProxy;
-import it.univaq.gmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.gmarket.framework.data.*;
 
 import java.sql.*;
@@ -20,7 +15,7 @@ import java.util.List;
 
 public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
-    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID;
+    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID, sPropostaAccettataByRichiesta;
 
     public PropostaDAO_SQL(DataLayer d) {
         super(d);
@@ -32,9 +27,8 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             super.init();
             sProposteByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? ORDER BY created_at DESC");
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE id = ?");
-
+            sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETATO'");
             iProposta = connection.prepareStatement("INSERT INTO proposta (codice_proposta, id_richiesta, nome_produttore, nome_prodotto, prezzo, link, note, stato, motivazione, created_at,  stato_ordine, data_ordine, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing RichiestaOrdine data layer", ex);
@@ -50,6 +44,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             iProposta.close();
             sPropostaByID.close();
             uProposta.close();
+            sPropostaAccettataByRichiesta.close();
         } catch (SQLException ex) {
 
         }
@@ -229,6 +224,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         }
     }
 
+
     @Override
     public List<Proposta> getAllProposteByRichiesta(Richiesta richiesta) throws DataException {
         List<Proposta> proposte = new ArrayList<>();
@@ -255,6 +251,34 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
         return proposte;
     }
+
+    @Override
+    public Proposta getPropostaAccettataByRichiesta(Richiesta richiesta) throws DataException {
+
+
+        if (richiesta == null || richiesta.getKey() <= 0) {
+            throw new DataException("Invalid richiesta ID");
+        }
+
+        try {
+            // Prepara e imposta il parametro per la query
+            sPropostaAccettataByRichiesta.setInt(1, richiesta.getKey());
+
+            // Esegue la query
+            try (ResultSet rs = sPropostaAccettataByRichiesta.executeQuery()) {
+                while (rs.next()) {
+                    // Aggiungi la proposta alla lista recuperandola tramite l'ID
+                    return getProposta((rs.getInt("id")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataException("Unable to load Proposte for Richiesta", e);
+        }
+
+        return null;
+
+    }
+
 
     public boolean isCodiceUnico(String codice) throws DataException {
         try {

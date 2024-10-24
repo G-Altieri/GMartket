@@ -81,7 +81,7 @@
                       fill="#323954"/>
             </svg>
 
-            <p><strong>Note:</strong> <span class="text-bluScuro">${richiesta.getNote()}</span></p>
+            <p><strong>Note:</strong> <span class="text-bluScuro">${richiesta.getNote()?default("Nessuna nota")}</span></p>
         </div>
 
         <div class="text-bluScuro flex items-center flex-row gap-2 text-xl ">

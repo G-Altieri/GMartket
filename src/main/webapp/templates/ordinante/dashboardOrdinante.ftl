@@ -25,5 +25,9 @@
             <div class="text-3xl font-semibold text-bluScuro ">Le mie Richieste</div>
             <img src="/images/icons/dashboardAdmin/vectorCategorie.svg" alt="vectorAdmin" class="w-full max-w-[220px] h-auto -mb-4">
         </a>
+        <a href="/ordinante/lista-ordini" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
+            <div class="text-3xl font-semibold text-bluScuro ">I miei Ordini</div>
+            <img src="/images/icons/dashboardAdmin/vectorCategorie.svg" alt="vectorAdmin" class="w-full max-w-[220px] h-auto -mb-4">
+        </a>
     </div>
 </div>

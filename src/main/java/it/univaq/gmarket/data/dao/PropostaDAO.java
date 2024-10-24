@@ -18,5 +18,9 @@ public interface PropostaDAO {
     List<Proposta> getAllProposteByRichiesta(Richiesta richiesta) throws DataException;
 
 
+    Proposta getPropostaAccettataByRichiesta(Richiesta richiesta) throws DataException;
+
     boolean isCodiceUnico(String codice) throws DataException;
+
+
 }
