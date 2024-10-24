@@ -212,7 +212,10 @@
         <url-pattern>/tecnico/dettagli-richiesta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
+        <servlet-name>Tecnico</servlet-name>
+        <url-pattern>/tecnico/dettagli-proposta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>GestioneRichiesta</servlet-name>
         <url-pattern>/tecnico/presa-in-carico</url-pattern>
     </servlet-mapping>
