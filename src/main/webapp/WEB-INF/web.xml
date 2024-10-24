@@ -113,6 +113,10 @@
         <servlet-name>GestioneOrdine</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.GestioneOrdine</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Ordine</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.OrdineController</servlet-class>
+    </servlet>
 
     <!-- Mapping della servlet a un URL -->
     <!--    <servlet-mapping>-->
@@ -221,8 +225,14 @@
         <url-pattern>/tecnico/creazioneProposta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+
         <servlet-name>GestioneOrdine</servlet-name>
         <url-pattern>/tecnico/invioSpedizione</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Ordine</servlet-name>
+        <url-pattern>/tecnico/lista-ordini</url-pattern>
+
     </servlet-mapping>
 
 

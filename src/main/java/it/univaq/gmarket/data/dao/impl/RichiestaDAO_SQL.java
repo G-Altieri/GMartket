@@ -5,10 +5,7 @@ import it.univaq.gmarket.data.dao.RichiestaDAO;
 import it.univaq.gmarket.data.model.Categoria;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
-import it.univaq.gmarket.data.model.impl.RichiestaImpl;
-import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.data.model.impl.StatoRichiesta;
-import it.univaq.gmarket.data.model.impl.UtenteImpl;
 import it.univaq.gmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.gmarket.framework.data.*;
 
@@ -18,7 +15,7 @@ import java.util.List;
 
 public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
 
-        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, uRichiesta, iRichiesta;
+        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, uRichiesta, iRichiesta;
 
         public RichiestaDAO_SQL(AppDataLayer data) {
             super(data);
@@ -34,6 +31,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY created_at DESC");
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'IN_ATTESA' ORDER BY created_at DESC");
+                sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'COMPLETATO' AND stato = 'SPEDITO' ORDER BY created_at DESC");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?, created_at=?, id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 
@@ -50,6 +48,10 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiestaByID.close();
                 sRichiesteByOrdinante.close();
                 sRichiesteByTecnico.close();
+                sAllRichiesteLibere.close();
+                sRichiesteByCompletatoSpedite.close();
+                iRichiesta.close();
+                uRichiesta.close();
             } catch (SQLException ex) {
 
             }
@@ -242,6 +244,19 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
             throw new DataException("Unable to load Richieste by Tecnico", ex);
         }
 
+        return richieste;
+    }
+
+    @Override
+    public List<Richiesta> getRichiesteByCompletatoSpedite() throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try (ResultSet rs = sRichiesteByCompletatoSpedite.executeQuery()) {
+            while (rs.next()) {
+                richieste.add(getRichiesta(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return richieste;
     }
 
