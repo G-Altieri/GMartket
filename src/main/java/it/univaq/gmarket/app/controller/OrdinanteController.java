@@ -42,13 +42,10 @@ public class OrdinanteController extends AppBaseController {
                 int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
                 action_getDettagliPropostaOrd(request, response, propostaId);
             } else {
-
-
                 TemplateResult result = new TemplateResult(getServletContext());
                 request.setAttribute("navbarTitle", "Dashboard Ordinante");
                 result.activate("/ordinante/dashboardOrdinante.ftl", request, response);
             }
-
         } catch (TemplateManagerException ex) {
             handleError(ex, request, response);
         } catch (IOException | DataException e) {

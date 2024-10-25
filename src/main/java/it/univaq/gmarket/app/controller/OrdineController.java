@@ -31,11 +31,10 @@ public class OrdineController extends AppBaseController {
             Utente u = SecurityHelpers.getUserSession(request, response);
 
             String path = request.getRequestURI();
-            System.out.println("entra qua in Request");
+
             if (path.endsWith("tecnico/lista-ordini")) {
                 action_getOrdiniTec(request, response);
             } else if (path.endsWith("ordinante/lista-ordini")) {
-
                 action_getOrdiniOrd(request, response, u);
             } else {
 
@@ -57,11 +56,8 @@ public class OrdineController extends AppBaseController {
 
         List<Richiesta> listRichieste1 = richiestaDAO.getRichiesteByCompletatoSpedite();
         List<Proposta> listProposte1 = new ArrayList<>();
-        System.out.println("LIST RICHIESTE ORDINE");
-        System.out.println(listRichieste1);
 
         for (Richiesta richiesta : listRichieste1) {
-            System.out.println("id richiesta "+richiesta.getKey());
             Proposta propostaTemp = propostaDAO.getPropostaSpeditaByRichiesta(richiesta);
             if (propostaTemp != null)
                 listProposte1.add(propostaTemp);
@@ -81,8 +77,7 @@ public class OrdineController extends AppBaseController {
             if (propostaTemp != null)
                 listProposte2.add(propostaTemp);
         }
-        System.out.println("Proposta 2");
-        System.out.println(listProposte2);
+
         request.setAttribute("listProposte1", listProposte1);
         request.setAttribute("listProposte2", listProposte2);
 
@@ -96,18 +91,24 @@ public class OrdineController extends AppBaseController {
     private void action_getOrdiniOrd(HttpServletRequest request, HttpServletResponse response, Utente u) throws IOException, ServletException, TemplateManagerException, DataException {
 
 
-
         RichiestaDAO richiestaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO();
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
 
 
         List<Richiesta> listRichieste1 = richiestaDAO.getRichiesteByCompletatoSpediteByOrdinante(u.getKey());
-
         List<Proposta> listProposte1 = new ArrayList<>();
 
-        System.out.println(listRichieste1);
+
         for (Richiesta richiesta : listRichieste1) {
-            listProposte1.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
+            Proposta propostaTemp = propostaDAO.getPropostaSpeditaByRichiesta(richiesta);
+            if (propostaTemp != null)
+                listProposte1.add(propostaTemp);
+        }
+
+        for (Richiesta richiesta : listRichieste1) {
+            Proposta propostaTemp = propostaDAO.getPropostaContrassegnatoByRichiesta(richiesta);
+            if (propostaTemp != null)
+                listProposte1.add(propostaTemp);
         }
 
         List<Richiesta> listRichieste2 = richiestaDAO.getRichiesteByAssegnatoByOrdinante(u.getKey());
@@ -118,7 +119,7 @@ public class OrdineController extends AppBaseController {
         }
 
         request.setAttribute("listProposte1", listProposte1);
-        request.setAttribute("listProposte2", listProposte2);
+     //   request.setAttribute("listProposte2", listProposte2);
 
         request.setAttribute("navbarTitle", "Lista Ordini");
         TemplateResult res = new TemplateResult(getServletContext());
