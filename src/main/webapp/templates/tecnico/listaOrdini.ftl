@@ -92,6 +92,7 @@
                 <tr class="bg-trTable">
                     <th>#</th>
                     <th>Codice Proposta</th>
+                    <th>Nome Ordinante</th>
                     <th>Nome Prodotto</th>
                     <th>Nome Produttore</th>
                     <th>Prezzo</th>
@@ -105,6 +106,7 @@
                         onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">
                         <td class="index-column"></td>
                         <td>#${proposta.codiceProposta}</td>
+                        <td>${proposta.richiesta.ordinante.nome} ${proposta.richiesta.ordinante.cognome}</td>
                         <td>${proposta.nomeProduttore}</td>
                         <td>${proposta.nomeProdotto}</td>
                         <td>${proposta.prezzo}€</td>

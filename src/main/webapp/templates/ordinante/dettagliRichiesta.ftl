@@ -233,7 +233,7 @@
                             ${proposta.statoProposta}
                         </td>
 
-                        <td class="    <#if proposta.statoProposta == "IN_SOSPESO"> bg-TrossoChiaro</#if>">
+                        <td class="    <#if proposta.statoProposta == "IN_SOSPESO"> bg-TgialloChiaro</#if> <#if proposta.statoProposta == "SPEDITO"> bg-TgialloChiaro</#if>">
                             <#if proposta.statoProposta == "IN_SOSPESO">
                                 <p class=" font-semibold mx-auto">Da Valutare</p>
                             <#elseif proposta.statoProposta == "ACCETTATO">
@@ -242,7 +242,7 @@
                                 <p class=" font-medium mx-auto">Motivazione:
                                     <strong>${proposta.motivazione?if_exists!""}</strong></p>
                             <#elseif proposta.statoProposta == "SPEDITO">
-                                <p class=" font-medium mx-auto">Accettato</p>
+                                <p class=" font-medium mx-auto">Da Contrasegnare</p>
                             </#if>
                         </td>
                     </tr>

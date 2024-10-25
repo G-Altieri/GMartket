@@ -6,10 +6,7 @@ import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
-import it.univaq.gmarket.data.model.impl.PropostaImpl;
-import it.univaq.gmarket.data.model.impl.Ruolo;
-import it.univaq.gmarket.data.model.impl.StatoProposta;
-import it.univaq.gmarket.data.model.impl.StatoRichiesta;
+import it.univaq.gmarket.data.model.impl.*;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
@@ -40,9 +37,13 @@ public class GestioneProposta extends AppBaseController {
             if (action != null && action.equals("inserisciRichiesta")) {
                 inserimentoProposta(request, response, u);
             } else if (action != null && action.equals("modProposta")) {
-                int keyProposta =SecurityHelpers.checkNumeric(request.getParameter("key"));
+                int keyProposta = SecurityHelpers.checkNumeric(request.getParameter("key"));
                 String valoreMod = request.getParameter("valoreMod");
                 action_modificaProposta(request, response, keyProposta, valoreMod);
+            } else if (action != null && action.equals("contrasegnaProposta")) {
+                int keyProposta = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
+                String valoreMod = request.getParameter("statoValutazione");
+                action_contrasegnaProposta(request, response, keyProposta, valoreMod);
             } else {
                 renderPaginaCreazioneProposta(request, response, u);
             }
@@ -89,13 +90,12 @@ public class GestioneProposta extends AppBaseController {
     private void action_modificaProposta(HttpServletRequest request, HttpServletResponse response, int key, String valoreMod) throws DataException, IOException {
 
 
-        if(valoreMod != null && valoreMod.equals("accetta") ) {
+        if (valoreMod != null && valoreMod.equals("accetta")) {
             Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(key);
             proposta.setStatoProposta(StatoProposta.ACCETTATO);
             ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
             response.sendRedirect("/ordinante/lista-richieste");
-        }
-        else {
+        } else {
             Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(key);
             proposta.setStatoProposta(StatoProposta.RIFIUTATO);
             String moti = request.getParameter("motivazione");
@@ -104,5 +104,32 @@ public class GestioneProposta extends AppBaseController {
             response.sendRedirect("/ordinante/lista-richieste");
 
         }
+    }
+
+    private void action_contrasegnaProposta(HttpServletRequest request, HttpServletResponse response, int keyProposta, String valoreMod) throws DataException, IOException {
+        Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(keyProposta);
+
+        switch (valoreMod) {
+            case "ACCETTATO":
+                proposta.setStatoOrdine(StatoOrdine.ACCETTATO);
+                break;
+            case "RESPINTO_NONFUNZIONANTE":
+                proposta.setStatoOrdine(StatoOrdine.RESPINTO_NONFUNZIONANTE);
+                break;
+            case "RESPINTO_NONCONFORME":
+                proposta.setStatoOrdine(StatoOrdine.RESPINTO_NONCONFORME);
+                break;
+        }
+
+        //Salvo Proposta
+         ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
+
+        //Aggiorno la richiesta
+        Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(proposta.getRichiesta().getKey());
+        richiesta.setStato(StatoRichiesta.COMPLETATO);
+        ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().storeRichiesta(richiesta);
+
+        response.sendRedirect("/ordinante/lista-richieste");
+
     }
 }

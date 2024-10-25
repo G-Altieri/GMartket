@@ -13,10 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
             cancelButtonText: 'Annulla',
             preConfirm: () => {
                 const motivazione = Swal.getPopup().querySelector('#motivazioneRifiuto').value;
-                if (!motivazione) {
-                    Swal.showValidationMessage('Per favore, inserisci una motivazione.');
-                    return false;
-                }
+                // if (!motivazione) {
+                //     Swal.showValidationMessage('Per favore, inserisci una motivazione.');
+                //     return false;
+                // }
                 return motivazione;
             }
         }).then((result) => {
