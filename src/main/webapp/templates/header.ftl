@@ -62,7 +62,7 @@
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                       d="M10.7515 5.3076L10.3588 6.03745C10.2973 6.14159 10.1778 6.20135 10.0651 6.13989L7.07061 4.38994C6.92805 4.30714 6.90671 4.13727 6.97159 3.99641L7.30109 3.33228L10.7515 5.3076Z"/>
                             </svg>
-                            <div class="w-full text-2xl font-semibold hidden md:block">Categoria</div>
+                            <div class="w-full text-2xl font-semibold hidden md:block">Categorie</div>
                         </a>
                     </li>
                 </ul>

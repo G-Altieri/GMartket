@@ -63,7 +63,7 @@ public class UtentiController extends AppBaseController {
 
             // Imposta gli utenti come attributo nella request
             request.setAttribute("utenti", utenti);
-            request.setAttribute("navbarTitle", "Gestione Utenti");
+            request.setAttribute("navbarTitle", "Gestione Utente");
 
             // Attiva il template
             result.activate("/admin/utenti/utentiAggiungi.ftl", request, response);

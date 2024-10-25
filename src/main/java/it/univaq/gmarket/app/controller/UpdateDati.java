@@ -26,7 +26,7 @@ public class UpdateDati extends AppBaseController {
         request.setAttribute("utente", u);  // Aggiungi questa riga
         String ruolo = u.getRuolo().toString();
         request.setAttribute("ruolo", ruolo);
-        request.setAttribute("page_title", "Modifica Utente");
+        request.setAttribute("navbarTitle", "Gestione Utente ");
         request.setAttribute("user_type", u.getRuolo().toString());
         res.activate("/admin/utenti/utenteModifica.ftl", request, response);
     }
