@@ -65,7 +65,7 @@ public class TecnicoController extends AppBaseController {
 
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteTecnico();
         request.setAttribute("richieste", richieste);
-        request.setAttribute("navbarTitle", "Lista di tutte le Richieste");
+        request.setAttribute("navbarTitle", "Tutte le richieste libere");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaRichieste.ftl", request, response);
     }
@@ -85,7 +85,7 @@ public class TecnicoController extends AppBaseController {
         }
         request.setAttribute("richieste", richieste);
         request.setAttribute("proposte", proposte);
-        request.setAttribute("navbarTitle", "Lista delle tue Richieste");
+        request.setAttribute("navbarTitle", "Tutte le mie Richieste");
         TemplateResult res = new TemplateResult(getServletContext());
 
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
@@ -143,7 +143,11 @@ public class TecnicoController extends AppBaseController {
         }
 
         request.setAttribute("proposta", proposta);
-        request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+        if( proposta.getStatoOrdine() == null){
+            request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+        }else{
+            request.setAttribute("navbarTitle", "Dettaglio Ordine #" + proposta.getCodiceProposta());
+        }
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliProposta.ftl", request, response);

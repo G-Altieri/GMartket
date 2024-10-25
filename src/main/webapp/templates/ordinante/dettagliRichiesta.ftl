@@ -83,7 +83,12 @@
                     </clipPath>
                 </defs>
             </svg>
-            <p><strong>Stato della Richiesta:</strong> <span class="text-bluScuro">${richiesta.getStato()}</span></p>
+            <p><strong>Stato della Richiesta:</strong> <span class="text-bluScuro font-semibold px-3 py-2 rounded-full
+                        <#if richiesta.getStato() == 'ASSEGNATO'>bg-TgialloChiaro</#if>
+                        <#if richiesta.getStato() == 'COMPLETATO'>bg-TverdeChiaro</#if>
+                        <#if richiesta.getStato() == 'IN_ATTESA'>bg-TrossoChiaro</#if>
+                        <#if richiesta.getStato() == 'SPEDITO'>bg-TviolaChiaro</#if>">
+                    ${richiesta.getStato()}</span></p>
         </div>
 
         <div class="text-bluScuro flex items-center flex-row gap-2 text-xl ">
@@ -182,6 +187,8 @@
                     <p class="bg-TverdeChiaro font-semibold px-3 py-2 rounded-full">In attesa di Spedizione</p>
                 <#elseif ultimaProposta?exists &&  ultimaProposta == "RIFIUTATO">
                     <p class="bg-TrossoChiaro font-semibold px-3 py-2 rounded-full">In attesa di una nuova Proposta</p>
+                <#elseif ultimaProposta?exists &&  ultimaProposta == "CONTRASSEGNATO">
+                    <p class="bg-TverdeChiaro font-semibold px-3 py-2 rounded-full">Ordine Completato</p>
                 <#elseif ultimaProposta?exists &&  ultimaProposta == "SPEDITO">
                     <p class="bg-TviolaChiaro font-semibold px-3 py-2 rounded-full">Spedito</p>
                 <#else >
@@ -229,11 +236,13 @@
                         <#if proposta.statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro</#if>
                         <#if proposta.statoProposta == 'ACCETTATO'>bg-TverdeChiaro</#if>
                         <#if proposta.statoProposta == 'RIFIUTATO'>bg-TrossoChiaro</#if>
-                        <#if proposta.statoProposta == 'SPEDITO'>bg-TviolaChiaro</#if>">
+                        <#if proposta.statoProposta == 'SPEDITO'>bg-TviolaChiaro</#if>
+                       <#if proposta.statoProposta == 'CONTRASSEGNATO'>bg-TverdeChiaro</#if>">
                             ${proposta.statoProposta}
                         </td>
 
-                        <td class="    <#if proposta.statoProposta == "IN_SOSPESO"> bg-TgialloChiaro</#if> <#if proposta.statoProposta == "SPEDITO"> bg-TgialloChiaro</#if>">
+                        <td class="    <#if proposta.statoProposta == "IN_SOSPESO"> bg-TgialloChiaro</#if>
+                            <#if proposta.statoProposta == "SPEDITO"> bg-TgialloChiaro</#if> ">
                             <#if proposta.statoProposta == "IN_SOSPESO">
                                 <p class=" font-semibold mx-auto">Da Valutare</p>
                             <#elseif proposta.statoProposta == "ACCETTATO">
@@ -243,6 +252,8 @@
                                     <strong>${proposta.motivazione?if_exists!""}</strong></p>
                             <#elseif proposta.statoProposta == "SPEDITO">
                                 <p class=" font-medium mx-auto">Da Contrasegnare</p>
+                            <#elseif proposta.statoProposta == "CONTRASSEGNATO">
+                                <p class=" font-medium mx-auto">Ordine Completato</p>
                             </#if>
                         </td>
                     </tr>

@@ -2,7 +2,7 @@
 <script type="module" src="/scripts/table.js"></script>
 
 
-<div class=" mt-6">
+<div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
     <p class="text-bluScuro text-sm text-right w-full mb-2">• Per i dettagli selezionare un rigo</p>
     <div class="flex flex-row items-center gap-2 mb-4">
         <svg class="w-8 h-8" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,10 @@
                         <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
                             <input type="hidden" name="action" value="inCarico">
                             <input type="hidden" name="key" value="${richiesta.key}">
-                            <button type="submit" class="rounded-full font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHove bg-verde hover:bg-green-700 mx-auto">Prendi in Carico</button>
+                            <button type="submit"
+                                    class="rounded-full font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHove bg-verde hover:bg-green-700 mx-auto">
+                                Prendi in Carico
+                            </button>
                         </form>
                     </td>
                 </tr>

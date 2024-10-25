@@ -20,6 +20,8 @@ public interface PropostaDAO {
 
     Proposta getPropostaSpeditaByRichiesta(Richiesta richiesta) throws DataException;
 
+    Proposta getPropostaContrassegnatoByRichiesta(Richiesta richiesta) throws DataException;
+
     Proposta getPropostaAccettataByRichiesta(Richiesta richiesta) throws DataException;
 
     boolean isCodiceUnico(String codice) throws DataException;

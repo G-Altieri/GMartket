@@ -83,7 +83,12 @@
                     </clipPath>
                 </defs>
             </svg>
-            <p><strong>Stato della Richiesta:</strong> <span class="text-bluScuro">${richiesta.getStato()}</span></p>
+            <p><strong>Stato della Richiesta:</strong> <span class="text-bluScuro font-semibold px-3 py-2 rounded-full
+                        <#if richiesta.getStato() == 'ASSEGNATO'>bg-TgialloChiaro</#if>
+                        <#if richiesta.getStato() == 'COMPLETATO'>bg-TverdeChiaro</#if>
+                        <#if richiesta.getStato() == 'IN_ATTESA'>bg-TrossoChiaro</#if>
+                        <#if richiesta.getStato() == 'SPEDITO'>bg-TviolaChiaro</#if>">
+                    ${richiesta.getStato()}</span></p>
         </div>
 
         <div class="text-bluScuro flex items-center flex-row gap-2 text-xl ">
@@ -164,7 +169,10 @@
         <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
             <input type="hidden" name="action" value="inCarico">
             <input type="hidden" name="key" value="${richiesta.key}">
-            <button type="submit" class="rounded-full text-white font-semibold px-4 py-2 bg-verde hover:bg-green-700 font-medium mx-auto shadow-buttonBox hover:shadow-buttonBoxHover">Prendi in Carico</button>
+            <button type="submit"
+                    class="rounded-full text-white font-semibold px-4 py-2 bg-verde hover:bg-green-700 font-medium mx-auto shadow-buttonBox hover:shadow-buttonBoxHover">
+                Prendi in Carico
+            </button>
         </form>
     </#if>
 </div>
@@ -201,6 +209,8 @@
                         una nuova Proposta</a>
                 <#elseif ultimaProposta?exists &&  ultimaProposta == "SPEDITO">
                     <p class="bg-TviolaChiaro font-semibold px-3 py-2 rounded-full">Ordine Spedito</p>
+                <#elseif ultimaProposta?exists &&  ultimaProposta == "CONTRASSEGNATO">
+                    <p class="bg-TverdeChiaro font-semibold px-3 py-2 rounded-full">Ordine Completato</p>
                 <#else >
                     <a href="/tecnico/creazioneProposta?idRichiesta=${richiesta.key}"
                        class="rounded-full bg-verde font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">
@@ -247,6 +257,7 @@
                         <td class="font-semibold
                         <#if proposta.statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro</#if>
                         <#if proposta.statoProposta == 'ACCETTATO'>bg-TverdeChiaro</#if>
+                        <#if proposta.statoProposta == 'CONTRASSEGNATO'>bg-TverdeChiaro</#if>
                         <#if proposta.statoProposta == 'RIFIUTATO'>bg-TrossoChiaro</#if>
                         <#if proposta.statoProposta == 'SPEDITO'>bg-TviolaChiaro</#if>">
                             ${proposta.statoProposta}
@@ -262,6 +273,8 @@
                                     <strong>${proposta.motivazione?if_exists!""}</strong></p>
                             <#elseif proposta.statoProposta == "SPEDITO">
                                 <p class=" font-medium mx-auto">Proposta accettata e ordine Spedito</p>
+                            <#elseif proposta.statoProposta == "CONTRASSEGNATO">
+                                <p class=" font-medium mx-auto">Ordine Completato</p>
                             </#if>
                         </td>
                     </tr>

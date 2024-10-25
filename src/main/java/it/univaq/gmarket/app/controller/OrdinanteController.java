@@ -66,7 +66,12 @@ public class OrdinanteController extends AppBaseController {
         }
 
         request.setAttribute("proposta", proposta);
-        request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+        if( proposta.getStatoOrdine() == null){
+            request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+        }else{
+            request.setAttribute("navbarTitle", "Dettaglio Ordine #" + proposta.getCodiceProposta());
+        }
+
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/dettagliProposta.ftl", request, response);

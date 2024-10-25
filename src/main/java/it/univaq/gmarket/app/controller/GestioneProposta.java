@@ -121,6 +121,8 @@ public class GestioneProposta extends AppBaseController {
                 break;
         }
 
+        proposta.setStatoProposta(StatoProposta.CONTRASSEGNATO);
+
         //Salvo Proposta
          ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
 

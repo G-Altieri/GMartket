@@ -8,6 +8,7 @@ public enum StatoProposta {
 
     IN_SOSPESO,
 
-    SPEDITO
+    SPEDITO,
+    CONTRASSEGNATO
 
 }

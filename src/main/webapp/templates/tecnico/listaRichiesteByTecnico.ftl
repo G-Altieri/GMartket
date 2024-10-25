@@ -2,7 +2,7 @@
 <script type="module" src="/scripts/table.js"></script>
 
 <#--<div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">-->
-<div class="mt-6">
+<div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
     <p class="text-bluScuro text-sm text-right w-full mb-2">• Per i dettagli selezionare un rigo</p>
     <div class="flex flex-row items-center gap-2 mb-4">
         <svg class="w-8 h-8" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +50,7 @@
                         <#if proposte[richiesta_index]?has_content>
                             <#if proposte[richiesta_index].statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro2</#if>
                             <#if proposte[richiesta_index].statoProposta == 'ACCETTATO'>bg-TverdeChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'CONTRASSEGNATO'>bg-TverdeChiaro2</#if>
                             <#if proposte[richiesta_index].statoProposta == 'RIFIUTATO'>bg-TrossoChiaro2</#if>
                             <#if proposte[richiesta_index].statoProposta == 'SPEDITO'>bg-TviolaChiaro2</#if>
                         <#else>

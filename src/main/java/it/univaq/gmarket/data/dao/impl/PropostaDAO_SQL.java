@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
-    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID, sPropostaAccettataByRichiesta, sPropostaSpeditaByRichiesta, sProposteByAccettate;
+    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID, sPropostaAccettataByRichiesta, sPropostaSpeditaByRichiesta,sPropostaContrassegnataByRichiesta, sProposteByAccettate;
 
     public PropostaDAO_SQL(DataLayer d) {
         super(d);
@@ -29,6 +29,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE id = ?");
             sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETTATO' ");
             sPropostaSpeditaByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'SPEDITO' ");
+            sPropostaContrassegnataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'CONTRASSEGNATO' ");
             iProposta = connection.prepareStatement("INSERT INTO proposta (codice_proposta, id_richiesta, nome_produttore, nome_prodotto, prezzo, link, note, stato, motivazione, created_at,  stato_ordine, data_ordine, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ? AND version=?");
         } catch (SQLException ex) {
@@ -46,6 +47,7 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             uProposta.close();
             sPropostaAccettataByRichiesta.close();
             sPropostaSpeditaByRichiesta.close();
+            sPropostaContrassegnataByRichiesta.close();
         } catch (SQLException ex) {
 
         }
@@ -267,6 +269,33 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
             // Esegue la query
             try (ResultSet rs = sPropostaSpeditaByRichiesta.executeQuery()) {
+                while (rs.next()) {
+                    // Aggiungi la proposta alla lista recuperandola tramite l'ID
+
+                    return getProposta((rs.getInt("id")));
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new DataException("Unable to load Proposta Spedita for Richiesta", e);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Proposta getPropostaContrassegnatoByRichiesta(Richiesta richiesta) throws DataException {
+        Proposta proposta;
+
+        if (richiesta == null || richiesta.getKey() <= 0) {
+            throw new DataException("Invalid richiesta ID");
+        }
+        try {
+            // Prepara e imposta il parametro per la query
+            sPropostaContrassegnataByRichiesta.setInt(1, richiesta.getKey());
+
+            // Esegue la query
+            try (ResultSet rs = sPropostaContrassegnataByRichiesta.executeQuery()) {
                 while (rs.next()) {
                     // Aggiungi la proposta alla lista recuperandola tramite l'ID
 

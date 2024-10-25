@@ -33,8 +33,6 @@ public class OrdineController extends AppBaseController {
             String path = request.getRequestURI();
             System.out.println("entra qua in Request");
             if (path.endsWith("tecnico/lista-ordini")) {
-
-
                 action_getOrdiniTec(request, response);
             } else if (path.endsWith("ordinante/lista-ordini")) {
 
@@ -61,8 +59,15 @@ public class OrdineController extends AppBaseController {
         List<Proposta> listProposte1 = new ArrayList<>();
         System.out.println("LIST RICHIESTE ORDINE");
         System.out.println(listRichieste1);
+
         for (Richiesta richiesta : listRichieste1) {
+            System.out.println("id richiesta "+richiesta.getKey());
             Proposta propostaTemp = propostaDAO.getPropostaSpeditaByRichiesta(richiesta);
+            if (propostaTemp != null)
+                listProposte1.add(propostaTemp);
+        }
+        for (Richiesta richiesta : listRichieste1) {
+            Proposta propostaTemp = propostaDAO.getPropostaContrassegnatoByRichiesta(richiesta);
             if (propostaTemp != null)
                 listProposte1.add(propostaTemp);
         }
