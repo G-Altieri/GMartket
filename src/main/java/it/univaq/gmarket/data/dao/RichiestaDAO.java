@@ -24,6 +24,8 @@ public interface RichiestaDAO {
 
         List<Richiesta> getRichiesteByCompletatoSpedite() throws DataException;
 
+        List<Richiesta> getRichiesteByAssegnato() throws DataException;
+
         List<Richiesta> getAllRichiesteTecnico() throws DataException;
         List<Richiesta> getAllRichiesteByTecnico(int key) throws DataException;
 }

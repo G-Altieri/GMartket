@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
 
-        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, uRichiesta, iRichiesta;
+        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, sRichiesteByAssegnate, uRichiesta, iRichiesta;
 
         public RichiestaDAO_SQL(AppDataLayer data) {
             super(data);
@@ -32,6 +32,8 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('IN_ATTESA') ORDER BY created_at DESC");
                 sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') ORDER BY created_at DESC;");
+                sRichiesteByAssegnate = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO'");
+
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?, created_at=?, id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 
@@ -260,7 +262,18 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         return richieste;
     }
 
-
+    @Override
+    public List<Richiesta> getRichiesteByAssegnato() throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try (ResultSet rs = sRichiesteByAssegnate.executeQuery()) {
+            while (rs.next()) {
+                richieste.add(getRichiesta(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return richieste;
+    }
 
     @Override
     public List<Richiesta> getAllRichiesteTecnico() throws DataException {

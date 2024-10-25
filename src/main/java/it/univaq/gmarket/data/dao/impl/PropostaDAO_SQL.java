@@ -15,7 +15,7 @@ import java.util.List;
 
 public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
-    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID, sPropostaAccettataByRichiesta, sPropostaSpeditaByRichiesta;
+    private PreparedStatement iProposta, sProposteByRichiesta, uProposta, sPropostaByID, sPropostaAccettataByRichiesta, sPropostaSpeditaByRichiesta, sProposteByAccettate;
 
     public PropostaDAO_SQL(DataLayer d) {
         super(d);
@@ -269,8 +269,10 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
             try (ResultSet rs = sPropostaSpeditaByRichiesta.executeQuery()) {
                 while (rs.next()) {
                     // Aggiungi la proposta alla lista recuperandola tramite l'ID
+
                     return getProposta((rs.getInt("id")));
                 }
+
             }
         } catch (SQLException e) {
             throw new DataException("Unable to load Proposta Spedita for Richiesta", e);

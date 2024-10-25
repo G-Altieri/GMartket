@@ -35,7 +35,7 @@ public class OrdineController extends AppBaseController{
             if (path.endsWith("/lista-ordini")) {
                 System.out.println("entratoa nche nel path");
 
-                action_getOrdiniCompletati(request, response);
+                action_getOrdini(request, response);
             } else {
 
             }
@@ -48,36 +48,37 @@ public class OrdineController extends AppBaseController{
 
     }
 
-    private void action_getOrdiniCompletati(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
+    private void action_getOrdini(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
 
 
         RichiestaDAO richiestaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO();
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
 
-        List<Richiesta> listRichieste = richiestaDAO.getRichiesteByCompletatoSpedite();
-        List<Proposta> listProposte = new ArrayList<>();
+        List<Richiesta> listRichieste1 = richiestaDAO.getRichiesteByCompletatoSpedite();
+        List<Proposta> listProposte1 = new ArrayList<>();
         System.out.println("LIST RICHIESTE ORDINE");
-        System.out.println(listRichieste);
-        for (Richiesta richiesta : listRichieste) {
-            listProposte.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
+        System.out.println(listRichieste1);
+        for (Richiesta richiesta : listRichieste1) {
+            listProposte1.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
         }
-        System.out.println("LIST PROPOSTE ORDINE");
-        System.out.println(listProposte);
-        request.setAttribute("listProposte", listProposte);
+
+        List<Richiesta> listRichieste2 = richiestaDAO.getRichiesteByAssegnato();
+
+        List<Proposta> listProposte2 = new ArrayList<>();
+
+        for (Richiesta richiesta : listRichieste2) {
+            listProposte2.add(propostaDAO.getPropostaAccettataByRichiesta(richiesta));
+        }
+
+        request.setAttribute("listProposte1", listProposte1);
+        request.setAttribute("listProposte2", listProposte2);
 
         request.setAttribute("navbarTitle", "Lista Ordini");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaOrdini.ftl", request, response);
-        /*
-        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteOrdinante(key);
-        request.setAttribute("richieste", richieste);
-        request.setAttribute("codice", richieste);
-        request.setAttribute("navbarTitle", "Lista Richieste Effettuate");
-        TemplateResult res = new TemplateResult(getServletContext());
-        res.activate("/ordinante/listaRichieste.ftl", request, response);
 
-         */
     }
+    
 
 }
 
