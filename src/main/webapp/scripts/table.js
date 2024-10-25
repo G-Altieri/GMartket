@@ -2,7 +2,7 @@ $(document).ready(function () {
     // Funzione per aggiornare l'ID incrementale e colorare righe alternate
     function updateRowIndices() {
         var index = 1;
-        $("#userTable tbody tr:visible").each(function () {
+        $("#userTable tbody tr:visible, #userTable2 tbody tr:visible").each(function () {
             $(this).find(".index-column").text(index);  // Aggiorniamo l'ID incrementale
 
             // Rimuoviamo le classi di colore esistenti
@@ -20,7 +20,7 @@ $(document).ready(function () {
     }
 
     // Funzione per la ricerca
-    $("#searchInput").on("keyup", function () {
+    $("#searchInput, #searchInput2").on("keyup", function () {
         var value = $(this).val().toLowerCase(); // Prendiamo il valore di input in lowercase
         $("#userTable tbody tr").filter(function () {
             // Mostriamo o nascondiamo le righe in base al testo cercato
