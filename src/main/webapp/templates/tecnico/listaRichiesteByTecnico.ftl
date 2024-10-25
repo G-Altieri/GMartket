@@ -22,6 +22,7 @@
                 <th>Nome Ordinante</th>
                 <th>Categoria</th>
                 <th>Stato Richiesta</th>
+                <th>Data</th>
                 <th>Stato Ultima Proposta</th>
             </tr>
             </thead>
@@ -42,18 +43,23 @@
                         <#if richiesta.stato == 'SPEDITO'>bg-TviolaChiaro</#if>">
                         ${richiesta.stato}
                     </td>
+                    <td>
+                        ${richiesta.created_at}
+                    </td>
                     <td class="font-semibold
                         <#if proposte[richiesta_index]?has_content>
-                            <#if proposte[richiesta_index].statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro</#if>
-                            <#if proposte[richiesta_index].statoProposta == 'ACCETTATO'>bg-TverdeChiaro</#if>
-                            <#if proposte[richiesta_index].statoProposta == 'RIFIUTATO'>bg-TrossoChiaro</#if>
-                            <#if proposte[richiesta_index].statoProposta == 'SPEDITO'>bg-TviolaChiaro</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'ACCETTATO'>bg-TverdeChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'RIFIUTATO'>bg-TrossoChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'SPEDITO'>bg-TviolaChiaro2</#if>
                         <#else>
-
                         </#if>">
-                        <#if proposte[richiesta_index]?has_content>                        ${proposte[richiesta_index].statoProposta}     <#else>
+                        <#if proposte[richiesta_index]?has_content>
+                            ${proposte[richiesta_index].statoProposta}
+                        <#else>
                             Nessuna Proposta
-                        </#if>      </td>
+                        </#if>
+                    </td>
                 </tr>
             </#list>
             </tbody>

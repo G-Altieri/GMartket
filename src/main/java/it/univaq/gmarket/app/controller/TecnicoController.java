@@ -85,9 +85,8 @@ public class TecnicoController extends AppBaseController {
         }
         request.setAttribute("richieste", richieste);
         request.setAttribute("proposte", proposte);
-        request.setAttribute("navbarTitle", "Listari delle tue Richieste");
+        request.setAttribute("navbarTitle", "Lista delle tue Richieste");
         TemplateResult res = new TemplateResult(getServletContext());
-
 
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
     }

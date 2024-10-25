@@ -56,11 +56,13 @@ public class OrdineController extends AppBaseController{
 
         List<Richiesta> listRichieste = richiestaDAO.getRichiesteByCompletatoSpedite();
         List<Proposta> listProposte = new ArrayList<>();
-
+        System.out.println("LIST RICHIESTE ORDINE");
+        System.out.println(listRichieste);
         for (Richiesta richiesta : listRichieste) {
             listProposte.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
         }
-
+        System.out.println("LIST PROPOSTE ORDINE");
+        System.out.println(listProposte);
         request.setAttribute("listProposte", listProposte);
 
         request.setAttribute("navbarTitle", "Lista Ordini");

@@ -30,8 +30,8 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ?");
                 sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY created_at DESC");
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
-                sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'IN_ATTESA' ORDER BY created_at DESC");
-                sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'COMPLETATO' AND stato = 'SPEDITO' ORDER BY created_at DESC");
+                sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('IN_ATTESA') ORDER BY created_at DESC");
+                sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') ORDER BY created_at DESC;");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?, created_at=?, id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 

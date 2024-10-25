@@ -37,7 +37,6 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
     }
 
 
-
     @Override
     public void destroy() throws DataException {
         try {
@@ -268,15 +267,16 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
 
             // Esegue la query
             try (ResultSet rs = sPropostaSpeditaByRichiesta.executeQuery()) {
+                while (rs.next()) {
                     // Aggiungi la proposta alla lista recuperandola tramite l'ID
-                    proposta = getProposta(rs.getInt("id"));
-
+                    return getProposta((rs.getInt("id")));
+                }
             }
         } catch (SQLException e) {
             throw new DataException("Unable to load Proposta Spedita for Richiesta", e);
         }
 
-        return proposta;
+        return null;
     }
 
 
@@ -326,7 +326,6 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         }
         return false;
     }
-
 
 
 }

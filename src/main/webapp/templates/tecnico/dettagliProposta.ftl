@@ -70,7 +70,7 @@
                       fill="#323954"/>
             </svg>
 
-            <p><strong>Link:</strong> <span class="text-bluScuro"><a href="${proposta.link}" target="_blank"
+            <p><strong>Link:</strong> <span class="text-bluScuro"><a href="http://${proposta.link}" target="_blank"
                                                                      class="text-primario font-medium hover:text-bluScuro">Vai alla Sito</a></span>
             </p>
         </div>
