@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
 
-        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, sRichiesteByAssegnate, uRichiesta, iRichiesta;
+        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, sRichiesteByAssegnate, sRichiesteByCompletatoSpediteByOrdinante, sRichiesteByAssegnateByOrdinante, uRichiesta, iRichiesta;
 
         public RichiestaDAO_SQL(AppDataLayer data) {
             super(data);
@@ -32,8 +32,9 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('IN_ATTESA') ORDER BY created_at DESC");
                 sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') ORDER BY created_at DESC;");
-                sRichiesteByAssegnate = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO'");
-
+                sRichiesteByAssegnate = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO' ORDER BY created_at DESC;");
+                sRichiesteByCompletatoSpediteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') AND id_ordinante = ? ORDER BY created_at DESC;");
+                sRichiesteByAssegnateByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO' AND id_ordinante = ? ORDER BY created_at DESC;");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?,  id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 
@@ -52,6 +53,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByTecnico.close();
                 sAllRichiesteLibere.close();
                 sRichiesteByCompletatoSpedite.close();
+                sRichiesteByCompletatoSpediteByOrdinante.close();
                 iRichiesta.close();
                 uRichiesta.close();
             } catch (SQLException ex) {
@@ -263,8 +265,30 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
     }
 
     @Override
+    public List<Richiesta> getRichiesteByCompletatoSpediteByOrdinante(int utente_key) throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try {
+            sRichiesteByCompletatoSpediteByOrdinante.setInt(1, utente_key);
+            try (ResultSet rs = sRichiesteByCompletatoSpediteByOrdinante.executeQuery()) {
+                while (rs.next()) {
+                    richieste.add(getRichiesta(rs.getInt("id")));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+            catch (SQLException ex) {
+                throw new DataException("Unable to load Richieste by Ordinante", ex);
+            }
+
+        return richieste;
+    }
+
+
+    @Override
     public List<Richiesta> getRichiesteByAssegnato() throws DataException {
         List<Richiesta> richieste = new ArrayList<>();
+
         try (ResultSet rs = sRichiesteByAssegnate.executeQuery()) {
             while (rs.next()) {
                 richieste.add(getRichiesta(rs.getInt("id")));
@@ -274,6 +298,26 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         }
         return richieste;
     }
+
+    @Override
+    public List<Richiesta> getRichiesteByAssegnatoByOrdinante(int utente_key) throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try {
+            sRichiesteByAssegnateByOrdinante.setInt(1, utente_key);
+            try (ResultSet rs = sRichiesteByAssegnateByOrdinante.executeQuery()) {
+            while (rs.next()) {
+                richieste.add(getRichiesta(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    catch (SQLException ex) {
+        throw new DataException("Unable to load Richieste by Ordinante", ex);
+    }
+        return richieste;
+    }
+
 
     @Override
     public List<Richiesta> getAllRichiesteTecnico() throws DataException {

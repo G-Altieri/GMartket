@@ -32,10 +32,13 @@ public class OrdineController extends AppBaseController {
 
             String path = request.getRequestURI();
             System.out.println("entra qua in Request");
-            if (path.endsWith("/lista-ordini")) {
-                System.out.println("entratoa nche nel path");
+            if (path.endsWith("tecnico/lista-ordini")) {
 
-                action_getOrdini(request, response);
+
+                action_getOrdiniTec(request, response);
+            } else if (path.endsWith("ordinante/lista-ordini")) {
+
+                action_getOrdiniOrd(request, response, u);
             } else {
 
             }
@@ -48,7 +51,7 @@ public class OrdineController extends AppBaseController {
 
     }
 
-    private void action_getOrdini(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
+    private void action_getOrdiniTec(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
 
 
         RichiestaDAO richiestaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO();
@@ -81,6 +84,40 @@ public class OrdineController extends AppBaseController {
         request.setAttribute("navbarTitle", "Lista Ordini");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaOrdini.ftl", request, response);
+
+    }
+
+
+    private void action_getOrdiniOrd(HttpServletRequest request, HttpServletResponse response, Utente u) throws IOException, ServletException, TemplateManagerException, DataException {
+
+
+
+        RichiestaDAO richiestaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO();
+        PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
+
+
+        List<Richiesta> listRichieste1 = richiestaDAO.getRichiesteByCompletatoSpediteByOrdinante(u.getKey());
+
+        List<Proposta> listProposte1 = new ArrayList<>();
+
+        System.out.println(listRichieste1);
+        for (Richiesta richiesta : listRichieste1) {
+            listProposte1.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
+        }
+
+        List<Richiesta> listRichieste2 = richiestaDAO.getRichiesteByAssegnatoByOrdinante(u.getKey());
+        List<Proposta> listProposte2 = new ArrayList<>();
+
+        for (Richiesta richiesta : listRichieste2) {
+            listProposte2.add(propostaDAO.getPropostaAccettataByRichiesta(richiesta));
+        }
+
+        request.setAttribute("listProposte1", listProposte1);
+        request.setAttribute("listProposte2", listProposte2);
+
+        request.setAttribute("navbarTitle", "Lista Ordini");
+        TemplateResult res = new TemplateResult(getServletContext());
+        res.activate("/ordinante/listaOrdini.ftl", request, response);
 
     }
 

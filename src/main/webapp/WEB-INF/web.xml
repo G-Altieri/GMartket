@@ -104,6 +104,7 @@
     </servlet>
 
 
+
     <!--    Tecnico-->
     <servlet>
         <servlet-name>Tecnico</servlet-name>
@@ -204,7 +205,10 @@
         <servlet-name>GestioneProposta</servlet-name>
         <url-pattern>/ordinante/lista-richieste/modProposta</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>Ordine</servlet-name>
+        <url-pattern>/ordinante/lista-ordini</url-pattern>
+    </servlet-mapping>
 
     <!--    Tecnico-->
     <servlet-mapping>
@@ -236,7 +240,6 @@
         <url-pattern>/tecnico/creazioneProposta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>GestioneOrdine</servlet-name>
         <url-pattern>/tecnico/invioSpedizione</url-pattern>
     </servlet-mapping>
