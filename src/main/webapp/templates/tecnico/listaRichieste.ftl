@@ -20,7 +20,7 @@
                 <th>#</th>
                 <th>Codice</th>
                 <th>Nome Ordinante</th>
-                <th>Tecnico incaricato</th>
+                <th>Categoria</th>
                 <th>Data</th>
                 <th>Prendi in Carico</th>
             </tr>
@@ -33,18 +33,14 @@
                     <td>#${richiesta.codice}</td>
                     <td>${richiesta.ordinante.nome}</td>
                     <td>
-                        <#if richiesta.tecnico??>
-                            ${richiesta.tecnico.nome}
-                        <#else>
-                            Non assegnato
-                        </#if>
+                        ${ richiesta.categoria.nome}
                     </td>
                     <td>${richiesta.created_at}</td>
                     <td class="">
                         <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
                             <input type="hidden" name="action" value="inCarico">
                             <input type="hidden" name="key" value="${richiesta.key}">
-                            <button type="submit" class="edit-button bg-verde hover:bg-green-700 font-medium mx-auto">Prendi in Carico</button>
+                            <button type="submit" class="rounded-full font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHove bg-verde hover:bg-green-700 mx-auto">Prendi in Carico</button>
                         </form>
                     </td>
                 </tr>

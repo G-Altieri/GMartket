@@ -231,13 +231,7 @@ li.active .icon path {
     border: 1px solid #B0BEC5; /* Bordi sottili tra le celle */
 }
 
-.edit-button {
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 
 .bg-trTable {
     background-color: #D6E6F2;

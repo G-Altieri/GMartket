@@ -194,7 +194,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Ordinante</servlet-name>
-        <url-pattern>/ordinante/lista-richieste/dettagli-richiesta</url-pattern>
+        <url-pattern>/ordinante/dettagli-richiesta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Ordinante</servlet-name>
+        <url-pattern>/ordinante/dettagli-proposta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GestioneProposta</servlet-name>

@@ -33,14 +33,15 @@ public class OrdinanteController extends AppBaseController {
             String path = request.getRequestURI();
 
             if (path.endsWith("/lista-richieste")) {
-                
                 action_getAllRichiesteOrdinante(request, response, u.getKey());
             } else if (path.endsWith("/dettagli-richiesta")) {
-
-                int richiestaId = Integer.parseInt(request.getParameter("key"));
+                int richiestaId = SecurityHelpers.checkNumeric(request.getParameter("keyRichiesta"));
                 action_getDettagliRichiesta(request, response, richiestaId);
-            }
-            else {
+            } else if (path.endsWith("/dettagli-proposta")) {
+                TemplateResult result = new TemplateResult(getServletContext());
+                int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
+                action_getDettagliPropostaOrd(request, response, propostaId);
+            } else {
 
 
                 TemplateResult result = new TemplateResult(getServletContext());
@@ -56,13 +57,28 @@ public class OrdinanteController extends AppBaseController {
 
     }
 
+    private void action_getDettagliPropostaOrd(HttpServletRequest request, HttpServletResponse response, int propostaId) throws TemplateManagerException, DataException, IOException {
+        Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(propostaId);
+
+        if (proposta == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Proposta non trovata");
+            return;
+        }
+
+        request.setAttribute("proposta", proposta);
+        request.setAttribute("navbarTitle", "Dettaglio Proposta #" + proposta.getCodiceProposta());
+
+        TemplateResult res = new TemplateResult(getServletContext());
+        res.activate("/ordinante/dettagliProposta.ftl", request, response);
+    }
+
 
     private void action_getAllRichiesteOrdinante(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
 
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteOrdinante(key);
         request.setAttribute("richieste", richieste);
         request.setAttribute("codice", richieste);
-        request.setAttribute("navbarTitle", "Lista Richieste Effettuate");
+        request.setAttribute("navbarTitle", "Le mie Richieste");
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaRichieste.ftl", request, response);
     }
@@ -80,29 +96,26 @@ public class OrdinanteController extends AppBaseController {
             return;
         }
 
+        request.setAttribute("richiesta", richiesta);
 
-        request.setAttribute("codice", richiesta.getCodice());
-        request.setAttribute("nomeOrdinante", richiesta.getOrdinante().getNome());
 
-        if (richiesta.getTecnico() != null) {
-            request.setAttribute("nomeTecnico", richiesta.getTecnico().getNome());
-        } else {
-            request.setAttribute("nomeTecnico", "Non assegnato");
-        }
-
-        request.setAttribute("note", richiesta.getNote());
-        request.setAttribute("statoRichiesta", richiesta.getStato());
-        request.setAttribute("dataCreazione", richiesta.getCreated_at());
-        request.setAttribute("categoria", richiesta.getCategoria());
         request.setAttribute("caratteristicheList", caratteristicheList);
-        request.setAttribute("navbarTitle", "Dettaglio Richiesta #"+richiesta.getCodice());
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #" + richiesta.getCodice());
 
 
+        request.setAttribute("caratteristicheList", caratteristicheList);
+        request.setAttribute("navbarTitle", "Dettaglio Richiesta #" + richiesta.getCodice());
+
+        //Proposte
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
         List<Proposta> listProposte = propostaDAO.getAllProposteByRichiesta(richiesta);
 
-        request.setAttribute("proposte", listProposte);
-
+        if (listProposte != null && !listProposte.isEmpty()) {
+            request.setAttribute("ultimaProposta", listProposte.get(0).getStatoProposta());
+        } else {
+            request.setAttribute("ultimaProposta", "");
+        }
+        request.setAttribute("listProposte", listProposte);
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/dettagliRichiesta.ftl", request, response);
     }

@@ -6,6 +6,7 @@ import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.*;
 import it.univaq.gmarket.framework.data.DataItemImpl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
@@ -17,8 +18,8 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
     private Categoria categoria;
     private String note;
     private StatoRichiesta statoRichiesta;
-    private Date created_at;
-    private Date update_at;
+    private Timestamp created_at;
+    private Timestamp update_at;
 
     @Override
     public int getId() {
@@ -89,22 +90,22 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
     }
 
     @Override
-    public Date getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
     @Override
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 
     @Override
-    public Date getUpdate_at() {
+    public Timestamp getUpdate_at() {
         return update_at;
     }
 
     @Override
-    public void setUpdate_at(Date update_at) {
+    public void setUpdate_at(Timestamp update_at) {
         this.update_at = update_at;
     }
 }

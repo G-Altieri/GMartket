@@ -1,36 +1,31 @@
 $(document).ready(function () {
-    // Funzione per aggiornare l'ID incrementale e colorare righe alternate
-    function updateRowIndices() {
-        var index = 1;
-        $("#userTable tbody tr:visible, #userTable2 tbody tr:visible").each(function () {
-            $(this).find(".index-column").text(index);  // Aggiorniamo l'ID incrementale
-
-            // Rimuoviamo le classi di colore esistenti
-            $(this).removeClass("bg-light bg-griggioScuro");
-
-            // Applichiamo colori alternati
-            if (index % 2 === 0) {
-                $(this).addClass("bg-griggioScuro");  // Colore per le righe pari
-            } else {
-                $(this).addClass("bg-light"); // Colore per le righe dispari
-            }
-
+    // Funzione generica per aggiornare gli indici e alternare i colori
+    function updateRowIndices(tableId) {
+        let index = 1;
+        $(`#${tableId} tbody tr:visible`).each(function () {
+            $(this).find(".index-column").text(index); // Aggiorna indice incrementale
+            $(this).removeClass("bg-light bg-griggioScuro"); // Rimuove i colori esistenti
+            $(this).addClass(index % 2 === 0 ? "bg-griggioScuro" : "bg-light"); // Colora righe
             index++;
         });
     }
 
-    // Funzione per la ricerca
-    $("#searchInput, #searchInput2").on("keyup", function () {
-        var value = $(this).val().toLowerCase(); // Prendiamo il valore di input in lowercase
-        $("#userTable tbody tr").filter(function () {
-            // Mostriamo o nascondiamo le righe in base al testo cercato
-            $(this).toggle(
-                $(this).text().toLowerCase().indexOf(value) > -1
-            );
+    // Funzione di ricerca associata a un campo input e una tabella specifici
+    function enableSearch(inputId, tableId) {
+        $(`#${inputId}`).on("keyup", function () {
+            let value = $(this).val().toLowerCase(); // Prende il valore del campo di ricerca
+            $(`#${tableId} tbody tr`).filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1); // Mostra/Nasconde righe
+            });
+            updateRowIndices(tableId); // Aggiorna indici e colori dopo la ricerca
         });
-        updateRowIndices(); // Aggiorniamo gli ID e i colori dopo la ricerca
-    });
+    }
 
-    // Aggiorniamo gli ID e i colori all'inizio
-    updateRowIndices();
+    // Abilita la ricerca per entrambe le tabelle
+    enableSearch("searchInput", "userTable");
+    enableSearch("searchInput2", "userTable2");
+
+    // Aggiorna indici e colori iniziali per entrambe le tabelle
+    updateRowIndices("userTable");
+    updateRowIndices("userTable2");
 });

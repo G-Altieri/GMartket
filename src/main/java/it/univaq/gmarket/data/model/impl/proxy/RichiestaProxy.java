@@ -7,6 +7,7 @@ import it.univaq.gmarket.data.model.impl.StatoRichiesta;
 import it.univaq.gmarket.framework.data.DataItemProxy;
 import it.univaq.gmarket.framework.data.DataLayer;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
@@ -60,13 +61,13 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
     }
 
     @Override
-    public void setCreated_at(Date created) {
+    public void setCreated_at(Timestamp created) {
         super.setCreated_at(created);
         this.modified = true;
     }
 
     @Override
-    public void setUpdate_at(Date update) {
+    public void setUpdate_at(Timestamp update) {
         super.setUpdate_at(update);
         this.modified = true;
     }

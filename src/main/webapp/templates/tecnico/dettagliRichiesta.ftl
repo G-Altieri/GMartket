@@ -191,7 +191,7 @@
                         <input type="hidden" name="action" value="spedizioneOrdine">
                         <input type="hidden" name="keyRichiesta" value="${richiesta.key}">
                         <button type="submit"
-                                class="rounded-full bg-viola font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">
+                                class="rounded-full bg-viola hover:bg-violet-950 font-semibold text-white text-lg px-4 py-2 shadow-buttonBox hover:shadow-buttonBoxHover">
                             Invia Ordine
                         </button>
                     </form>
@@ -242,7 +242,7 @@
                         <td>#${proposta.codiceProposta}</td>
                         <td>${proposta.nomeProduttore}</td>
                         <td>${proposta.nomeProdotto}</td>
-                        <td>${proposta.prezzo}</td>
+                        <td>${proposta.prezzo}€</td>
 
                         <td class="font-semibold
                         <#if proposta.statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro</#if>

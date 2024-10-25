@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -78,8 +79,10 @@ public class GestioneRichieste extends AppBaseController {
 
         String codice = GeneratoreCodice.generaCodiceUnivoco(((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO());
         richiesta.setCodice(codice);
+        System.out.println("ASD");
 
-        richiesta.setCreated_at(new Date());
+        richiesta.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        System.out.println(richiesta.getCreated_at());
 
         String note = request.getParameter("note");
         if (note != null && !note.isEmpty()) {

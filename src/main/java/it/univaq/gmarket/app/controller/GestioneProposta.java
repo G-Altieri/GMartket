@@ -40,7 +40,7 @@ public class GestioneProposta extends AppBaseController {
             if (action != null && action.equals("inserisciRichiesta")) {
                 inserimentoProposta(request, response, u);
             } else if (action != null && action.equals("modProposta")) {
-                int keyProposta = Integer.parseInt(request.getParameter("key"));
+                int keyProposta =SecurityHelpers.checkNumeric(request.getParameter("key"));
                 String valoreMod = request.getParameter("valoreMod");
                 action_modificaProposta(request, response, keyProposta, valoreMod);
             } else {

@@ -13,6 +13,31 @@ $(document).ready(function() {
         }
     });
 
+    // Validazione del form prima dell'invio
+    $('#formRichiesta').on('submit', function(event) {
+        let formIsValid = true;
+
+        $('.checkbox-disabilita').each(function() {
+            const inputId = $(this).data('target');
+            const input = $('#' + inputId);
+
+            // Controlla se né il checkbox né il valore del campo sono settati
+            if (!$(this).is(':checked') && !input.val().trim()) {
+                formIsValid = false;
+                return false;  // Esce dal ciclo each appena trova un campo non valido
+            }
+        });
+
+        if (!formIsValid) {
+            event.preventDefault();  // Impedisce l'invio del form
+            $('#errorMessage').removeClass('hidden');  // Mostra il messaggio di errore
+        } else {
+            $('#errorMessage').addClass('hidden');  // Nasconde il messaggio di errore se il form è valido
+        }
+    });
+
+
+
     // Variabile per memorizzare l'ID dell'ultima categoria figlia
     let ultimaCategoriaFigliaId = null;
 

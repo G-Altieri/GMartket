@@ -4,6 +4,7 @@ import it.univaq.gmarket.data.model.impl.StatoRichiesta;
 import it.univaq.gmarket.framework.data.DataItem;
 import it.univaq.gmarket.framework.data.DataItemImpl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -33,11 +34,11 @@ public interface Richiesta extends DataItem<Integer> {
     StatoRichiesta getStato();
     void setStato(StatoRichiesta statoRichiesta);
 
-    Date getCreated_at ();
-    void setCreated_at (Date created_at);
+    Timestamp getCreated_at ();
+    void setCreated_at (Timestamp created_at);
 
-    Date getUpdate_at ();
-    void setUpdate_at (Date update_at);
+    Timestamp getUpdate_at ();
+    void setUpdate_at (Timestamp update_at);
 
 
 }

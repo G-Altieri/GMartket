@@ -40,6 +40,7 @@
                 </div>
 
                 <!-- Radio Buttons Section -->
+                <h2 class="text-bluScuro text-sm bg-TgialloChiaro2 px-2 py-1 rounded-xl ">Per semplificare il login nella demo, usare valori di default e selezionare un ruolo</h2>
                 <div class="flex items-center space-x-4 flex-row justify-between">
                     <div>
                         <input type="radio" id="ordinante" name="role" value="ORDINANTE" required

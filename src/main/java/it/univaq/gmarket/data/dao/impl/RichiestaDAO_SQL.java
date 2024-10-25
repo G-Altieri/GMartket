@@ -35,7 +35,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByAssegnate = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO'");
 
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?, created_at=?, id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
+                uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?,  id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
 
 
             } catch (SQLException ex) {
@@ -78,7 +78,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 richiesta.setKey(rs.getInt("id"));
                 richiesta.setNote(rs.getString("note"));
                 richiesta.setStato(StatoRichiesta.valueOf(rs.getString("stato")));
-                richiesta.setCreated_at(rs.getDate("created_at"));
+                richiesta.setCreated_at(rs.getTimestamp("created_at"));
                 //richiesta.setUpdate_at(rs.getDate("update_at"));
                 richiesta.setCodice(rs.getString("codice"));
                 richiesta.setVersion(rs.getLong("version"));
@@ -148,17 +148,17 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                     }
                     uRichiesta.setString(1, richiesta.getNote());
                     uRichiesta.setString(2, richiesta.getStato().name());
-                    uRichiesta.setDate(3, new java.sql.Date(richiesta.getCreated_at().getTime()));
-                    uRichiesta.setInt(4, richiesta.getCategoria().getKey());
-                    uRichiesta.setInt(5, richiesta.getOrdinante().getKey());
-                    uRichiesta.setString(6, richiesta.getCodice());
-                    uRichiesta.setInt(7, richiesta.getTecnico().getKey());
+                 //   uRichiesta.setDate(3, new java.sql.Date(richiesta.getCreated_at().getTime()));
+                    uRichiesta.setInt(3, richiesta.getCategoria().getKey());
+                    uRichiesta.setInt(4, richiesta.getOrdinante().getKey());
+                    uRichiesta.setString(5, richiesta.getCodice());
+                    uRichiesta.setInt(6, richiesta.getTecnico().getKey());
 
                     long oldVersion = richiesta.getVersion();
                     long versione = oldVersion + 1;
-                    uRichiesta.setLong(8, versione);
-                    uRichiesta.setInt(9, richiesta.getKey());
-                    uRichiesta.setLong(10, oldVersion);
+                    uRichiesta.setLong(7, versione);
+                    uRichiesta.setInt(8, richiesta.getKey());
+                    uRichiesta.setLong(9, oldVersion);
                     if(uRichiesta.executeUpdate() == 0){
                         throw new OptimisticLockException(richiesta);
                     }else {
@@ -167,7 +167,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 } else {
                     iRichiesta.setString(1, richiesta.getNote());
                     iRichiesta.setString(2, richiesta.getStato().name());
-                    iRichiesta.setDate(3, new java.sql.Date(richiesta.getCreated_at().getTime()));
+                    iRichiesta.setTimestamp(3, new java.sql.Timestamp(richiesta.getCreated_at().getTime()));
                     iRichiesta.setInt(4, richiesta.getCategoria().getKey());
                     iRichiesta.setInt(5, richiesta.getOrdinante().getKey());
                  //   iRichiesta.setDate(4, new java.sql.Date(richiesta.getUpdate_at().getTime()));
