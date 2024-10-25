@@ -2,83 +2,185 @@
 <script type="module" src="/scripts/table.js"></script>
 
 
+<div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
+    <h1 class="text-primario text-2xl font-bold mb-4 text-center flex gap-2 items-center justify-center ">
+        <svg class="w-10 h-10" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.8 9.4377e-05H3.2C2.35917 -0.00638378 1.55009 0.320872 0.950208 0.910089C0.350324 1.49931 0.0086068 2.30238 0 3.14319V28.857C0.0086068 29.6978 0.350324 30.5009 0.950208 31.0901C1.55009 31.6793 2.35917 32.0066 3.2 32.0001H20.8C21.6408 32.0066 22.4499 31.6793 23.0498 31.0901C23.6497 30.5009 23.9914 29.6978 24 28.857V3.14319C23.9914 2.30238 23.6497 1.49931 23.0498 0.910089C22.4499 0.320872 21.6408 -0.00638378 20.8 9.4377e-05ZM8.2539 6.20129C8.44171 5.60205 8.77293 5.05769 9.21882 4.61548C9.66472 4.17327 10.2118 3.84657 10.8126 3.66373C11.4134 3.4809 12.0497 3.44746 12.6663 3.56632C13.283 3.68518 13.8613 3.95274 14.3511 4.34579C14.8409 4.73883 15.2273 5.24547 15.4769 5.82174C15.7265 6.398 15.8316 7.02647 15.7832 7.6526C15.7348 8.27872 15.5344 8.88357 15.1992 9.41464C14.8641 9.94572 14.4044 10.387 13.86 10.7001C13.5829 10.8557 13.3515 11.0815 13.189 11.3546C13.0265 11.6278 12.9387 11.9389 12.9342 12.2567V12.3567C12.9342 12.6219 12.8288 12.8763 12.6413 13.0638C12.4538 13.2513 12.1994 13.3567 11.9342 13.3567C11.669 13.3567 11.4146 13.2513 11.2271 13.0638C11.0396 12.8763 10.9342 12.6219 10.9342 12.3567V12.2567C10.9392 11.5878 11.1198 10.932 11.4578 10.3548C11.7958 9.7776 12.2795 9.29929 12.8604 8.96769C13.2117 8.76713 13.4879 8.45719 13.6467 8.08511C13.8055 7.71303 13.8382 7.29924 13.74 6.90679C13.6611 6.57798 13.4927 6.2774 13.2536 6.03828C13.0145 5.79917 12.7139 5.63083 12.3851 5.55189C11.9942 5.45449 11.5823 5.48683 11.2114 5.64403C10.8405 5.80123 10.5307 6.07477 10.3289 6.42339C10.2595 6.54153 10.2038 6.66721 10.1629 6.79799C10.0838 7.05117 9.90731 7.26254 9.67234 7.38561C9.43736 7.50868 9.16313 7.53337 8.90995 7.45424C8.65677 7.37512 8.4454 7.19866 8.32233 6.96368C8.19926 6.72871 8.17477 6.45447 8.2539 6.20129ZM12.93 15.5001C12.9328 15.5674 12.9261 15.6347 12.91 15.7001C12.8981 15.7613 12.8814 15.8215 12.86 15.8801C12.83 15.9401 12.8 16.0001 12.77 16.0601C12.7295 16.1125 12.6861 16.1626 12.64 16.2101C12.4503 16.3959 12.1955 16.5 11.93 16.5001C11.7988 16.5036 11.6686 16.4762 11.55 16.4201C11.4307 16.3715 11.322 16.3002 11.23 16.2101C11.1839 16.1626 11.1405 16.1125 11.1 16.0601C11.0702 16.0001 11.0402 15.9401 11.01 15.8801L10.95 15.7001C10.9389 15.6339 10.9323 15.5671 10.93 15.5001C10.9329 15.2332 11.0407 14.9782 11.23 14.7901C11.4214 14.6116 11.6733 14.5123 11.935 14.5123C12.1967 14.5123 12.4486 14.6116 12.64 14.7901C12.8266 14.9792 12.9308 15.2344 12.93 15.5001ZM19 28.0001H5C4.73478 28.0001 4.48043 27.8947 4.29289 27.7072C4.10536 27.5197 4 27.2653 4 27.0001C4 26.7349 4.10536 26.4805 4.29289 26.293C4.48043 26.1054 4.73478 26.0001 5 26.0001H19C19.2652 26.0001 19.5196 26.1054 19.7071 26.293C19.8946 26.4805 20 26.7349 20 27.0001C20 27.2653 19.8946 27.5197 19.7071 27.7072C19.5196 27.8947 19.2652 28.0001 19 28.0001ZM19 24.0001H5C4.73478 24.0001 4.48043 23.8947 4.29289 23.7072C4.10536 23.5197 4 23.2653 4 23.0001C4 22.7349 4.10536 22.4805 4.29289 22.293C4.48043 22.1054 4.73478 22.0001 5 22.0001H19C19.2652 22.0001 19.5196 22.1054 19.7071 22.293C19.8946 22.4805 20 22.7349 20 23.0001C20 23.2653 19.8946 23.5197 19.7071 23.7072C19.5196 23.8947 19.2652 24.0001 19 24.0001ZM19 20.0001H5C4.73478 20.0001 4.48043 19.8947 4.29289 19.7072C4.10536 19.5197 4 19.2653 4 19.0001C4 18.7349 4.10536 18.4805 4.29289 18.293C4.48043 18.1054 4.73478 18.0001 5 18.0001H19C19.2652 18.0001 19.5196 18.1054 19.7071 18.293C19.8946 18.4805 20 18.7349 20 19.0001C20 19.2653 19.8946 19.5197 19.7071 19.7072C19.5196 19.8947 19.2652 20.0001 19 20.0001Z"
+                  fill="#3E53A0"/>
+        </svg>
+        Ordini Evasi
+    </h1>
 
-
-<div class="border border-primario rounded-2xl">
-    <table class="user-list-table rounded-2xl text-bluScuro" id="userTable">
-        <thead>
-        <tr class="bg-trTable">
-            <th>#</th>
-            <th>Codice Proposta</th>
-            <th>Nome Produttore</th>
-            <th>Nome Prodotto</th>
-            <th>Prezzo</th>
-            <th>Stato Ordine</th>
-            <th>Azione</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list listProposte1 as proposta>
-            <tr>
-                <td class="index-column"></td>
-                <td>#${proposta.codiceProposta}</td>
-                <td>${proposta.nomeProduttore}</td>
-                <td>${proposta.nomeProdotto}</td>
-                <td>${proposta.prezzo}</td>
-
-
-                <td class="font-semibold" >
+    <p class="text-bluScuro text-sm text-right w-full mb-2">• Per i dettagli selezionare un rigo</p>
+    <div class="flex flex-row items-center gap-2 mb-4">
+        <svg class="w-8 h-8" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M33.3104 30.7042L42.4603 39.8541C43.1799 40.5737 43.1799 41.7407 42.4603 42.4603C41.7407 43.1799 40.5737 43.1799 39.8542 42.4603L30.7042 33.3103C23.2377 39.444 12.3338 38.9026 5.50183 32.0709C-1.83394 24.7333 -1.83394 12.8395 5.50183 5.50186C12.8394 -1.83395 24.735 -1.83395 32.0707 5.50186C38.9027 12.3339 39.4438 23.2376 33.3104 30.7042ZM18.7873 10.4842C23.3738 10.4842 27.0904 14.2007 27.0904 18.7873C27.0904 19.8039 27.9161 20.6296 28.9327 20.6296C29.9511 20.6296 30.775 19.8039 30.775 18.7873C30.775 12.1657 25.4073 6.79978 18.7876 6.79978C17.7709 6.79978 16.9453 7.62547 16.9453 8.64213C16.9453 9.66055 17.7707 10.4842 18.7873 10.4842ZM29.4667 8.10788C23.5703 2.21145 14.0066 2.21145 8.10979 8.10788C2.21338 14.0043 2.21338 23.568 8.10979 29.4649C14.008 35.3613 23.5698 35.3613 29.4667 29.4649C35.3631 23.5666 35.3631 14.0048 29.4667 8.10788Z"
+                  fill="#323954"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Cerca per Codice, Nome, Prezzo o Stato"
+               class="search-bar rounded-xl border"/>
+    </div>
+    <div class="border border-primario rounded-2xl">
+        <table class="user-list-table rounded-2xl" id="userTable">
+            <thead>
+            <tr class="bg-trTable">
+                <th>#</th>
+                <th>Codice Proposta</th>
+                <th>Nome Prodotto</th>
+                <th>Prezzo</th>
+                <th>Data Ordine</th>
+                <th>Stato Ordine</th>
+                <#--                <th>Azione</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <#list listProposte1 as proposta>
+                <tr class="hover-row"
+                    onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">
+                    <td class="index-column"></td>
+                    <td>#${proposta.codiceProposta}</td>
+                    <td>${proposta.nomeProdotto}</td>
+                    <td>${proposta.prezzo}</td>
+                    <td>${proposta.dataOrdine}</td>
+                    <td class="font-semibold
                         <#if proposta.statoOrdine == "RESPINTO_NONCONFORME">bg-TrossoChiaro</#if>
                         <#if proposta.statoOrdine == "ACCETTATO">bg-TverdeChiaro</#if>
                         <#if proposta.statoOrdine == "RESPINTO_NONFUNZIONANTE">bg-TrossoChiaro</#if>
-                    ${proposta.statoOrdine}
-                </td>
-                <td> Dettagli pulsante</td>
-
-            </tr>
-        </#list>
-
-        </tbody>
-    </table>
-
-    <div>
-        Ciao giova per mettere distanza
+                        <#if proposta.statoOrdine == "IN_ATTESA">bg-TgialloChiaro</#if>">
+                        ${proposta.statoOrdine}
+                    </td>
+                </tr>
+            </#list>
+            </tbody>
+        </table>
     </div>
-
-    <table class="user-list-table rounded-2xl text-bluScuro mt-12" id="userTable">
-        <thead>
-        <tr class="bg-trTable">
-            <th>#</th>
-            <th>Codice Proposta</th>
-            <th>Nome Produttore</th>
-            <th>Nome Prodotto</th>
-            <th>Prezzo</th>
-            <th>Stato Ordine</th>
-            <th>Azione</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list listProposte2 as proposta>
-            <tr>
-                <td class="index-column"></td>
-                <td>#${proposta.codiceProposta}</td>
-                <td>${proposta.nomeProduttore}</td>
-                <td>${proposta.nomeProdotto}</td>
-                <td>${proposta.prezzo}</td>
-
-
-                <td class="font-semibold" >
-                    <#if proposta.statoOrdine == "RESPINTO_NONCONFORME">bg-TrossoChiaro</#if>
-                    <#if proposta.statoOrdine == "ACCETTATO">bg-TverdeChiaro</#if>
-                    <#if proposta.statoOrdine == "RESPINTO_NONFUNZIONANTE">bg-TrossoChiaro</#if>
-                    ${proposta.statoOrdine}
-                </td>
-                <td> Dettagli pulsante</td>
-
-            </tr>
-        </#list>
-
-        </tbody>
-    </table>
 </div>
 
+
+<div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
+    <h1 class="text-primario text-2xl font-bold mb-4 text-center flex gap-2 items-center justify-center ">
+        <svg class="w-10 h-10" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.8 9.4377e-05H3.2C2.35917 -0.00638378 1.55009 0.320872 0.950208 0.910089C0.350324 1.49931 0.0086068 2.30238 0 3.14319V28.857C0.0086068 29.6978 0.350324 30.5009 0.950208 31.0901C1.55009 31.6793 2.35917 32.0066 3.2 32.0001H20.8C21.6408 32.0066 22.4499 31.6793 23.0498 31.0901C23.6497 30.5009 23.9914 29.6978 24 28.857V3.14319C23.9914 2.30238 23.6497 1.49931 23.0498 0.910089C22.4499 0.320872 21.6408 -0.00638378 20.8 9.4377e-05ZM8.2539 6.20129C8.44171 5.60205 8.77293 5.05769 9.21882 4.61548C9.66472 4.17327 10.2118 3.84657 10.8126 3.66373C11.4134 3.4809 12.0497 3.44746 12.6663 3.56632C13.283 3.68518 13.8613 3.95274 14.3511 4.34579C14.8409 4.73883 15.2273 5.24547 15.4769 5.82174C15.7265 6.398 15.8316 7.02647 15.7832 7.6526C15.7348 8.27872 15.5344 8.88357 15.1992 9.41464C14.8641 9.94572 14.4044 10.387 13.86 10.7001C13.5829 10.8557 13.3515 11.0815 13.189 11.3546C13.0265 11.6278 12.9387 11.9389 12.9342 12.2567V12.3567C12.9342 12.6219 12.8288 12.8763 12.6413 13.0638C12.4538 13.2513 12.1994 13.3567 11.9342 13.3567C11.669 13.3567 11.4146 13.2513 11.2271 13.0638C11.0396 12.8763 10.9342 12.6219 10.9342 12.3567V12.2567C10.9392 11.5878 11.1198 10.932 11.4578 10.3548C11.7958 9.7776 12.2795 9.29929 12.8604 8.96769C13.2117 8.76713 13.4879 8.45719 13.6467 8.08511C13.8055 7.71303 13.8382 7.29924 13.74 6.90679C13.6611 6.57798 13.4927 6.2774 13.2536 6.03828C13.0145 5.79917 12.7139 5.63083 12.3851 5.55189C11.9942 5.45449 11.5823 5.48683 11.2114 5.64403C10.8405 5.80123 10.5307 6.07477 10.3289 6.42339C10.2595 6.54153 10.2038 6.66721 10.1629 6.79799C10.0838 7.05117 9.90731 7.26254 9.67234 7.38561C9.43736 7.50868 9.16313 7.53337 8.90995 7.45424C8.65677 7.37512 8.4454 7.19866 8.32233 6.96368C8.19926 6.72871 8.17477 6.45447 8.2539 6.20129ZM12.93 15.5001C12.9328 15.5674 12.9261 15.6347 12.91 15.7001C12.8981 15.7613 12.8814 15.8215 12.86 15.8801C12.83 15.9401 12.8 16.0001 12.77 16.0601C12.7295 16.1125 12.6861 16.1626 12.64 16.2101C12.4503 16.3959 12.1955 16.5 11.93 16.5001C11.7988 16.5036 11.6686 16.4762 11.55 16.4201C11.4307 16.3715 11.322 16.3002 11.23 16.2101C11.1839 16.1626 11.1405 16.1125 11.1 16.0601C11.0702 16.0001 11.0402 15.9401 11.01 15.8801L10.95 15.7001C10.9389 15.6339 10.9323 15.5671 10.93 15.5001C10.9329 15.2332 11.0407 14.9782 11.23 14.7901C11.4214 14.6116 11.6733 14.5123 11.935 14.5123C12.1967 14.5123 12.4486 14.6116 12.64 14.7901C12.8266 14.9792 12.9308 15.2344 12.93 15.5001ZM19 28.0001H5C4.73478 28.0001 4.48043 27.8947 4.29289 27.7072C4.10536 27.5197 4 27.2653 4 27.0001C4 26.7349 4.10536 26.4805 4.29289 26.293C4.48043 26.1054 4.73478 26.0001 5 26.0001H19C19.2652 26.0001 19.5196 26.1054 19.7071 26.293C19.8946 26.4805 20 26.7349 20 27.0001C20 27.2653 19.8946 27.5197 19.7071 27.7072C19.5196 27.8947 19.2652 28.0001 19 28.0001ZM19 24.0001H5C4.73478 24.0001 4.48043 23.8947 4.29289 23.7072C4.10536 23.5197 4 23.2653 4 23.0001C4 22.7349 4.10536 22.4805 4.29289 22.293C4.48043 22.1054 4.73478 22.0001 5 22.0001H19C19.2652 22.0001 19.5196 22.1054 19.7071 22.293C19.8946 22.4805 20 22.7349 20 23.0001C20 23.2653 19.8946 23.5197 19.7071 23.7072C19.5196 23.8947 19.2652 24.0001 19 24.0001ZM19 20.0001H5C4.73478 20.0001 4.48043 19.8947 4.29289 19.7072C4.10536 19.5197 4 19.2653 4 19.0001C4 18.7349 4.10536 18.4805 4.29289 18.293C4.48043 18.1054 4.73478 18.0001 5 18.0001H19C19.2652 18.0001 19.5196 18.1054 19.7071 18.293C19.8946 18.4805 20 18.7349 20 19.0001C20 19.2653 19.8946 19.5197 19.7071 19.7072C19.5196 19.8947 19.2652 20.0001 19 20.0001Z"
+                  fill="#3E53A0"/>
+        </svg>
+        Ordini da Spedire
+    </h1>
+
+    <div class=" mt-12">
+        <#--    <table class="user-list-table rounded-2xl text-bluScuro" id="userTable">-->
+        <#--        <thead>-->
+        <#--        <tr class="bg-trTable">-->
+        <#--            <th>#</th>-->
+        <#--            <th>Codice Proposta</th>-->
+        <#--            <th>Nome Produttore</th>-->
+        <#--            <th>Nome Prodotto</th>-->
+        <#--            <th>Prezzo</th>-->
+        <#--            <th>Stato Ordine</th>-->
+        <#--            <th>Azione</th>-->
+        <#--        </tr>-->
+        <#--        </thead>-->
+        <#--        <tbody>-->
+        <#--        <#list listProposte1 as proposta>-->
+        <#--            <tr>-->
+        <#--                <td class="index-column"></td>-->
+        <#--                <td>#${proposta.codiceProposta}</td>-->
+        <#--                <td>${proposta.nomeProduttore}</td>-->
+        <#--                <td>${proposta.nomeProdotto}</td>-->
+        <#--                <td>${proposta.prezzo}</td>-->
+
+
+        <#--                <td class="font-semibold" >-->
+        <#--                        <#if proposta.statoOrdine == "RESPINTO_NONCONFORME">bg-TrossoChiaro</#if>-->
+        <#--                        <#if proposta.statoOrdine == "ACCETTATO">bg-TverdeChiaro</#if>-->
+        <#--                        <#if proposta.statoOrdine == "RESPINTO_NONFUNZIONANTE">bg-TrossoChiaro</#if>-->
+        <#--                    ${proposta.statoOrdine}-->
+        <#--                </td>-->
+        <#--                <td> Dettagli pulsante</td>-->
+
+        <#--            </tr>-->
+        <#--        </#list>-->
+
+        <#--        </tbody>-->
+        <#--    </table>-->
+
+        <#--    <div>-->
+        <#--        Ciao giova per mettere distanza-->
+        <#--    </div>-->
+
+        <#--    <table class="user-list-table rounded-2xl text-bluScuro " id="userTable">-->
+        <#--        <thead>-->
+        <#--        <tr class="bg-trTable">-->
+        <#--            <th>#</th>-->
+        <#--            <th>Codice Proposta</th>-->
+        <#--            <th>Nome Produttore</th>-->
+        <#--            <th>Nome Prodotto</th>-->
+        <#--            <th>Prezzo</th>-->
+
+        <#--            <th>Azione</th>-->
+        <#--        </tr>-->
+        <#--        </thead>-->
+        <#--        <tbody>-->
+        <#--        <#list listProposte2 as proposta>-->
+        <#--            <tr>-->
+        <#--                <td class="index-column"></td>-->
+        <#--                <td>#${proposta.codiceProposta}</td>-->
+        <#--                <td>${proposta.nomeProduttore}</td>-->
+        <#--                <td>${proposta.nomeProdotto}</td>-->
+        <#--                <td>${proposta.prezzo}</td>-->
+
+
+        <#--                <td> Dettagli pulsante</td>-->
+
+        <#--            </tr>-->
+        <#--        </#list>-->
+
+        <#--        </tbody>-->
+        <#--    </table>-->
+        <#--</div>-->
+        <p class="text-bluScuro text-sm text-right w-full mb-2">• Per i dettagli selezionare un rigo</p>
+        <div class="flex flex-row items-center gap-2 mb-4">
+            <svg class="w-8 h-8" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M33.3104 30.7042L42.4603 39.8541C43.1799 40.5737 43.1799 41.7407 42.4603 42.4603C41.7407 43.1799 40.5737 43.1799 39.8542 42.4603L30.7042 33.3103C23.2377 39.444 12.3338 38.9026 5.50183 32.0709C-1.83394 24.7333 -1.83394 12.8395 5.50183 5.50186C12.8394 -1.83395 24.735 -1.83395 32.0707 5.50186C38.9027 12.3339 39.4438 23.2376 33.3104 30.7042ZM18.7873 10.4842C23.3738 10.4842 27.0904 14.2007 27.0904 18.7873C27.0904 19.8039 27.9161 20.6296 28.9327 20.6296C29.9511 20.6296 30.775 19.8039 30.775 18.7873C30.775 12.1657 25.4073 6.79978 18.7876 6.79978C17.7709 6.79978 16.9453 7.62547 16.9453 8.64213C16.9453 9.66055 17.7707 10.4842 18.7873 10.4842ZM29.4667 8.10788C23.5703 2.21145 14.0066 2.21145 8.10979 8.10788C2.21338 14.0043 2.21338 23.568 8.10979 29.4649C14.008 35.3613 23.5698 35.3613 29.4667 29.4649C35.3631 23.5666 35.3631 14.0048 29.4667 8.10788Z"
+                      fill="#323954"/>
+            </svg>
+            <input type="text" id="searchInput2" placeholder="Cerca per Codice, Nome, Prezzo o Stato"
+                   class="search-bar rounded-xl border"/>
+        </div>
+        <div class="border border-primario rounded-2xl">
+            <table class="user-list-table rounded-2xl" id="userTable2">
+                <thead>
+                <tr class="bg-trTable">
+                    <th>#</th>
+                    <th>Codice Proposta</th>
+                    <th>Nome Prodotto</th>
+                    <th>Nome Produttore</th>
+                    <th>Prezzo</th>
+                    <th>Spedisci Ordine</th>
+                    <#--                <th>Azione</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <#list listProposte2 as proposta>
+                    <tr class="hover-row"
+                        onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">
+                        <td class="index-column"></td>
+                        <td>#${proposta.codiceProposta}</td>
+                        <td>${proposta.nomeProduttore}</td>
+                        <td>${proposta.nomeProdotto}</td>
+                        <td>${proposta.prezzo}</td>
+<#--                        <td class="font-semibold-->
+<#--                            <#if proposta.statoOrdine == "RESPINTO_NONCONFORME">bg-TrossoChiaro</#if>-->
+<#--                            <#if proposta.statoOrdine == "ACCETTATO">bg-TverdeChiaro</#if>-->
+<#--                            <#if proposta.statoOrdine == "RESPINTO_NONFUNZIONANTE">bg-TrossoChiaro</#if>-->
+<#--                            <#if proposta.statoOrdine == "IN_ATTESA">bg-TgialloChiaro</#if>">-->
+<#--                            ${proposta.statoOrdine}-->
+<#--                        </td>-->
+                        <td></td>
+                    </tr>
+                </#list>
+                </tbody>
+            </table>
+        </div>
+    </div>

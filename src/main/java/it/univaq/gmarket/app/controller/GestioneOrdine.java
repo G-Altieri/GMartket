@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class GestioneOrdine extends AppBaseController {
 
@@ -58,6 +59,7 @@ public class GestioneOrdine extends AppBaseController {
 
         proposta.setStatoProposta(StatoProposta.SPEDITO);
         proposta.setStatoOrdine(StatoOrdine.IN_ATTESA);
+        proposta.setDataOrdine(new Timestamp(System.currentTimeMillis()));
         propostaDAO.storeProposta(proposta);
 
         response.sendRedirect("/tecnico");

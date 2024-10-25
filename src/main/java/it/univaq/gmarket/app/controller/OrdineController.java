@@ -19,12 +19,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdineController extends AppBaseController{
+public class OrdineController extends AppBaseController {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            Ruolo[] allowedRoles = { Ruolo.TECNICO, Ruolo.ORDINANTE };
+            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
@@ -59,7 +59,9 @@ public class OrdineController extends AppBaseController{
         System.out.println("LIST RICHIESTE ORDINE");
         System.out.println(listRichieste1);
         for (Richiesta richiesta : listRichieste1) {
-            listProposte1.add(propostaDAO.getPropostaSpeditaByRichiesta(richiesta));
+            Proposta propostaTemp = propostaDAO.getPropostaSpeditaByRichiesta(richiesta);
+            if (propostaTemp != null)
+                listProposte1.add(propostaTemp);
         }
 
         List<Richiesta> listRichieste2 = richiestaDAO.getRichiesteByAssegnato();
@@ -67,9 +69,12 @@ public class OrdineController extends AppBaseController{
         List<Proposta> listProposte2 = new ArrayList<>();
 
         for (Richiesta richiesta : listRichieste2) {
-            listProposte2.add(propostaDAO.getPropostaAccettataByRichiesta(richiesta));
+            Proposta propostaTemp = propostaDAO.getPropostaAccettataByRichiesta(richiesta);
+            if (propostaTemp != null)
+                listProposte2.add(propostaTemp);
         }
-
+        System.out.println("Proposta 2");
+        System.out.println(listProposte2);
         request.setAttribute("listProposte1", listProposte1);
         request.setAttribute("listProposte2", listProposte2);
 
@@ -78,7 +83,7 @@ public class OrdineController extends AppBaseController{
         res.activate("/tecnico/listaOrdini.ftl", request, response);
 
     }
-    
+
 
 }
 
