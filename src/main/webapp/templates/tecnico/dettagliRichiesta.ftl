@@ -166,7 +166,7 @@
     </div>
     <#if richiesta.tecnico??>
     <#else>
-        <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
+        <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center mt-8">
             <input type="hidden" name="action" value="inCarico">
             <input type="hidden" name="key" value="${richiesta.key}">
             <button type="submit"
