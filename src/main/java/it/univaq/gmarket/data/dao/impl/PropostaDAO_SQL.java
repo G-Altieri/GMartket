@@ -320,8 +320,6 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         }
 
         try {
-            System.out.println("Ci arrivo");
-            System.out.println(richiesta.getKey());
             // Prepara e imposta il parametro per la query
             sPropostaAccettataByRichiesta.setInt(1, richiesta.getKey());
 

@@ -35,9 +35,9 @@
         </main>
 
         <!-- Footer -->
-        <#if includeFooter?string != "false">
-            <#include "footer.ftl">
-        </#if>
+<#--        <#if includeFooter?string != "false">-->
+<#--            <#include "footer.ftl">-->
+<#--        </#if>-->
     </div>
 
 </div>

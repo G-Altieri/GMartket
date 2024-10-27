@@ -100,7 +100,6 @@ public class LoginController extends AppBaseController {
     }
 
     private void loginSemplificato(HttpServletRequest request, HttpServletResponse response, Ruolo role, String email) throws IOException {
-        System.out.println("Ci Arrivo e Funzia " + role);
         int idUtente = 0;
         switch (role) {
             case ORDINANTE:
