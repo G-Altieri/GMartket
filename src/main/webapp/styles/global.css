@@ -291,3 +291,17 @@ li.active .icon path {
 .w-richiesteLibere{
     width: 3.2rem;
 }
+.highlighted-row {
+    animation: redBlink 1.5s infinite alternate;
+}
+
+/* Interrompi il lampeggiamento durante l'hover */
+.highlighted-row:hover {
+    animation: none; /* Blocca l'animazione */
+    background-color: #fff4b5; /* Imposta lo stesso colore di fine lampeggiamento */
+}
+
+@keyframes redBlink {
+    from { background-color: rgba(255, 0, 0, 0.4); }
+    to { background-color: transparent; }
+}

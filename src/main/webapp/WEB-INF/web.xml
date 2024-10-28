@@ -122,6 +122,10 @@
         <servlet-name>Ordine</servlet-name>
         <servlet-class>it.univaq.gmarket.app.controller.OrdineController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GestioneNotifiche</servlet-name>
+        <servlet-class>it.univaq.gmarket.app.controller.GestioneNotifiche</servlet-class>
+    </servlet>
 
     <!-- Mapping della servlet a un URL -->
     <!--    <servlet-mapping>-->
@@ -251,6 +255,11 @@
         <servlet-name>Generale</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneNotifiche</servlet-name>
+        <url-pattern>/tecnico/read-notifica</url-pattern>
+    </servlet-mapping>
+
 
     <!--Index-->
     <welcome-file-list>

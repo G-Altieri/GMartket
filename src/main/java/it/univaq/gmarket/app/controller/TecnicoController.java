@@ -4,10 +4,7 @@ import it.univaq.gmarket.app.AppDataLayer;
 
 import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
-import it.univaq.gmarket.data.model.Proposta;
-import it.univaq.gmarket.data.model.Richiesta;
-import it.univaq.gmarket.data.model.RichiestaCaratteristica;
-import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.*;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.data.model.impl.StatoProposta;
 import it.univaq.gmarket.framework.data.DataException;
@@ -62,11 +59,17 @@ public class TecnicoController extends AppBaseController {
 
 
     private void action_getAllRichiesteTecnico(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, DataException {
+        TemplateResult res = new TemplateResult(getServletContext());
 
         List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteTecnico();
         request.setAttribute("richieste", richieste);
         request.setAttribute("navbarTitle", "Tutte le richieste libere");
-        TemplateResult res = new TemplateResult(getServletContext());
+
+
+        //Notifiche
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecnicoListaRichiesteLibere();
+        request.setAttribute("notifiche", notifiche);
+
         res.activate("/tecnico/listaRichieste.ftl", request, response);
     }
 

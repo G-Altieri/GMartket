@@ -1,7 +1,6 @@
 <#include "../navbar.ftl">
 <script type="module" src="/scripts/table.js"></script>
 
-
 <div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
     <p class="text-bluScuro text-sm text-right w-full mb-2">• Per i dettagli selezionare un rigo</p>
     <div class="flex flex-row items-center gap-2 mb-4">
@@ -27,14 +26,21 @@
             </thead>
             <tbody>
             <#list richieste as richiesta>
-                <tr class="hover-row"
-                    onclick="window.location.href='/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}'">
-                    <td class="index-column"></td>
+                <#assign isHighlighted = false />
+                <#assign idNotifica = -1 />
+                <#list notifiche as notifica>
+                    <#if notifica.richiesta.key == richiesta.key>
+                        <#assign isHighlighted = true />
+                        <#assign idNotifica = notifica.key />
+                    </#if>
+                </#list>
+
+                <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
+                    onclick="rowClickHandler('${idNotifica}', '${richiesta.key}')">
+                    <td class="index-column "></td>
                     <td>#${richiesta.codice}</td>
                     <td>${richiesta.ordinante.nome}</td>
-                    <td>
-                        ${ richiesta.categoria.nome}
-                    </td>
+                    <td>${richiesta.categoria.nome}</td>
                     <td>${richiesta.created_at}</td>
                     <td class="">
                         <form method="GET" action="/tecnico/presa-in-carico" class="flex justify-center">
@@ -52,3 +58,22 @@
         </table>
     </div>
 </div>
+
+<script>
+    function rowClickHandler(idNotifica, keyRichiesta) {
+        $.ajax({
+            url: '/tecnico/read-notifica',  // Endpoint per gestire la richiesta
+            method: 'POST',
+            data: {key: idNotifica},
+            success: function (response) {
+                console.log('Notifica aggiornata con successo', response);
+                // Reindirizza alla pagina dei dettagli della richiesta
+                window.location.href = `/tecnico/dettagli-richiesta?keyRichiesta=` + keyRichiesta;
+            },
+            error: function (error) {
+                console.error('Errore durante l\'aggiornamento della notifica', error);
+            }
+        });
+    }
+</script>
+

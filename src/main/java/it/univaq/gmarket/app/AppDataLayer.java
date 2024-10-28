@@ -32,7 +32,7 @@ public class AppDataLayer extends DataLayer {
         registerDAO(Richiesta.class, new RichiestaDAO_SQL(this));
         registerDAO(RichiestaCaratteristica.class, new RichiestaCaratteristicaDAO_SQL(this));
         registerDAO(Proposta.class, new PropostaDAO_SQL(this));
-
+        registerDAO(Notifica.class, new NotificaDAO_SQL(this));
     }
 
     public UtenteDAO getUtenteDAO() {
@@ -60,5 +60,8 @@ public class AppDataLayer extends DataLayer {
 
     public PropostaDAO getPropostaDAO() {
         return (PropostaDAO) getDAO(Proposta.class);
+    }
+    public NotificaDAO getNotificaDAO() {
+        return (NotificaDAO) getDAO(Notifica.class);
     }
 }

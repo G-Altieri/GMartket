@@ -2,6 +2,7 @@ package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.CaratteristicaDAO;
+import it.univaq.gmarket.data.dao.NotificaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
 import it.univaq.gmarket.data.dao.RichiestaDAO;
 import it.univaq.gmarket.data.model.*;
@@ -34,7 +35,7 @@ public class GestioneRichieste extends AppBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            Ruolo[] allowedRoles = { Ruolo.TECNICO,Ruolo.ORDINANTE };
+            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
@@ -42,18 +43,14 @@ public class GestioneRichieste extends AppBaseController {
             Utente u = SecurityHelpers.getUserSession(request, response);
 
             String action = request.getParameter("action");
-            System.out.println("entrato dentro request");
+
             int keyRichiesta;
 
-            System.out.println(action);
             if (action != null && action.equals("submitRichiesta")) {
-
                 action_storeRichiesta(request, response);
-
             } else if (action.equals("inCarico")) {
-                System.out.println("sono entrato nella action");
                 keyRichiesta = SecurityHelpers.checkNumeric(request.getParameter("key"));
-                    action_prendiInCarico(request, response, keyRichiesta, u.getKey());
+                action_prendiInCarico(request, response, keyRichiesta, u.getKey());
             }
 
 
@@ -79,10 +76,10 @@ public class GestioneRichieste extends AppBaseController {
 
         String codice = GeneratoreCodice.generaCodiceUnivoco(((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO());
         richiesta.setCodice(codice);
-        System.out.println("ASD");
+
 
         richiesta.setCreated_at(new Timestamp(System.currentTimeMillis()));
-        System.out.println(richiesta.getCreated_at());
+
 
         String note = request.getParameter("note");
         if (note != null && !note.isEmpty()) {
@@ -95,7 +92,7 @@ public class GestioneRichieste extends AppBaseController {
         ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().storeRichiesta(richiesta);
 
         //Numero di Caratteristiche
-        int numCaratteristiche =SecurityHelpers.checkNumeric(request.getParameter("numCaratteristiche"));
+        int numCaratteristiche = SecurityHelpers.checkNumeric(request.getParameter("numCaratteristiche"));
 
         // Itero su ciascuna caratteristica
         for (int i = 0; i < numCaratteristiche; i++) {
@@ -124,16 +121,25 @@ public class GestioneRichieste extends AppBaseController {
             }
         }
 
+        //Notifico tutti i tecnici
+        System.out.println("Notifiche");
+        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+        Notifica notifica = new NotificaImpl();
+        notifica.setRuolo(Ruolo.TECNICO);
+        notifica.setTitolo("Nuova Richiesta");
+        notifica.setContenuto("Richiesta di "+ordinante.getNome()+" "+ordinante.getCognome()+" categoria: "+richiesta.getCategoria().getNome() );
+        notifica.setRichiesta(richiesta);
+        notificaDAO.storeNotifica(notifica);
+
+
         // Reindirizzo l'utente alla pagina delle richieste
         response.sendRedirect("/ordinante");
     }
 
 
-
     private void action_prendiInCarico(HttpServletRequest request, HttpServletResponse response, int keyRichiesta, int tecnico_id) throws IOException, ServletException, DataException, TemplateManagerException {
         Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(tecnico_id);
 
-        System.out.println("sono entrato dentro Presa in carico");
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(keyRichiesta);
         richiesta.setStato(StatoRichiesta.ASSEGNATO);
         richiesta.setTecnico(u);
