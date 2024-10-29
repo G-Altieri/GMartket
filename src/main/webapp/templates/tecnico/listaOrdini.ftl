@@ -42,8 +42,17 @@
             </thead>
             <tbody>
             <#list listProposte1 as proposta>
-                <tr class="hover-row"
-                    onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">
+                <#assign isHighlighted = false />
+                <#assign idNotifica = -1 />
+                <#list notifiche as notifica>
+                    <#if notifica.ordine.key == proposta.key>
+                        <#assign isHighlighted = true />
+                        <#assign idNotifica = notifica.key />
+                    </#if>
+                </#list>
+                <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${proposta.key}', '/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}')">
+<#--                    onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">-->
                     <td class="index-column"></td>
                     <td>#${proposta.codiceProposta}</td>
                     <td>${proposta.nomeProdotto}</td>

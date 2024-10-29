@@ -3,10 +3,7 @@ package it.univaq.gmarket.app.controller;
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
-import it.univaq.gmarket.data.model.Proposta;
-import it.univaq.gmarket.data.model.Richiesta;
-import it.univaq.gmarket.data.model.RichiestaCaratteristica;
-import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.*;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
@@ -75,14 +72,21 @@ public class OrdinanteController extends AppBaseController {
     }
 
 
-    private void action_getAllRichiesteOrdinante(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
+    private void action_getAllRichiesteOrdinante(HttpServletRequest request, HttpServletResponse response, int keyUtente) throws IOException, ServletException, TemplateManagerException, DataException {
 
-        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteOrdinante(key);
+        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteOrdinante(keyUtente);
         request.setAttribute("richieste", richieste);
         request.setAttribute("codice", richieste);
         request.setAttribute("navbarTitle", "Le mie Richieste");
+
+        //Gestione Notifiche
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichieste(keyUtente);
+        request.setAttribute("notifiche", notifiche);
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaRichieste.ftl", request, response);
+
+
     }
 
     private void action_getDettagliRichiesta(HttpServletRequest request, HttpServletResponse response, int richiestaId)
@@ -118,6 +122,15 @@ public class OrdinanteController extends AppBaseController {
             request.setAttribute("ultimaProposta", "");
         }
         request.setAttribute("listProposte", listProposte);
+
+
+        //Gestione Notifiche
+        Utente u = SecurityHelpers.getUserSession(request, response);
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichiesteProposte(u.getKey());
+        request.setAttribute("notifiche", notifiche);
+
+
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/dettagliRichiesta.ftl", request, response);
     }

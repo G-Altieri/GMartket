@@ -122,7 +122,6 @@ public class GestioneRichieste extends AppBaseController {
         }
 
         //Notifico tutti i tecnici
-        System.out.println("Notifiche");
         NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
         Notifica notifica = new NotificaImpl();
         notifica.setRuolo(Ruolo.TECNICO);
@@ -143,9 +142,16 @@ public class GestioneRichieste extends AppBaseController {
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(keyRichiesta);
         richiesta.setStato(StatoRichiesta.ASSEGNATO);
         richiesta.setTecnico(u);
-
         ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().storeRichiesta(richiesta);
 
+        //Notifico l ordinante della presa in carico
+        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+        Notifica notifica = new NotificaImpl();
+        notifica.setUtente(richiesta.getOrdinante());
+        notifica.setTitolo("La tua richiesta é stata presa in carico!!!");
+        notifica.setContenuto("La richiesta #"+richiesta.getCodice()+" é stata presa in carico da: "+u.getNome()+" "+u.getCognome() );
+        notifica.setRichiesta(richiesta);
+        notificaDAO.storeNotifica(notifica);
     /*
     String email = richiesta.getUtente().getEmail();
     String codice =richiesta.getCodiceRichiesta();

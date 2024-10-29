@@ -3,6 +3,7 @@ package it.univaq.gmarket.app.controller;
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaDAO;
+import it.univaq.gmarket.data.model.Notifica;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
@@ -82,6 +83,12 @@ public class OrdineController extends AppBaseController {
         request.setAttribute("listProposte2", listProposte2);
 
         request.setAttribute("navbarTitle", "Lista Ordini");
+
+        //Gestione Notifiche
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecAllOrdini();
+        request.setAttribute("notifiche", notifiche);
+
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/listaOrdini.ftl", request, response);
 
@@ -122,6 +129,11 @@ public class OrdineController extends AppBaseController {
      //   request.setAttribute("listProposte2", listProposte2);
 
         request.setAttribute("navbarTitle", "Lista Ordini");
+
+        //Gestione Notifiche
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyOrdini(u.getKey());
+        request.setAttribute("notifiche", notifiche);
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaOrdini.ftl", request, response);
 

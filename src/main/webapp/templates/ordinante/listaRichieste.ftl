@@ -28,8 +28,21 @@
             </thead>
             <tbody>
             <#list richieste as richiesta>
-                <tr class="hover-row"
-                    onclick="window.location.href='/ordinante/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}'">
+                <#assign isHighlighted = false />
+                <#assign idNotifica = -1 />
+                <#assign propostaEsiste = false />
+                <#list notifiche as notifica>
+                    <#if notifica.richiesta.key == richiesta.key>
+                        <#assign isHighlighted = true />
+                        <#assign idNotifica = notifica.key />
+                        <#if notifica.proposta??>
+                            <#assign propostaEsiste = true />
+                        </#if>
+                    </#if>
+                </#list>
+                <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${richiesta.key}', '/ordinante/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}', '${propostaEsiste?string("true", "false")}')">
+                    <#--                    onclick="window.location.href='/ordinante/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}'">-->
                     <td class="index-column"></td>
                     <td>#${richiesta.codice}</td>
                     <td>
@@ -47,17 +60,17 @@
                         ${richiesta.stato}
                     </td>
                     <td>${richiesta.created_at}</td>
-<#--                    <td class="">-->
-<#--                        <form method="GET" action="/ordinante/lista-richieste/dettagli-richiesta"-->
-<#--                              class="flex justify-center">-->
-<#--                            <input type="hidden" name="action" value="modifica">-->
-<#--                            <input type="hidden" name="key" value="${richiesta.key}">-->
-<#--                            <button type="submit"-->
-<#--                                    class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli-->
-<#--                                Richiesta-->
-<#--                            </button>-->
-<#--                        </form>-->
-<#--                    </td>-->
+                    <#--                    <td class="">-->
+                    <#--                        <form method="GET" action="/ordinante/lista-richieste/dettagli-richiesta"-->
+                    <#--                              class="flex justify-center">-->
+                    <#--                            <input type="hidden" name="action" value="modifica">-->
+                    <#--                            <input type="hidden" name="key" value="${richiesta.key}">-->
+                    <#--                            <button type="submit"-->
+                    <#--                                    class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli-->
+                    <#--                                Richiesta-->
+                    <#--                            </button>-->
+                    <#--                        </form>-->
+                    <#--                    </td>-->
                 </tr>
             </#list>
             </tbody>

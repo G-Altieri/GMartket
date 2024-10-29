@@ -17,4 +17,13 @@ public interface NotificaDAO {
     void deleteNotifica(Notifica notifica) throws DataException;
 
     List<Notifica> getNotificheTecnicoListaRichiesteLibere() throws DataException;
+
+
+    List<Notifica> getNotificheTecAllOrdini() throws DataException;
+
+    List<Notifica> getNotificheUserMyRichieste(int utenteId) throws DataException;
+
+    List<Notifica> getNotificheUserMyRichiesteProposte(int utenteId) throws DataException;
+
+    List<Notifica> getNotificheUserMyOrdini(int utenteId) throws DataException;
 }

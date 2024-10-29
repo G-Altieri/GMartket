@@ -1,14 +1,13 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.dao.NotificaDAO;
 import it.univaq.gmarket.data.dao.PropostaDAO;
+import it.univaq.gmarket.data.model.Notifica;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
-import it.univaq.gmarket.data.model.impl.Ruolo;
-import it.univaq.gmarket.data.model.impl.StatoOrdine;
-import it.univaq.gmarket.data.model.impl.StatoProposta;
-import it.univaq.gmarket.data.model.impl.StatoRichiesta;
+import it.univaq.gmarket.data.model.impl.*;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
@@ -61,6 +60,18 @@ public class GestioneOrdine extends AppBaseController {
         proposta.setStatoOrdine(StatoOrdine.IN_ATTESA);
         proposta.setDataOrdine(new Timestamp(System.currentTimeMillis()));
         propostaDAO.storeProposta(proposta);
+
+        //Notifica Ordinante
+        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+        Notifica notifica = new NotificaImpl();
+        notifica.setUtente(proposta.getRichiesta().getOrdinante());
+        notifica.setTitolo("Ordine Spedito!!!");
+        notifica.setContenuto("Il tuo ordine #"+proposta.getCodiceProposta()+ " é stata spedito in data: "+proposta.getDataOrdine());
+        notifica.setProposta(proposta);
+        notifica.setRichiesta(proposta.getRichiesta());
+        notifica.setOrdine(proposta);
+        notificaDAO.storeNotifica(notifica);
+
 
         response.sendRedirect("/tecnico");
     }

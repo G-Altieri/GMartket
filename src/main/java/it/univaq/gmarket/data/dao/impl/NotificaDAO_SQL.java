@@ -19,13 +19,15 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.sql.Types.NULL;
-
 public class NotificaDAO_SQL extends DAO implements NotificaDAO {
 
     private PreparedStatement sNotificaById;
     private PreparedStatement sNotifiche;
     private PreparedStatement sNotificheTecRichiesteLibere;
+    private PreparedStatement sNotificheUserMyRichieste;
+    private PreparedStatement sNotificheUserMyRichiesteProposte;
+    private PreparedStatement sNotificheUserMyOrdini;
+    private PreparedStatement sNotificheTecAllOrdini;
     private PreparedStatement iNotifica;
     private PreparedStatement uNotifica;
     private PreparedStatement dNotifica;
@@ -55,6 +57,10 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             uNotifica = connection.prepareStatement("UPDATE notifica SET titolo = ?, contenuto = ?, letta = ?, id_utente = ?, ruolo = ?,richiesta = ?,proposta = ?,ordine = ? WHERE id = ?");
             dNotifica = connection.prepareStatement("DELETE FROM notifica WHERE id = ?");
             sNotificheTecRichiesteLibere = connection.prepareStatement("SELECT * FROM notifica WHERE ruolo = 'TECNICO' AND letta = false AND richiesta IS NOT NULL");
+            sNotificheTecAllOrdini = connection.prepareStatement("SELECT * FROM notifica WHERE ruolo = 'TECNICO' AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL AND ordine IS NOT NULL");
+            sNotificheUserMyRichieste = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL");
+            sNotificheUserMyRichiesteProposte = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL");
+            sNotificheUserMyOrdini = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL AND ordine IS NOT NULL");
         } catch (SQLException e) {
             throw new DataException("Error initializing gmarket data layer", e);
         }
@@ -73,6 +79,10 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             iNotifica.close();
             uNotifica.close();
             dNotifica.close();
+            sNotificheTecAllOrdini.close();
+            sNotificheUserMyOrdini.close();
+            sNotificheUserMyRichieste.close();
+            sNotificheUserMyRichiesteProposte.close();
             sNotificheTecRichiesteLibere.close();
         } catch (SQLException ex) {
             throw new DataException("Can't destroy prepared statements", ex);
@@ -109,7 +119,8 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             Utente utente = ((AppDataLayer) getDataLayer()).getUtenteDAO().getUtente(utenteId);
             notifica.setUtente(utente);
 
-            notifica.setRuolo(Ruolo.valueOf(rs.getString("ruolo")));
+            if(rs.getString("ruolo") != null)
+                notifica.setRuolo(Ruolo.valueOf(rs.getString("ruolo")));
 
 
             int richiestaId = rs.getInt("richiesta");
@@ -303,6 +314,68 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             return result;
         } catch (SQLException ex) {
             throw new DataException("Unable to delete Notifica", ex);
+        }
+    }
+    @Override
+    public List<Notifica> getNotificheTecAllOrdini() throws DataException {
+        List<Notifica> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sNotificheTecAllOrdini.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getNotifica(rs.getInt("id")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to delete Notifica", ex);
+        }
+    }
+
+    @Override
+    public List<Notifica> getNotificheUserMyRichieste(int utenteId) throws DataException {
+        List<Notifica> result = new ArrayList<>();
+        try {
+            sNotificheUserMyRichieste.setInt(1, utenteId);
+            try (ResultSet rs = sNotificheUserMyRichieste.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getNotifica(rs.getInt("id")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to getNotificheUserMyRichieste Notifica", ex);
+        }
+    }
+
+    @Override
+    public List<Notifica> getNotificheUserMyRichiesteProposte(int utenteId) throws DataException {
+        List<Notifica> result = new ArrayList<>();
+        try {
+            sNotificheUserMyRichiesteProposte.setInt(1, utenteId);
+            try (ResultSet rs = sNotificheUserMyRichiesteProposte.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getNotifica(rs.getInt("id")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to getNotificheUserMyRichiesteProposte Notifica", ex);
+        }
+    }
+
+    @Override
+    public List<Notifica> getNotificheUserMyOrdini(int utenteId) throws DataException {
+        List<Notifica> result = new ArrayList<>();
+        try {
+            sNotificheUserMyOrdini.setInt(1, utenteId);
+            try (ResultSet rs = sNotificheUserMyOrdini.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getNotifica(rs.getInt("id")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to getNotificheUserMyOrdini Notifica", ex);
         }
     }
 }

@@ -3,11 +3,12 @@ package it.univaq.gmarket.app.controller;
 import it.univaq.gmarket.app.AppDataLayer;
 import it.univaq.gmarket.data.dao.NotificaDAO;
 import it.univaq.gmarket.data.model.Notifica;
+import it.univaq.gmarket.data.model.Proposta;
+import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.impl.NotificaImpl;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
-import it.univaq.gmarket.framework.result.TemplateManagerException;
-import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,5 +48,18 @@ public class GestioneNotifiche extends AppBaseController {
         notificaDAO.storeNotifica(notifica);
         return;
     }
+
+//
+//    private static void generaNotifica(HttpServletRequest request, HttpServletResponse response, Utente ordinante, Richiesta richiesta,
+//    Proposta proposta, Proposta ordine, Ruolo ruolo){
+//        System.out.println("Notifiche");
+//        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+//        Notifica notifica = new NotificaImpl();
+//        notifica.setRuolo(Ruolo.TECNICO);
+//        notifica.setTitolo("Nuova Richiesta");
+//        notifica.setContenuto("Richiesta di "+ordinante.getNome()+" "+ordinante.getCognome()+" categoria: "+richiesta.getCategoria().getNome() );
+//        notifica.setRichiesta(richiesta);
+//        notificaDAO.storeNotifica(notifica);
+//    }
 
 }

@@ -37,11 +37,9 @@ public class TecnicoController extends AppBaseController {
             } else if (path.endsWith("/lista-richiesteProprie") && u != null) {
                 action_getAllRichiesteByTecnico(request, response, u.getKey());
             } else if (path.endsWith("/dettagli-richiesta")) {
-                TemplateResult result = new TemplateResult(getServletContext());
                 int richiestaId = SecurityHelpers.checkNumeric(request.getParameter("keyRichiesta"));
                 action_getDettagliRichiestaTec(request, response, richiestaId);
             } else if (path.endsWith("/dettagli-proposta")) {
-                TemplateResult result = new TemplateResult(getServletContext());
                 int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
                 action_getDettagliPropostaTec(request, response, propostaId);
             } else {
@@ -73,8 +71,8 @@ public class TecnicoController extends AppBaseController {
         res.activate("/tecnico/listaRichieste.ftl", request, response);
     }
 
-    private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int key) throws IOException, ServletException, TemplateManagerException, DataException {
-        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(key);
+    private void action_getAllRichiesteByTecnico(HttpServletRequest request, HttpServletResponse response, int keyUtente) throws IOException, ServletException, TemplateManagerException, DataException {
+        List<Richiesta> richieste = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getAllRichiesteByTecnico(keyUtente);
         List<Proposta> proposte = new ArrayList<>();
 
         PropostaDAO propostaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO();
@@ -89,6 +87,12 @@ public class TecnicoController extends AppBaseController {
         request.setAttribute("richieste", richieste);
         request.setAttribute("proposte", proposte);
         request.setAttribute("navbarTitle", "Tutte le mie Richieste");
+
+        //Notifiche
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichieste(keyUtente);
+        request.setAttribute("notifiche", notifiche);
+
+
         TemplateResult res = new TemplateResult(getServletContext());
 
         res.activate("/tecnico/listaRichiesteByTecnico.ftl", request, response);
@@ -129,6 +133,11 @@ public class TecnicoController extends AppBaseController {
         }
 
         request.setAttribute("listProposte", listProposte);
+
+        //Notifiche
+        Utente u = SecurityHelpers.getUserSession(request, response);
+        List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichiesteProposte(u.getKey());
+        request.setAttribute("notifiche", notifiche);
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);

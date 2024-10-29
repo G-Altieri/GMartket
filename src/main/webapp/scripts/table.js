@@ -28,4 +28,28 @@ $(document).ready(function () {
     // Aggiorna indici e colori iniziali per entrambe le tabelle
     updateRowIndices("userTable");
     updateRowIndices("userTable2");
+
+
 });
+
+window.rowClickHandlerNotifica = function (idNotifica, keyRichiesta, redirect, propostaEsiste = "false") {
+    if (propostaEsiste === "false") {
+        console.log("ci entro");
+        $.ajax({
+            url: '/tecnico/read-notifica',  // Endpoint per gestire la richiesta
+            method: 'POST',
+            data: {key: idNotifica},
+            success: function (response) {
+                //console.log('Notifica aggiornata con successo', response);
+                // Reindirizza alla pagina dei dettagli della richiesta
+                window.location.href = redirect;
+            },
+            error: function (error) {
+                console.error('Errore durante l\'aggiornamento della notifica', error);
+            }
+        });
+    }else{
+        window.location.href = redirect;
+    }
+};
+

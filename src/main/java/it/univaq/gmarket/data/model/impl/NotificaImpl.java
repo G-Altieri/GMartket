@@ -102,6 +102,9 @@ public class NotificaImpl extends DataItemImpl<Integer> implements Notifica {
                 ", letta=" + letta +
                 ", utente=" + (utente != null ? utente.getNome() : "N/A") +
                 ", ruolo=" + (ruolo != null ? ruolo.name() : "N/A") +
+                ", proposta=" + (proposta != null ? proposta.getKey() : "N/A") +
+                ", richiesta=" + (richiesta != null ? richiesta.getKey() : "N/A") +
+                ", ordine=" + (ordine != null ? ordine.getKey() : "N/A") +
                 '}';
     }
 }

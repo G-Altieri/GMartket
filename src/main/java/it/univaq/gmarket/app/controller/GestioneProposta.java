@@ -1,8 +1,10 @@
 package it.univaq.gmarket.app.controller;
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.data.dao.NotificaDAO;
 import it.univaq.gmarket.data.dao.PropostaDAO;
 import it.univaq.gmarket.data.dao.RichiestaCaratteristicaDAO;
+import it.univaq.gmarket.data.model.Notifica;
 import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
@@ -70,6 +72,17 @@ public class GestioneProposta extends AppBaseController {
             newProposta.setRichiesta(((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(SecurityHelpers.checkNumeric(request.getParameter("id_richiesta"))));
 
             propostaDAO.storeProposta(newProposta);
+
+            //Notifica al ordinante
+            NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+            Notifica notifica = new NotificaImpl();
+            notifica.setUtente(newProposta.getRichiesta().getOrdinante());
+            notifica.setTitolo("Nuova Proposta!!!");
+            notifica.setContenuto("Una nuova proposta per la richiesta #"+newProposta.getRichiesta().getCodice());
+            notifica.setProposta(newProposta);
+            notifica.setRichiesta(newProposta.getRichiesta());
+            notificaDAO.storeNotifica(notifica);
+
             response.sendRedirect("/tecnico/lista-richiesteProprie");
 
         } catch (DataException e) {
@@ -88,22 +101,30 @@ public class GestioneProposta extends AppBaseController {
     }
 
     private void action_modificaProposta(HttpServletRequest request, HttpServletResponse response, int key, String valoreMod) throws DataException, IOException {
-
-
+        Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(key);
         if (valoreMod != null && valoreMod.equals("accetta")) {
-            Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(key);
             proposta.setStatoProposta(StatoProposta.ACCETTATO);
-            ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
-            response.sendRedirect("/ordinante/lista-richieste");
         } else {
-            Proposta proposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(key);
             proposta.setStatoProposta(StatoProposta.RIFIUTATO);
             String moti = request.getParameter("motivazione");
             proposta.setMotivazione(moti);
-            ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
-            response.sendRedirect("/ordinante/lista-richieste");
-
         }
+        //Aggiorno le modifiche
+        ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().storeProposta(proposta);
+
+        //Notifico il tecnico
+        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+        Notifica notifica = new NotificaImpl();
+        notifica.setUtente(proposta.getRichiesta().getTecnico());
+        notifica.setTitolo("Aggiornamento Stato Proposta");
+        notifica.setContenuto("La proposta #"+proposta.getCodiceProposta()+ " é stata valutata: "+proposta.getStatoProposta());
+        notifica.setProposta(proposta);
+        notifica.setRichiesta(proposta.getRichiesta());
+        notificaDAO.storeNotifica(notifica);
+
+        response.sendRedirect("/ordinante/lista-richieste");
+
+
     }
 
     private void action_contrasegnaProposta(HttpServletRequest request, HttpServletResponse response, int keyProposta, String valoreMod) throws DataException, IOException {
@@ -130,6 +151,17 @@ public class GestioneProposta extends AppBaseController {
         Richiesta richiesta = ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().getRichiesta(proposta.getRichiesta().getKey());
         richiesta.setStato(StatoRichiesta.COMPLETATO);
         ((AppDataLayer) request.getAttribute("datalayer")).getRichiestaDAO().storeRichiesta(richiesta);
+
+        //Notifica Tecnico
+        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
+        Notifica notifica = new NotificaImpl();
+        notifica.setRuolo(Ruolo.TECNICO);
+        notifica.setTitolo("Ordine Contrassegnato");
+        notifica.setContenuto("L'ordine #"+proposta.getCodiceProposta()+ " é stata contrassegnato con: "+proposta.getStatoOrdine());
+        notifica.setProposta(proposta);
+        notifica.setRichiesta(proposta.getRichiesta());
+        notifica.setOrdine(proposta);
+        notificaDAO.storeNotifica(notifica);
 
         response.sendRedirect("/ordinante/lista-richieste");
 

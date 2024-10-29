@@ -28,8 +28,21 @@
             </thead>
             <tbody>
             <#list richieste as richiesta>
-                <tr class="hover-row"
-                    onclick="window.location.href='/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}'">
+                <#assign isHighlighted = false />
+                <#assign idNotifica = -1 />
+                <#assign propostaEsiste = false />
+                <#list notifiche as notifica>
+                    <#if notifica.richiesta.key == richiesta.key>
+                        <#assign isHighlighted = true />
+                        <#assign idNotifica = notifica.key />
+                        <#if notifica.proposta??>
+                            <#assign propostaEsiste = true />
+                        </#if>
+                    </#if>
+                </#list>
+                <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${richiesta.key}', '/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}', '${propostaEsiste?string("true", "false")}')">
+<#--                onclick="window.location.href='/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}'">-->
                     <td class="index-column"></td>
                     <td>#${richiesta.codice}</td>
                     <td>${richiesta.ordinante.nome}</td>
