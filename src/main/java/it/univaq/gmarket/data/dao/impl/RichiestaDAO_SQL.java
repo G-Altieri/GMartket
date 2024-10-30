@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
 
-        private PreparedStatement sRichiestaByID, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, sRichiesteByAssegnate, sRichiesteByCompletatoSpediteByOrdinante, sRichiesteByAssegnateByOrdinante, uRichiesta, iRichiesta;
+        private PreparedStatement sRichiestaByID,sRichiesteDaValutareByUser, sRichiesteByOrdinante, sRichiesteByTecnico, sAllRichiesteLibere, sRichiesteByCompletatoSpedite, sRichiesteByAssegnate, sRichiesteByCompletatoSpediteByOrdinante, sRichiesteByAssegnateByOrdinante, uRichiesta, iRichiesta;
 
         public RichiestaDAO_SQL(AppDataLayer data) {
             super(data);
@@ -34,6 +34,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sRichiesteByCompletatoSpedite = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') ORDER BY created_at DESC;");
                 sRichiesteByAssegnate = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO' ORDER BY created_at DESC;");
                 sRichiesteByCompletatoSpediteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('COMPLETATO', 'SPEDITO') AND id_ordinante = ? ORDER BY created_at DESC;");
+                sRichiesteDaValutareByUser = connection.prepareStatement("SELECT richiesta.* FROM richiesta JOIN proposta ON richiesta.id = proposta.id_richiesta WHERE richiesta.id_ordinante = ? AND proposta.stato = 'IN_SOSPESO' ORDER BY richiesta.created_at DESC;");
                 sRichiesteByAssegnateByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE stato = 'ASSEGNATO' AND id_ordinante = ? ORDER BY created_at DESC;");
                 iRichiesta = connection.prepareStatement("INSERT INTO richiesta (note, stato, created_at, id_categoria, id_ordinante, codice) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 uRichiesta = connection.prepareStatement("UPDATE richiesta SET note=?, stato=?,  id_categoria=?, id_ordinante=?, codice=?, id_tecnico=?, version=? WHERE ID=? AND version=?");
@@ -54,6 +55,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
                 sAllRichiesteLibere.close();
                 sRichiesteByCompletatoSpedite.close();
                 sRichiesteByCompletatoSpediteByOrdinante.close();
+                sRichiesteDaValutareByUser.close();
                 iRichiesta.close();
                 uRichiesta.close();
             } catch (SQLException ex) {
@@ -305,6 +307,24 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         try {
             sRichiesteByAssegnateByOrdinante.setInt(1, utente_key);
             try (ResultSet rs = sRichiesteByAssegnateByOrdinante.executeQuery()) {
+            while (rs.next()) {
+                richieste.add(getRichiesta(rs.getInt("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    catch (SQLException ex) {
+        throw new DataException("Unable to load Richieste by Ordinante", ex);
+    }
+        return richieste;
+    }
+    @Override
+    public List<Richiesta> getRichiesteDaValutareByUser(int utente_key) throws DataException {
+        List<Richiesta> richieste = new ArrayList<>();
+        try {
+            sRichiesteDaValutareByUser.setInt(1, utente_key);
+            try (ResultSet rs = sRichiesteDaValutareByUser.executeQuery()) {
             while (rs.next()) {
                 richieste.add(getRichiesta(rs.getInt("id")));
             }

@@ -43,9 +43,7 @@ public class TecnicoController extends AppBaseController {
                 int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
                 action_getDettagliPropostaTec(request, response, propostaId);
             } else {
-                TemplateResult result = new TemplateResult(getServletContext());
-                request.setAttribute("navbarTitle", "Dashboard Tecnico");
-                result.activate("/tecnico/dashboardTecnico.ftl", request, response);
+                action_getDashboard(request, response);
             }
 
         } catch (TemplateManagerException ex) {
@@ -53,6 +51,23 @@ public class TecnicoController extends AppBaseController {
         } catch (IOException | DataException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void action_getDashboard(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException, DataException {
+        TemplateResult result = new TemplateResult(getServletContext());
+        request.setAttribute("navbarTitle", "Dashboard Tecnico");
+
+        //Notifiche
+        Utente u = SecurityHelpers.getUserSession(request, response);
+        List<Notifica> notificheMyRichiesta = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichieste(u.getKey());
+        request.setAttribute("notificheMyRichieste", notificheMyRichiesta);
+        List<Notifica> notificheMyOrdini = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecAllOrdini();
+        request.setAttribute("notificheMyOrdini", notificheMyOrdini);
+
+        List<Notifica> notificheRichiesteLibere = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecnicoListaRichiesteLibere();
+        request.setAttribute("notificheRichiesteLibere", notificheRichiesteLibere);
+
+        result.activate("/tecnico/dashboardTecnico.ftl", request, response);
     }
 
 

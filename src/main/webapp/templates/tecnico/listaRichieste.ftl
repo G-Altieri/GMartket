@@ -36,7 +36,7 @@
                 </#list>
 
                 <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
-                    onclick="rowClickHandler('${idNotifica}', '${richiesta.key}', '/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}')">
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${richiesta.key}', '/tecnico/dettagli-richiesta?keyRichiesta=${richiesta.getKey()}')">
                     <td class="index-column "></td>
                     <td>#${richiesta.codice}</td>
                     <td>${richiesta.ordinante.nome}</td>

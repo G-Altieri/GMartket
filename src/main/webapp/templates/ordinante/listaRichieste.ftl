@@ -22,8 +22,10 @@
                 <th>#</th>
                 <th>Codice</th>
                 <th>Tecnico incaricato</th>
+                <th>Categoria</th>
                 <th>Stato Richiesta</th>
                 <th>Data Creazione</th>
+                <th>Stato Ultima Proposta</th>
             </tr>
             </thead>
             <tbody>
@@ -52,6 +54,7 @@
                             Non assegnato
                         </#if>
                     </td>
+                    <td>${richiesta.categoria.nome}</td>
                     <td class="font-semibold
                         <#if richiesta.stato == 'ASSEGNATO'>bg-TgialloChiaro</#if>
                         <#if richiesta.stato == 'COMPLETATO'>bg-TverdeChiaro</#if>
@@ -60,17 +63,21 @@
                         ${richiesta.stato}
                     </td>
                     <td>${richiesta.created_at}</td>
-                    <#--                    <td class="">-->
-                    <#--                        <form method="GET" action="/ordinante/lista-richieste/dettagli-richiesta"-->
-                    <#--                              class="flex justify-center">-->
-                    <#--                            <input type="hidden" name="action" value="modifica">-->
-                    <#--                            <input type="hidden" name="key" value="${richiesta.key}">-->
-                    <#--                            <button type="submit"-->
-                    <#--                                    class="edit-button bg-giallo2 hover:bg-yellow-700 font-medium mx-auto">Dettagli-->
-                    <#--                                Richiesta-->
-                    <#--                            </button>-->
-                    <#--                        </form>-->
-                    <#--                    </td>-->
+                    <td class="font-semibold
+                        <#if proposte[richiesta_index]?has_content>
+                            <#if proposte[richiesta_index].statoProposta == 'IN_SOSPESO'>bg-TgialloChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'ACCETTATO'>bg-TverdeChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'CONTRASSEGNATO'>bg-TverdeChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'RIFIUTATO'>bg-TrossoChiaro2</#if>
+                            <#if proposte[richiesta_index].statoProposta == 'SPEDITO'>bg-TviolaChiaro2</#if>
+                        <#else>
+                        </#if>">
+                        <#if proposte[richiesta_index]?has_content>
+                            ${proposte[richiesta_index].statoProposta}
+                        <#else>
+                            Nessuna Proposta
+                        </#if>
+                    </td>
                 </tr>
             </#list>
             </tbody>

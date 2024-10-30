@@ -182,6 +182,10 @@
         <url-pattern>/ordinante</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>Ordinante</servlet-name>
+        <url-pattern>/ordinante/proposteDaValutare</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>Richiesta</servlet-name>
         <url-pattern>/ordinante/crea-richiesta</url-pattern>
     </servlet-mapping>

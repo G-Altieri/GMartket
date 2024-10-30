@@ -305,3 +305,70 @@ li.active .icon path {
     from { background-color: rgba(255, 0, 0, 0.4); }
     to { background-color: transparent; }
 }
+
+
+
+/*Animazione della campanella*/
+/* Contenitore per centraggio */
+.notification-container {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+/* Stile della campana */
+.bell-icon {
+
+
+    animation: ring 2.5s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+/* Badge per notifiche */
+.notification-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    background-color: #FF3B30; /* Rosso per il badge */
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animazione oscillazione */
+@keyframes ring {
+    0%, 100% {
+        transform: rotate(0);
+    }
+    10% {
+        transform: rotate(-15deg);
+    }
+    20% {
+        transform: rotate(15deg);
+    }
+    30% {
+        transform: rotate(-10deg);
+    }
+    40% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+    60% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Animazione per effetto "pulse" del badge */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.8;
+    }
+}

@@ -30,6 +30,8 @@ public interface RichiestaDAO {
 
     List<Richiesta> getRichiesteByAssegnatoByOrdinante(int utente_key) throws DataException;
 
+    List<Richiesta> getRichiesteDaValutareByUser(int utente_key) throws DataException;
+
     List<Richiesta> getAllRichiesteTecnico() throws DataException;
         List<Richiesta> getAllRichiesteByTecnico(int key) throws DataException;
 }

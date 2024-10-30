@@ -56,7 +56,7 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             iNotifica = connection.prepareStatement("INSERT INTO notifica (titolo, contenuto, letta, id_utente, ruolo, richiesta, proposta, ordine) VALUES (?, ?, ?, ?, ?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             uNotifica = connection.prepareStatement("UPDATE notifica SET titolo = ?, contenuto = ?, letta = ?, id_utente = ?, ruolo = ?,richiesta = ?,proposta = ?,ordine = ? WHERE id = ?");
             dNotifica = connection.prepareStatement("DELETE FROM notifica WHERE id = ?");
-            sNotificheTecRichiesteLibere = connection.prepareStatement("SELECT * FROM notifica WHERE ruolo = 'TECNICO' AND letta = false AND richiesta IS NOT NULL");
+            sNotificheTecRichiesteLibere = connection.prepareStatement("SELECT * FROM notifica WHERE ruolo = 'TECNICO' AND letta = false AND richiesta IS NOT NULL AND proposta IS NULL AND ordine IS NULL");
             sNotificheTecAllOrdini = connection.prepareStatement("SELECT * FROM notifica WHERE ruolo = 'TECNICO' AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL AND ordine IS NOT NULL");
             sNotificheUserMyRichieste = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL");
             sNotificheUserMyRichiesteProposte = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL");
@@ -124,8 +124,6 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
 
 
             int richiestaId = rs.getInt("richiesta");
-            System.out.println(richiestaId);
-            System.out.println("richiestaId");
 
             Richiesta richiesta = ((AppDataLayer) getDataLayer()).getRichiestaDAO().getRichiesta(richiestaId);
             notifica.setRichiesta(richiesta);
