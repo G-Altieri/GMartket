@@ -12,6 +12,12 @@
             </div>
         </div>
         <div class="col-span-2"></div>
+<#--        <div class="col-span-1 md:col-span-2 bg-white p-4 w-full gap-4 rounded-3xl shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center">-->
+<#--            <div class="text-2xl font-semibold text-bluScuro ">Notifiche</div>-->
+<#--            <div class="">-->
+<#--                <img src="/images/icons/vectorNotifiche.svg" alt="vectorNotifiche" class="w-full w-90 h-auto ">-->
+<#--            </div>-->
+<#--        </div>-->
     </div>
 
     <#--    Sezione 2 Gestione -->
@@ -27,7 +33,7 @@
             </div>
             <span class="notification-badge"></span>
             <div class="text-3xl font-semibold text-bluScuro ">Proposte da Valutare</div>
-            <img src="/images/icons/dashboardOrdinante/vectorRichiesta.svg" alt="vectorOrdinante" class="w-full max-w-[220px] h-auto ">
+            <img src="/images/icons/dashboardOrdinante/vectorProposte.svg" alt="vectorOrdinante" class="w-full max-w-[220px] h-auto ">
         </a>
         </#if>
         <a href="/ordinante/crea-richiesta" class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">

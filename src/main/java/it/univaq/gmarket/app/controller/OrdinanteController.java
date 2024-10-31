@@ -158,6 +158,7 @@ public class OrdinanteController extends AppBaseController {
         List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichieste(keyUtente);
         request.setAttribute("notifiche", notifiche);
 
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaRichieste.ftl", request, response);
 
@@ -188,6 +189,7 @@ public class OrdinanteController extends AppBaseController {
         request.setAttribute("proposte", proposte);
 
         request.setAttribute("notifiche", new ArrayList<Notifica>());
+
 
         result.activate("/ordinante/listaRichieste.ftl", request, response);
     }

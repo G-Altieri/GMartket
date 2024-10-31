@@ -263,6 +263,16 @@
         <servlet-name>GestioneNotifiche</servlet-name>
         <url-pattern>/tecnico/read-notifica</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneNotifiche</servlet-name>
+        <url-pattern>/ordinante/notifiche</url-pattern>
+    </servlet-mapping>    <servlet-mapping>
+        <servlet-name>GestioneNotifiche</servlet-name>
+        <url-pattern>/tecnico/notifiche</url-pattern>
+    </servlet-mapping>    <servlet-mapping>
+        <servlet-name>GestioneNotifiche</servlet-name>
+        <url-pattern>/admin/notifiche</url-pattern>
+    </servlet-mapping>
 
 
     <!--Index-->

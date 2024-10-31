@@ -26,4 +26,8 @@ public interface NotificaDAO {
     List<Notifica> getNotificheUserMyRichiesteProposte(int utenteId) throws DataException;
 
     List<Notifica> getNotificheUserMyOrdini(int utenteId) throws DataException;
+
+    List<Notifica> getNotificheNonLetteUser(int utenteId) throws DataException;
+
+    List<Notifica> getNotificheAllUser(int utenteId) throws DataException;
 }

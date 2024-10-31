@@ -9,11 +9,14 @@ import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.NotificaImpl;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
+import it.univaq.gmarket.framework.result.TemplateManagerException;
+import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class GestioneNotifiche extends AppBaseController {
 
@@ -22,7 +25,7 @@ public class GestioneNotifiche extends AppBaseController {
 
         try {
 
-            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE};
+            Ruolo[] allowedRoles = {Ruolo.TECNICO, Ruolo.ORDINANTE, Ruolo.AMMINISTRATORE};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
@@ -31,6 +34,8 @@ public class GestioneNotifiche extends AppBaseController {
 
             if (path.endsWith("/tecnico/read-notifica")) {
                 action_readNotifica(request, response);
+            } else if (path.endsWith("/notifiche")) {
+                action_paginaNotifiche(request, response);
             } else {
                 response.sendRedirect("/home");
             }
@@ -49,6 +54,23 @@ public class GestioneNotifiche extends AppBaseController {
         return;
     }
 
+
+    private void action_paginaNotifiche(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException, DataException {
+        TemplateResult res = new TemplateResult(getServletContext());
+
+        request.setAttribute("navbarTitle", "Notifiche");
+
+        //Notifiche
+        Utente u = SecurityHelpers.getUserSession(request, response);
+        List<Notifica> notificheAll = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheAllUser(u.getKey());
+        List<Notifica> notificheNonLette = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheNonLetteUser(u.getKey());
+        request.setAttribute("notificheAll", notificheAll);
+        request.setAttribute("notificheNonLette", notificheNonLette);
+
+
+        res.activate("/notifiche.ftl", request, response);
+    }
+
 //
 //    private static void generaNotifica(HttpServletRequest request, HttpServletResponse response, Utente ordinante, Richiesta richiesta,
 //    Proposta proposta, Proposta ordine, Ruolo ruolo){
@@ -61,5 +83,19 @@ public class GestioneNotifiche extends AppBaseController {
 //        notifica.setRichiesta(richiesta);
 //        notificaDAO.storeNotifica(notifica);
 //    }
+    public static void navbarNotifiche(HttpServletRequest request, HttpServletResponse response){
+        //Notifiche
+        Utente u = null;
+        try {
+            u = SecurityHelpers.getUserSession(request, response);
+            if (u != null) {
+                List<Notifica> notificheNonLette = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheNonLetteUser(u.getKey());
+                request.setAttribute("notificheNonLette", notificheNonLette);
+            }
+
+        } catch (IOException | DataException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

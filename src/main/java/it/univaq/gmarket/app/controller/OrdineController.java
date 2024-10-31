@@ -134,6 +134,7 @@ public class OrdineController extends AppBaseController {
         List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyOrdini(u.getKey());
         request.setAttribute("notifiche", notifiche);
 
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/ordinante/listaOrdini.ftl", request, response);
 

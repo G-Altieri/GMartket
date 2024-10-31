@@ -85,6 +85,7 @@ public class CategoriaController extends AppBaseController {
             //System.out.println(categorie);
             // Setta le categorie come attributo nella request
             request.setAttribute("categorie", categorie);
+
             result.activate("/admin/categorie/aggiungiCategoria.ftl", request, response);  // Usa il template giusto per aggiungere
         }
     }
@@ -101,6 +102,7 @@ public class CategoriaController extends AppBaseController {
         // Visualizza la lista delle categorie
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("navbarTitle", "Lista Categorie");
+
         result.activate("/admin/categorie/categorie.ftl", request, response);  // Usa il template giusto per la lista
     }
 
@@ -173,6 +175,7 @@ public class CategoriaController extends AppBaseController {
                 request.setAttribute("categorie", categorie);  // Tutte le categorie, per la selezione del padre
                 //  request.setAttribute("categorieFiglie", categorieFiglie);  // Le categorie figlie
                 request.setAttribute("navbarTitle", "Categoria " + categoria.getNome());
+
                 //   System.out.println("gerarchia: " + categoriaHierarchia);
                 // Carica il template FreeMarker per visualizzare la categoria
                 TemplateResult result = new TemplateResult(getServletContext());

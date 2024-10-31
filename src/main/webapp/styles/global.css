@@ -335,6 +335,15 @@ li.active .icon path {
     border-radius: 50%;
     animation: pulse 1.5s ease-in-out infinite;
 }
+.notification-badge2 {
+    position: absolute;
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    background-color: #FF3B30; /* Rosso per il badge */
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+}
 
 /* Animazione oscillazione */
 @keyframes ring {

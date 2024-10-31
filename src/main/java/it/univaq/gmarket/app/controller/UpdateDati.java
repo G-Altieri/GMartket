@@ -27,6 +27,8 @@ public class UpdateDati extends AppBaseController {
         String ruolo = u.getRuolo().toString();
         request.setAttribute("ruolo", ruolo);
         request.setAttribute("navbarTitle", "Gestione Utente ");
+
+
         request.setAttribute("user_type", u.getRuolo().toString());
         res.activate("/admin/utenti/utenteModifica.ftl", request, response);
     }

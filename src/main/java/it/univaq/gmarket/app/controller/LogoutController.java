@@ -16,7 +16,7 @@ public class LogoutController extends AppBaseController {
         if (request.getParameter("referrer") != null) {
             response.sendRedirect(request.getParameter("referrer"));
         } else {
-            response.sendRedirect("login");
+            response.sendRedirect("/login");
         }
     }
     @Override

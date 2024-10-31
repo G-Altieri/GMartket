@@ -69,6 +69,7 @@ public class RichiestaController extends AppBaseController {
         request.setAttribute("caratteristicheList", caratteristicheList);
         request.setAttribute("navbarTitle", "Crea Richiesta 2/2");
         request.setAttribute("categoria_figlio", categoriaFiglio.getKey());
+
         // Attiva il template FreeMarker
         result.activate("/ordinante/creaRichiesta/creaRichiesta_caratteristiche.ftl", request, response);
     }
@@ -105,6 +106,7 @@ public class RichiestaController extends AppBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         request.setAttribute("rootCategory", categoriaDAO.getCategoriePadri());
         request.setAttribute("navbarTitle", "Crea Richiesta 1/2");
+
         result.activate("/ordinante/creaRichiesta/creaRichiesta_categorie.ftl", request, response);
     }
 }

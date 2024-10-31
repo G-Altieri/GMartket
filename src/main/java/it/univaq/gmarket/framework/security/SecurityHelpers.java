@@ -4,6 +4,7 @@ package it.univaq.gmarket.framework.security;
 
 
 import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.app.controller.GestioneNotifiche;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataException;
@@ -321,7 +322,7 @@ public class SecurityHelpers {
         HttpSession session = SecurityHelpers.checkSession(request);
         if (session == null) {
             // Se la sessione non è valida, torno al login
-            response.sendRedirect("login");
+            response.sendRedirect("/login");
             return;
         }
 
@@ -345,6 +346,9 @@ public class SecurityHelpers {
                 return;
             }
         }
+        //Se l utente e loggato controllo se ha notifiche non lette in caso le aggiungo per notificarlo nella navbar
+        GestioneNotifiche.navbarNotifiche(request, response);
+
     }
 
 
@@ -352,7 +356,7 @@ public class SecurityHelpers {
         HttpSession session = SecurityHelpers.checkSession(request);
         if (session == null) {
             // Se la sessione non è valida, torno al login
-            response.sendRedirect("login");
+            response.sendRedirect("/login");
             return null;
         }
 
@@ -368,7 +372,7 @@ public class SecurityHelpers {
         if (u != null) {
             return u;
         }
-        response.sendRedirect("login");
+        response.sendRedirect("/login");
         return null;
     }
 

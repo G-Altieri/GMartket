@@ -67,6 +67,7 @@ public class TecnicoController extends AppBaseController {
         List<Notifica> notificheRichiesteLibere = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecnicoListaRichiesteLibere();
         request.setAttribute("notificheRichiesteLibere", notificheRichiesteLibere);
 
+
         result.activate("/tecnico/dashboardTecnico.ftl", request, response);
     }
 
@@ -82,6 +83,7 @@ public class TecnicoController extends AppBaseController {
         //Notifiche
         List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheTecnicoListaRichiesteLibere();
         request.setAttribute("notifiche", notifiche);
+
 
         res.activate("/tecnico/listaRichieste.ftl", request, response);
     }
@@ -106,6 +108,7 @@ public class TecnicoController extends AppBaseController {
         //Notifiche
         List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichieste(keyUtente);
         request.setAttribute("notifiche", notifiche);
+
 
 
         TemplateResult res = new TemplateResult(getServletContext());
@@ -154,6 +157,7 @@ public class TecnicoController extends AppBaseController {
         List<Notifica> notifiche = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO().getNotificheUserMyRichiesteProposte(u.getKey());
         request.setAttribute("notifiche", notifiche);
 
+
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliRichiesta.ftl", request, response);
 
@@ -175,6 +179,7 @@ public class TecnicoController extends AppBaseController {
         }else{
             request.setAttribute("navbarTitle", "Dettaglio Ordine #" + proposta.getCodiceProposta());
         }
+
 
         TemplateResult res = new TemplateResult(getServletContext());
         res.activate("/tecnico/dettagliProposta.ftl", request, response);

@@ -44,6 +44,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import it.univaq.gmarket.app.AppDataLayer;
+import it.univaq.gmarket.app.controller.GestioneNotifiche;
+import it.univaq.gmarket.data.model.Notifica;
+import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.framework.data.DataException;
+import it.univaq.gmarket.framework.security.SecurityHelpers;
 import no.api.freemarker.java8.Java8ObjectWrapper;
 
 /**
@@ -233,7 +239,12 @@ public class TemplateResult {
     //questa versione di activate estrae un modello dati dagli attributi della request
     //this acivate method extracts the data model from the request attributes
     public void activate(String tplname, HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
+
+        //Default Attribute
         request.setAttribute("currentUrl", request.getRequestURI());
+
+
+
         Map datamodel = getRequestDataModel(request);
         setupServletResponse(datamodel, response);
         try {

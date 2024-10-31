@@ -25,7 +25,6 @@ public class AppDataLayer extends DataLayer {
     @Override
     public void init() throws DataException {
         //registriamo i nostri dao
-        //register our daos
         registerDAO(Utente.class, new UtenteDAO_SQL(this));
         registerDAO(Categoria.class, new CategoriaDAO_SQL(this));
         registerDAO(Caratteristica.class, new CaratteristicaDAO_SQL(this));
