@@ -122,6 +122,7 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             notifica.setTitolo(rs.getString("titolo"));
             notifica.setContenuto(rs.getString("contenuto"));
             notifica.setLetta(rs.getBoolean("letta"));
+            notifica.setCreated_at(rs.getTimestamp("created_at"));
 
             int utenteId = rs.getInt("id_utente");
             Utente utente = ((AppDataLayer) getDataLayer()).getUtenteDAO().getUtente(utenteId);

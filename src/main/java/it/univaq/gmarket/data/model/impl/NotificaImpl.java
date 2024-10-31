@@ -6,6 +6,8 @@ import it.univaq.gmarket.data.model.Richiesta;
 import it.univaq.gmarket.data.model.Utente;
 import it.univaq.gmarket.framework.data.DataItemImpl;
 
+import java.sql.Timestamp;
+
 public class NotificaImpl extends DataItemImpl<Integer> implements Notifica {
 
 
@@ -17,6 +19,16 @@ public class NotificaImpl extends DataItemImpl<Integer> implements Notifica {
     private Richiesta richiesta;
     private Proposta proposta;
     private Proposta ordine;
+    private Timestamp created_at;
+
+    @Override
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+    @Override
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
 
     @Override
     public String getTitolo() {
@@ -105,6 +117,7 @@ public class NotificaImpl extends DataItemImpl<Integer> implements Notifica {
                 ", proposta=" + (proposta != null ? proposta.getKey() : "N/A") +
                 ", richiesta=" + (richiesta != null ? richiesta.getKey() : "N/A") +
                 ", ordine=" + (ordine != null ? ordine.getKey() : "N/A") +
+                ", created_at=" + (created_at != null ? created_at : "N/A") +
                 '}';
     }
 }

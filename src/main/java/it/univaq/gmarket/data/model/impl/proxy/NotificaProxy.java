@@ -8,6 +8,8 @@ import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataItemProxy;
 import it.univaq.gmarket.framework.data.DataLayer;
 
+import java.sql.Timestamp;
+
 public class NotificaProxy extends NotificaImpl implements DataItemProxy {
 
     protected boolean modified;
@@ -68,6 +70,14 @@ public class NotificaProxy extends NotificaImpl implements DataItemProxy {
         super.setOrdine(x);
         this.modified = true;
     }
+
+    @Override
+    public void setCreated_at(Timestamp created_at) {
+        super.setCreated_at(created_at);
+        this.modified = true;
+    }
+
+
 
     // Metodi del Proxy per gestire lo stato modificato
 

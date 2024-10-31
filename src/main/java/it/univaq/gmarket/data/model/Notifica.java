@@ -3,8 +3,14 @@ package it.univaq.gmarket.data.model;
 import it.univaq.gmarket.data.model.impl.Ruolo;
 import it.univaq.gmarket.framework.data.DataItem;
 
+import java.sql.Timestamp;
+
 public interface Notifica extends DataItem<Integer> {
 
+
+    Timestamp getCreated_at();
+
+    void setCreated_at(Timestamp created_at);
 
     String getTitolo();
 
