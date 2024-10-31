@@ -50,7 +50,7 @@
                     </#if>
                 </#list>
                 <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
-                    onclick="rowClickHandlerNotifica('${idNotifica}', '${proposta.key}', '/ordinante/dettagli-proposta?keyProposta=${proposta.getKey()}')">
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${proposta.key}', '/ordinante/dettagli-proposta?keyProposta=${proposta.getKey()}&ordini=x')">
                     <td class="index-column"></td>
                     <td>#${proposta.codiceProposta}</td>
                     <td>${proposta.nomeProdotto}</td>

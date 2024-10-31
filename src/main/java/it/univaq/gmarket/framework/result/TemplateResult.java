@@ -45,9 +45,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.univaq.gmarket.app.AppDataLayer;
-import it.univaq.gmarket.app.controller.GestioneNotifiche;
-import it.univaq.gmarket.data.model.Notifica;
-import it.univaq.gmarket.data.model.Utente;
+import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
 import no.api.freemarker.java8.Java8ObjectWrapper;
@@ -244,7 +242,7 @@ public class TemplateResult {
         request.setAttribute("currentUrl", request.getRequestURI());
 
         System.out.println("current url: " + request.getRequestURI());
-        request.setAttribute("backPage", calcoloBackPage(request.getRequestURI()));
+        request.setAttribute("backPage", calcoloBackPage(request));
 
 
         Map datamodel = getRequestDataModel(request);
@@ -256,8 +254,58 @@ public class TemplateResult {
         }
     }
 
-    private String calcoloBackPage(String requestURI) {
-        return "/";
+    private String calcoloBackPage(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        int keyProposta = 0;
+        boolean isOrdini = false;
+        boolean isLibere = false;
+
+        switch (requestURI) {
+            //ORDINANTE
+            case "/ordinante/crea-richiesta", "/ordinante/lista-richieste", "/ordinante/lista-ordini":
+                return "/ordinante";
+            case "/ordinante/crea-richiesta-caratteristiche":
+                return "/ordinante/crea-richiesta";
+            case "/ordinante/dettagli-richiesta":
+                return "/ordinante/lista-richieste";
+            case "/ordinante/dettagli-proposta":
+                keyProposta = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
+                isOrdini = "x".equals(request.getParameter("ordini"));
+                if (isOrdini) return "/ordinante/lista-ordini";
+                try {
+                    Proposta p = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(keyProposta);
+                    return "/ordinante/dettagli-richiesta?keyRichiesta=" + p.getRichiesta().getKey();
+                } catch (DataException e) {
+                    throw new RuntimeException(e);
+                }
+
+                //TECNICO
+            case "/tecnico/lista-richieste", "/tecnico/lista-richiesteProprie", "/tecnico/lista-ordini":
+                return "/tecnico";
+            case "/tecnico/dettagli-richiesta":
+                isLibere = "x".equals(request.getParameter("libere"));
+                if (isLibere) return "/tecnico/lista-richieste";
+                return "/tecnico/lista-richiesteProprie";
+            case "/tecnico/dettagli-proposta":
+                keyProposta = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
+                isOrdini = "x".equals(request.getParameter("ordini"));
+                if (isOrdini) return "/tecnico/lista-ordini";
+                try {
+                    Proposta p = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(keyProposta);
+                    return "/tecnico/dettagli-richiesta?keyRichiesta=" + p.getRichiesta().getKey();
+                } catch (DataException e) {
+                    throw new RuntimeException(e);
+                }
+                //ADMIN
+            case "/admin/categorie", "/admin/utenti":
+                return "/admin";
+            case "/admin/utenti/aggiungi", "/admin/utenti/modifica":
+                return "/admin/utenti";
+            case "/admin/categorie/visualizza/", "/admin/categorie/aggiungi":
+                return "/admin/categorie";
+
+        }
+        return "/home";
     }
 
     //metodo interno per il setup della response

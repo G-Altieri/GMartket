@@ -51,7 +51,7 @@
                     </#if>
                 </#list>
                 <tr class="hover-row ${isHighlighted?then('highlighted-row','')}"
-                    onclick="rowClickHandlerNotifica('${idNotifica}', '${proposta.key}', '/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}')">
+                    onclick="rowClickHandlerNotifica('${idNotifica}', '${proposta.key}', '/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}&ordini=x')">
 <#--                    onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">-->
                     <td class="index-column"></td>
                     <td>#${proposta.codiceProposta}</td>
@@ -112,7 +112,7 @@
                 <tbody>
                 <#list listProposte2 as proposta>
                     <tr class="hover-row"
-                        onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}'">
+                        onclick="window.location.href='/tecnico/dettagli-proposta?keyProposta=${proposta.getKey()}&ordini=x'">
                         <td class="index-column"></td>
                         <td>#${proposta.codiceProposta}</td>
                         <td>${proposta.richiesta.ordinante.nome} ${proposta.richiesta.ordinante.cognome}</td>
