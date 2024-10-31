@@ -243,6 +243,8 @@ public class TemplateResult {
         //Default Attribute
         request.setAttribute("currentUrl", request.getRequestURI());
 
+        System.out.println("current url: " + request.getRequestURI());
+        request.setAttribute("backPage", calcoloBackPage(request.getRequestURI()));
 
 
         Map datamodel = getRequestDataModel(request);
@@ -252,6 +254,10 @@ public class TemplateResult {
         } catch (IOException ex) {
             throw new TemplateManagerException("Template error: " + ex.getMessage(), ex);
         }
+    }
+
+    private String calcoloBackPage(String requestURI) {
+        return "/";
     }
 
     //metodo interno per il setup della response

@@ -49,8 +49,10 @@ public class GestioneNotifiche extends AppBaseController {
         NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
         int key = SecurityHelpers.checkNumeric(request.getParameter("key"));
         Notifica notifica = notificaDAO.getNotifica(key);
-        notifica.setLetta(true);
-        notificaDAO.storeNotifica(notifica);
+        if (notifica != null) {
+            notifica.setLetta(true);
+            notificaDAO.storeNotifica(notifica);
+        }
         return;
     }
 
@@ -71,7 +73,7 @@ public class GestioneNotifiche extends AppBaseController {
         res.activate("/notifiche.ftl", request, response);
     }
 
-//
+    //
 //    private static void generaNotifica(HttpServletRequest request, HttpServletResponse response, Utente ordinante, Richiesta richiesta,
 //    Proposta proposta, Proposta ordine, Ruolo ruolo){
 //        System.out.println("Notifiche");
@@ -83,7 +85,7 @@ public class GestioneNotifiche extends AppBaseController {
 //        notifica.setRichiesta(richiesta);
 //        notificaDAO.storeNotifica(notifica);
 //    }
-    public static void navbarNotifiche(HttpServletRequest request, HttpServletResponse response){
+    public static void navbarNotifiche(HttpServletRequest request, HttpServletResponse response) {
         //Notifiche
         Utente u = null;
         try {

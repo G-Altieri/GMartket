@@ -26,10 +26,10 @@ public class PropostaDAO_SQL extends DAO implements PropostaDAO {
         try {
             super.init();
             sProposteByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? ORDER BY created_at DESC");
-            sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE id = ?");
-            sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETTATO' ");
-            sPropostaSpeditaByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'SPEDITO' ");
-            sPropostaContrassegnataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'CONTRASSEGNATO' ");
+            sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE id = ? ORDER BY created_at DESC");
+            sPropostaAccettataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'ACCETTATO' ORDER BY created_at DESC");
+            sPropostaSpeditaByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'SPEDITO' ORDER BY created_at DESC ");
+            sPropostaContrassegnataByRichiesta = connection.prepareStatement("SELECT * FROM proposta WHERE id_richiesta = ? AND stato = 'CONTRASSEGNATO' ORDER BY created_at DESC");
             iProposta = connection.prepareStatement("INSERT INTO proposta (codice_proposta, id_richiesta, nome_produttore, nome_prodotto, prezzo, link, note, stato, motivazione, created_at,  stato_ordine, data_ordine, version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_proposta = ?, nome_produttore = ?, nome_prodotto = ?, prezzo = ?, link = ?, note = ?, stato = ?, motivazione = ?,  stato_ordine = ?, data_ordine = ?, version = ? WHERE id = ? AND version=?");
         } catch (SQLException ex) {

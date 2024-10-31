@@ -27,7 +27,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
             try {
                 super.init();
 
-                sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ?");
+                sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID = ? ");
                 sRichiesteByOrdinante = connection.prepareStatement("SELECT * FROM richiesta WHERE id_ordinante = ? ORDER BY created_at DESC");
                 sRichiesteByTecnico = connection.prepareStatement("SELECT * FROM richiesta WHERE id_tecnico = ? ORDER BY created_at DESC");
                 sAllRichiesteLibere = connection.prepareStatement("SELECT * FROM richiesta WHERE stato IN ('IN_ATTESA') ORDER BY created_at DESC");
@@ -209,7 +209,7 @@ public class RichiestaDAO_SQL extends DAO implements RichiestaDAO {
         @Override
         public void deleteRichiesta(int richiesta_key) throws DataException {
             try {
-                PreparedStatement dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
+                PreparedStatement dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=? ");
                 dRichiesta.setInt(1, richiesta_key);
                 dRichiesta.executeUpdate();
                 dataLayer.getCache().delete(Richiesta.class, richiesta_key);

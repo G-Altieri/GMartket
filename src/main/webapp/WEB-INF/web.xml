@@ -271,7 +271,7 @@
         <url-pattern>/tecnico/notifiche</url-pattern>
     </servlet-mapping>    <servlet-mapping>
         <servlet-name>GestioneNotifiche</servlet-name>
-        <url-pattern>/amministratore/notifiche</url-pattern>
+        <url-pattern>/admin/notifiche</url-pattern>
     </servlet-mapping>
 
 

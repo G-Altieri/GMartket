@@ -8,11 +8,13 @@
                   class=""/>
         </svg>
         <div class="text-4xl font-semibold text-bluScuro"> ${navbarTitle}</div>
+<#--        <a class="text-4xl font-semibold text-bluScuro" href="${backPage}"> BACK</a>-->
+
     </div>
     <div class="text-2xl font-medium text-bluScuro flex flex-row items-center gap-2 relative">
 
         <a href="<#if user.ruolo == 'AMMINISTRATORE'>
-              /amministratore/notifiche
+              /admin/notifiche
           <#elseif user.ruolo == 'ORDINANTE'>
               /ordinante/notifiche
           <#elseif user.ruolo == 'TECNICO'>

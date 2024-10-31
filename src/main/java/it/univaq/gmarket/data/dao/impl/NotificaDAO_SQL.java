@@ -62,8 +62,8 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
             sNotificheUserMyRichieste = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL");
             sNotificheUserMyRichiesteProposte = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL");
             sNotificheUserMyOrdini = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false AND richiesta IS NOT NULL AND proposta IS NOT NULL AND ordine IS NOT NULL");
-            sNotificheUserAll = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? ");
-            sNotificheUserNonLette = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false");
+            sNotificheUserAll = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? ORDER BY created_at DESC");
+            sNotificheUserNonLette = connection.prepareStatement("SELECT * FROM notifica WHERE id_utente = ? AND letta = false ORDER BY created_at DESC");
         } catch (SQLException e) {
             throw new DataException("Error initializing gmarket data layer", e);
         }
