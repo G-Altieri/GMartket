@@ -16,7 +16,8 @@
         Notifiche non lette
     </h1>
     <#if notificheNonLette?size == 0>
-        <div class="text-lg font-semibold text-bluScuro flex flex-row justify-center">Non ci sono Notifiche da leggere</div>
+        <div class="text-lg font-semibold text-bluScuro flex flex-row justify-center">Non ci sono Notifiche da leggere
+        </div>
     <#else>
         <#list notificheNonLette as notifica>
             <div
@@ -49,11 +50,17 @@
     <#else>
         <#list notificheAll as notifica>
             <div
-                class="flex flex-col cursor-pointer justify-center relative border rounded-2xl border-bluScuro mt-4 p-4 hover:bg-giallo2/50 ${notifica.letta?then('','highlighted-row')}"
-                onclick="markAsRead(${notifica.key}, '/home')"
+                    class="flex flex-col cursor-pointer justify-center relative border rounded-2xl border-bluScuro mt-4 p-4 hover:bg-giallo2/50 ${notifica.letta?then('','highlighted-row')}"
+                    onclick="markAsRead(${notifica.key}, '/home')"
             >
                 <div class="text-lg font-semibold flex flex-row justify-between">${notifica.titolo}
-                    <div class="text-sm font-normal">${notifica.created_at}</div>
+                    <div class="text-sm font-normal">
+                        <#if notifica.created_at?has_content>
+                            ${notifica.created_at}
+                        <#else>
+                            Data non disponibile
+                        </#if>
+                    </div>
                 </div>
                 <div class="mt-2 text-sm font-medium">${notifica.contenuto}</div>
             </div>

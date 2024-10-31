@@ -52,7 +52,6 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
     public void init() throws DataException {
         try {
             super.init();
-            System.out.println("init");
             sNotificaById = connection.prepareStatement("SELECT * FROM notifica WHERE id=?");
             sNotifiche = connection.prepareStatement("SELECT * FROM notifica");
             iNotifica = connection.prepareStatement("INSERT INTO notifica (titolo, contenuto, letta, id_utente, ruolo, richiesta, proposta, ordine) VALUES (?, ?, ?, ?, ?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
@@ -78,7 +77,6 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
     @Override
     public void destroy() throws DataException {
         try {
-            System.out.println("destroy");
             sNotificaById.close();
             sNotifiche.close();
             iNotifica.close();
@@ -94,7 +92,6 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
         } catch (SQLException ex) {
             throw new DataException("Can't destroy prepared statements", ex);
         }
-        System.out.println("destro2y");
         super.destroy();
     }
 
@@ -393,16 +390,11 @@ public class NotificaDAO_SQL extends DAO implements NotificaDAO {
     @Override
     public List<Notifica> getNotificheNonLetteUser(int utenteId) throws DataException {
         List<Notifica> result = new ArrayList<>();
-        System.out.println("asd");
-        System.out.println(utenteId);
-        System.out.println("sNotificheUserNonLette");
-        System.out.println(sNotificheUserNonLette);
+
         try {
             sNotificheUserNonLette.setInt(1, utenteId);
-            System.out.println(sNotificheUserNonLette);
             try (ResultSet rs = sNotificheUserNonLette.executeQuery()) {
                 while (rs.next()) {
-                    System.out.println("ca iasdpa");
                     result.add(getNotifica(rs.getInt("id")));
                 }
             }
