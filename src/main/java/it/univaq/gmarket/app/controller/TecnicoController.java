@@ -11,6 +11,7 @@ import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.EmailSender;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,13 @@ public class TecnicoController extends AppBaseController {
             } else if (path.endsWith("/dettagli-proposta")) {
                 int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
                 action_getDettagliPropostaTec(request, response, propostaId);
+            } else if (path.endsWith("/invioEmailTest")) {
+                System.out.println("invio email");
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                System.out.println(sender);
+                sender.sendEmail("peroniciro@gmail.com","test prima email");
+                System.out.println("email inviata");
+                response.sendRedirect("/home");
             } else {
                 action_getDashboard(request, response);
             }

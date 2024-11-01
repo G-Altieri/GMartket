@@ -5,4 +5,6 @@
     <!-- specificare la timezone del server, nella connection string o nella configurazione dello stesso, è essenziale col connector/J 8 -->
     <!-- specifying the server timezone, in the connection string o the server configuration is required with connector/J 8 -->
     <Resource auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" maxActive="10" maxIdle="5" maxWait="10000" name="jdbc/gmarket" password="webpass" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/gmarket_db?connectionTimeZone=LOCAL&amp;forceConnectionTimeZoneToSession=false" username="website"/>
+    <Environment name="email" value="MS_sHJVXW@trial-3z0vklo10jvg7qrx.mlsender.net" type="java.lang.String" override="false"/>
+    <Environment name="password" value="OmAZkalqYHnaqdMQ" type="java.lang.String" override="false"/>
 </Context>
