@@ -40,7 +40,6 @@ public class LoginController extends AppBaseController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-
         //Controllo per vedere se e login semplificato
         if (email.equals("generale@generale.com") && password.equals("generale")) {
             Ruolo role = Ruolo.valueOf(request.getParameter("role"));
@@ -48,10 +47,22 @@ public class LoginController extends AppBaseController {
             return;
         }
 
-
         try {
+            // Se non ha inserito email e password redireziono con errore
+            if (email.isEmpty() || password.isEmpty()) {
+                request.setAttribute("error", "x");
+                renderLoginPage(request, response);
+            }
+
+            //Recupero l utente nel db se esiste
             AppDataLayer dl = (AppDataLayer) request.getAttribute("datalayer");
             Utente u = dl.getUtenteDAO().getUtenteByEmail(email);
+
+            if (u == null) {
+                request.setAttribute("error", "x");
+                renderLoginPage(request, response);
+                return;
+            }
 
             Ruolo role = u.getRuolo();
 
@@ -68,15 +79,11 @@ public class LoginController extends AppBaseController {
                 return;
             }
 
-            // Se non ha inserito email e password redireziono con errore
-            if (email.isEmpty() || password.isEmpty()) {
-                response.sendRedirect("login?error=3");
-            }
-
 
             // Se la password è errata
             if (u == null || !SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
-                response.sendRedirect("login?error=2");
+                request.setAttribute("error", "x");
+                renderLoginPage(request, response);
                 return;
             }
 

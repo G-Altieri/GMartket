@@ -40,7 +40,8 @@
                 </div>
 
                 <!-- Radio Buttons Section -->
-                <h2 class="text-bluScuro text-sm bg-TgialloChiaro2 px-2 py-1 rounded-xl text-center">Per semplificare il login nella demo, usare valori di default e selezionare un ruolo</h2>
+                <h2 class="text-bluScuro text-sm bg-TgialloChiaro2 px-2 py-1 rounded-xl text-center">Per semplificare il
+                    login nella demo, usare valori di default e selezionare un ruolo</h2>
                 <div class="flex items-center space-x-4 flex-row justify-between">
                     <div>
                         <input type="radio" id="ordinante" name="role" value="ORDINANTE" required
@@ -60,6 +61,12 @@
                                class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Admin</label>
                     </div>
                 </div>
+
+                <#--     Gestione errore           -->
+                <#if error?exists && error == "x">
+                    <h2 class="text-bluScuro text-sm bg-TrossoChiaro px-2 py-1 rounded-xl text-center">Email o Password
+                        errati, riprovare...</h2>
+                </#if>
 
                 <button id="login" name="login" type="submit"
                         class="mt-8i w-full bg-primario duration-300 transition-all text-white text-xl font-bold px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">

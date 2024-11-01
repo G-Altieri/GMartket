@@ -241,7 +241,6 @@ public class TemplateResult {
         //Default Attribute
         request.setAttribute("currentUrl", request.getRequestURI());
 
-        System.out.println("current url: " + request.getRequestURI());
         request.setAttribute("backPage", calcoloBackPage(request));
 
 

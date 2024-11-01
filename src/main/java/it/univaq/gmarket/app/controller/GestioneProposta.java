@@ -98,7 +98,6 @@ public class GestioneProposta extends AppBaseController {
         request.setAttribute("navbarTitle", "Creazione Proposta");
         request.setAttribute("id_richiesta", idRichiesta);
 
-
         result.activate("/tecnico/creazioneProposta.ftl", request, response);
     }
 

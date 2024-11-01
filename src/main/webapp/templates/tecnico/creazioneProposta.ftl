@@ -26,7 +26,7 @@
                     <h2 class="text-xl font-semibold text-bluScuro">Nome Produttore</h2>
                     <input id="nome_produttore" type="text" name="nome_produttore"
                            class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="Fiat..." maxlength="20">
+                           placeholder="Fiat..." maxlength="20" required>
                 </li>
 
                 <!-- Campo Nome Prodotto -->
@@ -34,28 +34,28 @@
                     <h2 class="text-xl font-semibold text-bluScuro">Nome Prodotto</h2>
                     <input id="nome_prodotto" type="text" name="nome_prodotto"
                            class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="Panda..." maxlength="20">
+                           placeholder="Panda..." maxlength="20" required>
                 </li>
 
                 <!-- Campo Prezzo -->
                 <li class="flex flex-row items-center justify-between gap-4 bg-white shadow rounded-lg p-4 rounded-2xl bg-light ">
                     <h2 class="text-xl font-semibold text-bluScuro">Prezzo</h2>
                     <input id="prezzo" type="number" step="0.01" name="prezzo"
-                           class="border border-gray-300 rounded-md px-4 py-2 flex-1" placeholder="12000...">
+                           class="border border-gray-300 rounded-md px-4 py-2 flex-1" placeholder="12000..." required>
                 </li>
 
                 <!-- Campo Link -->
                 <li class="flex flex-row items-center justify-between gap-4 bg-white shadow rounded-lg p-4 rounded-2xl bg-light ">
                     <h2 class="text-xl font-semibold text-bluScuro">Link</h2>
                     <input id="link" type="text" name="link" class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="www.fiat.it">
+                           placeholder="www.fiat.it" >
                 </li>
 
                 <!-- Campo Note -->
                 <li class="flex flex-row items-center justify-between gap-4 bg-white shadow rounded-lg p-4 rounded-2xl bg-light ">
                     <h2 class="text-xl font-semibold text-bluScuro">Note</h2>
                     <input id="note" type="text" name="note" class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="Inserisci note (OPZIONALE)" maxlength="30">
+                           placeholder="Inserisci note (OPZIONALE)" maxlength="30" >
                 </li>
             </ul>
 
