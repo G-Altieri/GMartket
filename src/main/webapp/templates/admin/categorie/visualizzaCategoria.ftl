@@ -42,6 +42,10 @@
             </select>
         </div>
 
+        <#--     Gestione errore           -->
+        <#if error?exists>
+            <h2 class="text-bluScuro text-sm bg-TrossoChiaro px-2 py-1 rounded-xl text-center">${error}</h2>
+        </#if>
 
         <div class="flex flex-row justify-center items-center gap-4  mt-6">
             <button type="submit" name="action" value="elimina"

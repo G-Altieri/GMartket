@@ -76,9 +76,10 @@ public class CaratteristicaController extends AppBaseController {
         }
     }
 
-    private void action_delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void action_delete(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
         CaratteristicaDAO caratteristicaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCaratteristicaDAO();
-        int caratteristicaId = Integer.parseInt(request.getParameter("id"));
+        int caratteristicaId = SecurityHelpers.checkNumeric(request.getParameter("id"));
+        Caratteristica car = caratteristicaDAO.getCaratteristica(caratteristicaId);
         try {
             caratteristicaDAO.deleteCaratteristica(caratteristicaId);  // Funzione per eliminare la caratteristica
             // Reindirizzamento alla pagina precedente (referrer)
@@ -89,6 +90,8 @@ public class CaratteristicaController extends AppBaseController {
                 response.sendRedirect(request.getContextPath() + "/admin/categorie");
             }
         } catch (DataException e) {
+            request.setAttribute("error","La Caratteristica non puo essere eliminata, ha dei riferimenti in delle richieste");
+            response.sendRedirect("/admin/categorie/visualizza/"+car.getCategoria().getKey()+"?error=La Caratteristica non puo essere eliminata, ha dei riferimenti in delle richieste");
             throw new RuntimeException(e);
         }
 
