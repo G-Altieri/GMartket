@@ -6,8 +6,8 @@
         <div class="bg-white p-4 w-full rounded-3xl md:col-span-3 col-span-4 shadow-normalBox grid grid-cols-2">
             <div class="flex flex-col">
                 <div class="text-bluScuro font-semibold text-2xl">Ciao,${user.nome} ${user.cognome}</div>
-                <div class="text-bluScuro font-normal text-md mt-4">al momento ci sono 23 utenti nel sistema</div>
-                <div class="text-bluScuro font-normal text-md">e ben 23 categorie</div>
+                <div class="text-bluScuro font-normal text-md mt-4">al momento ci sono ${numeroUtenti} utenti nel sistema</div>
+                <div class="text-bluScuro font-normal text-md">e ben ${numeroCategorie} categorie</div>
             </div>
             <div class="">
                 <img src="/images/icons/dashboardAdmin/vectorAdmin.svg" alt="vectorAdmin"

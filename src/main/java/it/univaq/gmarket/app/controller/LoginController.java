@@ -11,6 +11,7 @@ import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,10 +42,14 @@ public class LoginController extends AppBaseController {
         String password = request.getParameter("password");
 
         //Controllo per vedere se e login semplificato
-        if (email.equals("generale@generale.com") && password.equals("generale")) {
-            Ruolo role = Ruolo.valueOf(request.getParameter("role"));
-            loginSemplificato(request, response, role, email);
-            return;
+        ServletContext context = getServletContext();
+        boolean isDebug = Boolean.parseBoolean(context.getInitParameter("view.debug"));
+        if (isDebug) {
+            if (email.equals("generale@generale.com") && password.equals("generale")) {
+                Ruolo role = Ruolo.valueOf(request.getParameter("role"));
+                loginSemplificato(request, response, role, email);
+                return;
+            }
         }
 
         try {
@@ -155,6 +160,13 @@ public class LoginController extends AppBaseController {
 
     private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
+
+        //Se e debug aggiungo i vari elementi del debug sul login
+        ServletContext context = getServletContext();
+        boolean isDebug = Boolean.parseBoolean(context.getInitParameter("view.debug"));
+        if (isDebug) {
+            request.setAttribute("isDebug", true);
+        }
 
         request.setAttribute("referrer", request.getParameter("referrer"));
         request.setAttribute("includeHeader", false);

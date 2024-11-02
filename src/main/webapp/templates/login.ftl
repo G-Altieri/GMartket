@@ -28,39 +28,42 @@
                 <div class="mt-6">
                     <label for="email" class="block text-lg text-bluScuro font-medium text-gray-700">Email</label>
                     <input type="email" id="email" name="email" required
-                           value="generale@generale.com"
+                           value="<#if isDebug?? && isDebug>generale@generale.com</#if>"
                            class=" block w-full px-3 py-2 shadowBoxInput  border border-gray-300 rounded-md  focus:ring-primary focus-visible:ring-primary  focus:border-primary sm:text-sm">
                 </div>
                 <div>
                     <label for="password"
                            class="block text-lg text-bluScuro font-medium text-gray-700">Password</label>
                     <input type="password" id="password" name="password" required
-                           value="generale"
+                           value="<#if isDebug?? && isDebug>generale</#if>"
                            class=" block w-full px-3 py-2 shadowBoxInput border border-gray-300 rounded-md  focus:ring-primary focus-visible:ring-primary focus:border-primary sm:text-sm">
                 </div>
 
                 <!-- Radio Buttons Section -->
-                <h2 class="text-bluScuro text-sm bg-TgialloChiaro2 px-2 py-1 rounded-xl text-center">Per semplificare il
-                    login nella demo, usare valori di default e selezionare un ruolo</h2>
-                <div class="flex items-center space-x-4 flex-row justify-between">
-                    <div>
-                        <input type="radio" id="ordinante" name="role" value="ORDINANTE" required
-                               class="focus:ring-primary focus:border-primary cursor-pointer" checked>
-                        <label for="ordinante"
-                               class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Ordinante</label>
+                <#if isDebug?? && isDebug>
+                    <h2 class="text-bluScuro text-sm bg-TgialloChiaro2 px-2 py-1 rounded-xl text-center">Per
+                        semplificare il
+                        login nella demo, usare valori di default e selezionare un ruolo</h2>
+                    <div class="flex items-center space-x-4 flex-row justify-between">
+                        <div>
+                            <input type="radio" id="ordinante" name="role" value="ORDINANTE" required
+                                   class="focus:ring-primary focus:border-primary cursor-pointer" checked>
+                            <label for="ordinante"
+                                   class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Ordinante</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="tecnico" name="role" value="TECNICO" required
+                                   class="focus:ring-primary focus:border-primary cursor-pointer">
+                            <label for="tecnico" class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Tecnico</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="admin" name="role" value="AMMINISTRATORE" required
+                                   class="focus:ring-primary focus:border-primary cursor-pointer">
+                            <label for="admin"
+                                   class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Admin</label>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="tecnico" name="role" value="TECNICO" required
-                               class="focus:ring-primary focus:border-primary cursor-pointer">
-                        <label for="tecnico" class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Tecnico</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="admin" name="role" value="AMMINISTRATORE" required
-                               class="focus:ring-primary focus:border-primary cursor-pointer">
-                        <label for="admin"
-                               class="text-lg text-bluScuro font-medium text-gray-700 cursor-pointer">Admin</label>
-                    </div>
-                </div>
+                </#if>
 
                 <#--     Gestione errore           -->
                 <#if error?exists && error == "x">
@@ -80,7 +83,7 @@
             <div class="absolute inset-0 bg-no-repeat bg-cover w-full h-full top-0 left-0 rounded-t-2xl md:rounded-tl-none  md:rounded-r-2xl"
                  style="background-image: url('/images/bg/bgLoginDestra.svg');"></div>
             <div class="relative z-10 flex flex-row md:flex-col items-center justify-center gap-2">
-                <img src="/images/logoGMarket.png" alt="Logo GMarket" class="w-24 h-auto" />
+                <img src="/images/logoGMarket.png" alt="Logo GMarket" class="w-24 h-auto"/>
                 <p class="text-primario text-center text-2xl font-semibold">Benvenuto<br/>su <span class="font-bold">GMarket</span>
                 </p>
 
