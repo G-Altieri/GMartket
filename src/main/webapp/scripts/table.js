@@ -35,7 +35,7 @@ $(document).ready(function () {
 window.rowClickHandlerNotifica = function (idNotifica, keyRichiesta, redirect, propostaEsiste = "false") {
     if (propostaEsiste === "false") {
         $.ajax({
-            url: '/tecnico/read-notifica',  // Endpoint per gestire la richiesta
+            url: '/notifiche/read-notifica',  // Endpoint per gestire la richiesta
             method: 'POST',
             data: {key: idNotifica},
             success: function (response) {

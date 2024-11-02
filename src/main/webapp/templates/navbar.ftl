@@ -1,3 +1,4 @@
+<script src="../scripts/navbar.js"></script>
 <div class="flex flex-row justify-between mt-1">
     <div class="flex flex-row items-center gap-4">
         <a id="backArrow" class="text-4xl font-semibold text-bluScuro" href="${backPage}">
@@ -40,22 +41,3 @@
 </div>
 <div class="bg-griggioScuro h-1 w-full rounded-3xl mt-2"></div>
 
-<script>
-    $(document).ready(function () {
-        // Array di percorsi in cui la freccia non deve essere visibile
-        var hiddenPaths = ['/ordinante', '/tecnico', '/admin'];
-
-        // Ottieni il percorso attuale della pagina
-       var currentPath = window.location.pathname;
-
-        // Se il percorso attuale è in uno dei percorsi specificati, nascondi la freccia
-        if (hiddenPaths.includes(currentPath)) {
-            $("#backArrow").hide(); // Nasconde il SVG della freccia
-        } else {
-            // Aggiunge un evento di click sul SVG per tornare indietro
-          /*  $("#backArrow").on("click", function () {
-                window.history.back(); // Torna alla pagina precedente
-            }); */
-        }
-    });
-</script>

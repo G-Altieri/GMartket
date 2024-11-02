@@ -134,10 +134,6 @@ public class TecnicoController extends AppBaseController {
 
         List<RichiestaCaratteristica> caratteristicheList = richiestaCaratteristicaDAO.getRichiesteCaratteristicaByRichiesta(richiesta.getKey());
 
-        if (richiesta == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Richiesta non trovata");
-            return;
-        }
 
         request.setAttribute("richiesta", richiesta);
 

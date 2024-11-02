@@ -282,20 +282,6 @@ public class CategoriaDAO_SQL extends DAO implements CategoriaDAO {
         return result;
     }
 
-    /*
-        @Override
-        public void deleteCategoria(Categoria categoria) throws DataException {
-            try {
-                dataLayer.getCache().delete(Categoria.class, categoria);
-                dCategoria.setInt(1, categoria.getKey());
-                System.out.println(categoria);
-                dCategoria.executeUpdate();
-
-            } catch (SQLException e) {
-                throw new DataException("Unable to delete Categoria", e);
-            }
-        }
-    */
     @Override
     public void deleteCategoria(Categoria categoria) throws DataException {
         try {

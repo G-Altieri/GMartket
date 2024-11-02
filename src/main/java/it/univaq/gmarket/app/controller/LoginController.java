@@ -155,10 +155,7 @@ public class LoginController extends AppBaseController {
 
     private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
-        //    AppDataLayer dl = (AppDataLayer) request.getAttribute("datalayer");
-        // Per questi errori preferisco avere una gestione con messaggio direttamente
-        // nella pagina di login in modo tale da poter far loggare l'utente più velocemente
-        //if (request.getParameter("error") != null) displayError(datamodel, request.getParameter("error"));
+
         request.setAttribute("referrer", request.getParameter("referrer"));
         request.setAttribute("includeHeader", false);
         request.setAttribute("includeFooter", false);

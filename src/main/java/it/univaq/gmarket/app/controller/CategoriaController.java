@@ -10,6 +10,7 @@ import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.CategoriaWrapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -78,11 +79,9 @@ public class CategoriaController extends AppBaseController {
             // GET: Visualizza il form per aggiungere una categoria
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Aggiungi Categoria");
-            // request.setAttribute("currentUrl", request.getRequestURI());
             // Recupera la lista delle categorie dal database
             CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
             List<Categoria> categorie = categoriaDAO.getAllCategorie();  // Supponendo che ci sia un metodo per questo
-            //System.out.println(categorie);
             // Setta le categorie come attributo nella request
             request.setAttribute("categorie", categorie);
 
@@ -115,14 +114,6 @@ public class CategoriaController extends AppBaseController {
         String idString = pathParts[pathParts.length - 1];  // Ultima parte dell'URL è l'ID
         int categoriaId = Integer.parseInt(idString);
 
-        // Ottieni il parametro 'status' dall'URL
-    /*    String successMessage = request.getParameter("status");
-        System.out.println(successMessage);
-        // Se 'status' è presente, impostalo come attributo della richiesta
-        if (successMessage != null) {
-            request.setAttribute("status", successMessage);
-        } */
-
         // Recupera la categoria dal database usando il DAO
         CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
         Categoria categoria = categoriaDAO.getCategoriaById(categoriaId);
@@ -152,7 +143,6 @@ public class CategoriaController extends AppBaseController {
 
                 // Recupera le sottocategorie (figlie) della categoria attuale
                 List<Categoria> categorieFiglie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
-                //   System.out.println("Figlieeeee"+categorieFiglie);
 
 
                 if (categorie == null) {
@@ -176,12 +166,10 @@ public class CategoriaController extends AppBaseController {
                 //  request.setAttribute("categorieFiglie", categorieFiglie);  // Le categorie figlie
                 request.setAttribute("navbarTitle", "Categoria " + categoria.getNome());
 
-                //   System.out.println("gerarchia: " + categoriaHierarchia);
                 // Carica il template FreeMarker per visualizzare la categoria
                 TemplateResult result = new TemplateResult(getServletContext());
 
-                //  System.out.println("Ci arrrivo");
-                // System.out.println(categoriaId);
+
                 List<Caratteristica> caratteristiche = caratteristicaDAO.getCaratteristicheByCategoria(categoriaId);
                 //Recupero Caraterristiche
                 request.setAttribute("caratteristiche", caratteristiche);
@@ -197,63 +185,12 @@ public class CategoriaController extends AppBaseController {
         }
     }
 
-    // Classe per contenere la categoria e il livello nella gerarchia
-    public class CategoriaWrapper {
-        private Categoria categoria;
-        private int livello;
-        private List<CategoriaWrapper> sottocategorie;
-
-        public CategoriaWrapper(Categoria categoria, int livello) {
-            this.categoria = categoria;
-            this.livello = livello;
-            this.sottocategorie = new ArrayList<>();
-        }
-
-        public Categoria getCategoria() {
-            return categoria;
-        }
-
-        public int getLivello() {
-            return livello;
-        }
-
-        public List<CategoriaWrapper> getSottocategorie() {
-            return sottocategorie;
-        }
-
-        public void setSottocategorie(List<CategoriaWrapper> sottocategorie) {
-            this.sottocategorie = sottocategorie;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("CategoriaWrapper { ");
-            sb.append("categoria = ").append(categoria != null ? categoria.getNome() : "null");
-            sb.append(", livello = ").append(livello);
-            sb.append(", sottocategorie = [");
-
-            // Aggiungiamo tutte le sottocategorie in una stringa
-            for (CategoriaWrapper sottocategoria : sottocategorie) {
-                sb.append(sottocategoria.toString()).append(", ");
-            }
-
-            // Rimuove l'ultima virgola e spazio, se ci sono sottocategorie
-            if (!sottocategorie.isEmpty()) {
-                sb.setLength(sb.length() - 2); // Rimuove l'ultimo ", "
-            }
-
-            sb.append("] }");
-            return sb.toString();
-        }
-    }
 
     // Metodo per creare la gerarchia delle categorie con livelli
     public List<CategoriaWrapper> costruisciGerarchia(int categoriaId, int livello, CategoriaDAO categoriaDAO) throws DataException {
         List<Categoria> sottocategorie = categoriaDAO.getFiglieByCategoriaId(categoriaId);
         List<CategoriaWrapper> result = new ArrayList<>();
         //     System.out.println("Sottocategorie +"+categoriaId);
-        //     System.out.println(sottocategorie);
         for (Categoria categoria : sottocategorie) {
             CategoriaWrapper wrapper = new CategoriaWrapper(categoria, livello);
             // Chiamata ricorsiva per aggiungere le sottocategorie
@@ -268,14 +205,6 @@ public class CategoriaController extends AppBaseController {
     private void handleEliminaCategoria(HttpServletRequest request, HttpServletResponse response, Categoria categoria) throws IOException, DataException {
         // Controlla se la categoria ha delle categorie figlie
         CategoriaDAO categoriaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getCategoriaDAO();
-   /*     List<Categoria> categorieFiglie = categoriaDAO.getCategorieFiglie(categoria.getKey()); // Implementa questo metodo nel DAO
-
-        if (!categorieFiglie.isEmpty()) {
-            // Se ci sono categorie figlie, restituisci un messaggio di errore
-            request.setAttribute("errorMessage", "Non puoi eliminare questa categoria perché ha delle categorie figlie.");
-            response.sendRedirect("/admin/categorie");
-            return;
-        }  */
 
         // Se non ci sono categorie figlie, procedi con l'eliminazione
         categoriaDAO.deleteCategoria(categoria);

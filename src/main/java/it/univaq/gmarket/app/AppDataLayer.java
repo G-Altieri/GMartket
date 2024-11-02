@@ -1,8 +1,5 @@
 package it.univaq.gmarket.app;
-/*
-import it.univaq.gmartket.data.dao.UtenteDAO;
-import it.univaq.gmartket.data.dao.impl.UtenteDAO_MySQL;
-import it.univaq.gmartket.data.model.Utente; */
+
 
 import it.univaq.gmarket.app.controller.RichiestaController;
 import it.univaq.gmarket.data.dao.*;
@@ -15,8 +12,9 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 
-//npx tailwindcss -i ./src/main/webapp/styles/global.css -o ./src/main/webapp/styles/tailwind2.css --watch
 public class AppDataLayer extends DataLayer {
+
+    //comando per aggiornare i file con tailwindcss: npx tailwindcss -i ./src/main/webapp/styles/global.css -o ./src/main/webapp/styles/tailwind2.css --watch
 
     public AppDataLayer(DataSource datasource) throws SQLException {
         super(datasource);
@@ -60,6 +58,7 @@ public class AppDataLayer extends DataLayer {
     public PropostaDAO getPropostaDAO() {
         return (PropostaDAO) getDAO(Proposta.class);
     }
+
     public NotificaDAO getNotificaDAO() {
         return (NotificaDAO) getDAO(Notifica.class);
     }

@@ -37,7 +37,7 @@ public abstract class AbstractBaseController extends HttpServlet {
     //override to enforce your policy and/or change the login url
     protected void accessCheckFailed(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
         String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-        response.sendRedirect("login?referrer=" + URLEncoder.encode(completeRequestURL, "UTF-8"));
+        response.sendRedirect("/login?referrer=" + URLEncoder.encode(completeRequestURL, "UTF-8"));
     }
 
     //override to provide your login information in the request

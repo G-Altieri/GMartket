@@ -12,12 +12,7 @@
             </div>
         </div>
         <div class="col-span-2"></div>
-<#--        <div class="col-span-1 md:col-span-2 bg-white p-4 w-full gap-4 rounded-3xl shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center">-->
-<#--            <div class="text-2xl font-semibold text-bluScuro ">Notifiche</div>-->
-<#--            <div class="">-->
-<#--                <img src="/images/icons/vectorNotifiche.svg" alt="vectorNotifiche" class="w-full w-90 h-auto ">-->
-<#--            </div>-->
-<#--        </div>-->
+
     </div>
 
     <#--    Sezione 2 Gestione -->

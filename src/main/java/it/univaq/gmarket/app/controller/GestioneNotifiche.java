@@ -32,7 +32,7 @@ public class GestioneNotifiche extends AppBaseController {
             String path = request.getRequestURI();
             Utente u = SecurityHelpers.getUserSession(request, response);
 
-            if (path.endsWith("/tecnico/read-notifica")) {
+            if (path.endsWith("/read-notifica")) {
                 action_readNotifica(request, response);
             } else if (path.endsWith("/notifiche")) {
                 action_paginaNotifiche(request, response);
@@ -73,18 +73,6 @@ public class GestioneNotifiche extends AppBaseController {
         res.activate("/notifiche.ftl", request, response);
     }
 
-    //
-//    private static void generaNotifica(HttpServletRequest request, HttpServletResponse response, Utente ordinante, Richiesta richiesta,
-//    Proposta proposta, Proposta ordine, Ruolo ruolo){
-//        System.out.println("Notifiche");
-//        NotificaDAO notificaDAO = ((AppDataLayer) request.getAttribute("datalayer")).getNotificaDAO();
-//        Notifica notifica = new NotificaImpl();
-//        notifica.setRuolo(Ruolo.TECNICO);
-//        notifica.setTitolo("Nuova Richiesta");
-//        notifica.setContenuto("Richiesta di "+ordinante.getNome()+" "+ordinante.getCognome()+" categoria: "+richiesta.getCategoria().getNome() );
-//        notifica.setRichiesta(richiesta);
-//        notificaDAO.storeNotifica(notifica);
-//    }
     public static void navbarNotifiche(HttpServletRequest request, HttpServletResponse response) {
         //Notifiche
         Utente u = null;

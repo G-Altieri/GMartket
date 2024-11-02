@@ -4,6 +4,8 @@
 <!-- Script JS per la gestione delle richieste -->
 <script type="module" src="/scripts/crea_richiesta.js"></script>
 
+<script src="/scripts/crea_proposta.js"></script>
+
 <!-- Struttura centrale della pagina -->
 <div class="bg-light p-6 rounded-2xl shadow-normalBox mt-8">
     <div class="flex flex-col items-center ">
@@ -48,14 +50,14 @@
                 <li class="flex flex-row items-center justify-between gap-4 bg-white shadow rounded-lg p-4 rounded-2xl bg-light ">
                     <h2 class="text-xl font-semibold text-bluScuro">Link</h2>
                     <input id="link" type="text" name="link" class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="www.fiat.it" >
+                           placeholder="www.fiat.it">
                 </li>
 
                 <!-- Campo Note -->
                 <li class="flex flex-row items-center justify-between gap-4 bg-white shadow rounded-lg p-4 rounded-2xl bg-light ">
                     <h2 class="text-xl font-semibold text-bluScuro">Note</h2>
                     <input id="note" type="text" name="note" class="border border-gray-300 rounded-md px-4 py-2 flex-1"
-                           placeholder="Inserisci note (OPZIONALE)" maxlength="30" >
+                           placeholder="Inserisci note (OPZIONALE)" maxlength="30">
                 </li>
             </ul>
 
@@ -67,18 +69,4 @@
         </form>
     </div>
 
-    <!-- Script per disabilitare campi con checkbox -->
-    <script>
-        document.querySelectorAll('.checkbox-disabilita').forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
-                const targetId = this.getAttribute('data-target');
-                const input = document.getElementById(targetId);
-                if (this.checked) {
-                    input.disabled = true;
-                    input.value = '';
-                } else {
-                    input.disabled = false;
-                }
-            });
-        });
-    </script>
+</div>

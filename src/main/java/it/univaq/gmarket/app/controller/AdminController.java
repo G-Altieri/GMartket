@@ -27,8 +27,6 @@ public class AdminController extends AppBaseController {
 
             TemplateResult result = new TemplateResult(getServletContext());
             request.setAttribute("navbarTitle", "Dashboard Amministratore");
-
-
             result.activate("/admin/dashboardAdmin.ftl", request, response);
 
 
