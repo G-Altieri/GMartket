@@ -80,7 +80,7 @@
             <div class="absolute inset-0 bg-no-repeat bg-cover w-full h-full top-0 left-0 rounded-t-2xl md:rounded-tl-none  md:rounded-r-2xl"
                  style="background-image: url('/images/bg/bgLoginDestra.svg');"></div>
             <div class="relative z-10 flex flex-row md:flex-col items-center justify-center gap-2">
-                <img src="/images/logoGMarket.png" alt="Logo GMarket" class="w-24 h-auto">
+                <img src="/images/logoGMarket.png" alt="Logo GMarket" class="w-24 h-auto" />
                 <p class="text-primario text-center text-2xl font-semibold">Benvenuto<br/>su <span class="font-bold">GMarket</span>
                 </p>
 

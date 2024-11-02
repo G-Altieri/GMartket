@@ -11,6 +11,7 @@ import it.univaq.gmarket.data.model.impl.*;
 import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.EmailSender;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,10 @@ public class GestioneOrdine extends AppBaseController {
         notifica.setOrdine(proposta);
         notificaDAO.storeNotifica(notifica);
 
+        // Invia PDF con dettagli proposta via email
+        EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+        String destinatario = proposta.getRichiesta().getOrdinante().getEmail();
+        sender.sendPDFWithEmail(getServletContext(), destinatario, proposta, EmailSender.Event.INVIO_ORDINE);
 
         response.sendRedirect("/tecnico");
     }

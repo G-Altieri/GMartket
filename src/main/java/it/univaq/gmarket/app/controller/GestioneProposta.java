@@ -13,6 +13,7 @@ import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.EmailSender;
 import it.univaq.gmarket.framework.utils.GeneratoreCodice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,6 +84,11 @@ public class GestioneProposta extends AppBaseController {
             notifica.setRichiesta(newProposta.getRichiesta());
             notificaDAO.storeNotifica(notifica);
 
+            // Invia PDF con dettagli proposta via email
+            EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+            String destinatario = newProposta.getRichiesta().getOrdinante().getEmail();
+            sender.sendPDFWithEmail(getServletContext(), destinatario, newProposta, EmailSender.Event.NUOVA_PROPOSTA);
+
             response.sendRedirect("/tecnico/lista-richiesteProprie");
 
         } catch (DataException e) {
@@ -122,6 +128,11 @@ public class GestioneProposta extends AppBaseController {
         notifica.setProposta(proposta);
         notifica.setRichiesta(proposta.getRichiesta());
         notificaDAO.storeNotifica(notifica);
+
+        // Invia PDF con dettagli proposta via email
+        EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+        String destinatario = proposta.getRichiesta().getTecnico().getEmail();
+        sender.sendPDFWithEmail(getServletContext(), destinatario, proposta, EmailSender.Event.RISPOSTA_PROPOSTA);
 
         response.sendRedirect("/ordinante/lista-richieste");
 

@@ -11,6 +11,7 @@ import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.EmailSender;
 import it.univaq.gmarket.framework.utils.GeneratoreCodice;
 
 import javax.mail.Session;
@@ -131,6 +132,7 @@ public class GestioneRichieste extends AppBaseController {
         notificaDAO.storeNotifica(notifica);
 
 
+
         // Reindirizzo l'utente alla pagina delle richieste
         response.sendRedirect("/ordinante");
     }
@@ -152,33 +154,17 @@ public class GestioneRichieste extends AppBaseController {
         notifica.setContenuto("La richiesta #"+richiesta.getCodice()+" é stata presa in carico da: "+u.getNome()+" "+u.getCognome() );
         notifica.setRichiesta(richiesta);
         notificaDAO.storeNotifica(notifica);
-    /*
-    String email = richiesta.getUtente().getEmail();
-    String codice =richiesta.getCodiceRichiesta();
 
-    ((ApplicationDataLayer) request.getAttribute("datalayer")).getRichiestaOrdineDAO().storeRichiestaOrdine(richiesta);
+        //Email per l'ordinante
+        EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+        String subject = "Richiesta #"+richiesta.getCodice()+" presa in carico";
+        String body = "Gentile utente,\n\n" +
+                "Le informiamo che la richiesta #"+richiesta.getCodice()+" é stata presa in carico da: "+u.getNome()+" "+u.getCognome()+" \n\n" +
+                "Saluti, \n" +
+                "Il team di GMarket";
 
-    Properties props = new Properties();
-    props.put("mail.smtp.host", "smtp.outlook.com");
-    props.put("mail.smtp.port", "587");
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
+        sender.sendEmail(richiesta.getOrdinante().getEmail(), subject, body);
 
-    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-        protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-            return new javax.mail.PasswordAuthentication("webmarket.univaq@outlook.com", "geagiuliasamanta1");
-        }
-    });
-
-    String subject = "Richiesta presa in carico";
-    String body = "Gentile utente, \n\n" +
-            "La informiamo che la richiesta numero "+ codice +" è stata presa in carico. \n"+
-            "Cordiali Saluti, \n" +
-            "Il team di WebMarket";
-
-    EmailSender.sendEmail(session, email, subject, body);
-
-     */
         response.sendRedirect("/tecnico");
     }
 

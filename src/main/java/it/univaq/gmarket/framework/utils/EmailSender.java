@@ -3,7 +3,9 @@ package it.univaq.gmarket.framework.utils;
 
 
 import com.lowagie.text.DocumentException;
+import it.univaq.gmarket.data.model.Proposta;
 import it.univaq.gmarket.data.model.Richiesta;
+import it.univaq.gmarket.data.model.impl.StatoProposta;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -29,7 +31,9 @@ import java.util.logging.Logger;
 public class EmailSender {
 
     public enum Event {
-        RICHIESTA_REGISTRATA, // Mik
+        NUOVA_PROPOSTA,
+        RISPOSTA_PROPOSTA,
+        INVIO_ORDINE,
     }
 
     private String emailFrom, password;
@@ -41,7 +45,7 @@ public class EmailSender {
         this.properties = properties;
     }
 
-    public void sendEmail(String to, String messageText) {
+    public void sendEmail(String to,String subject, String messageText) {
         // Uso un thread perchè potrebbe metterci del tempo ad inviare l'email
         new Thread(() -> {
 
@@ -62,7 +66,7 @@ public class EmailSender {
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
                 // Set Subject: header field
-                message.setSubject("This is the Subject Line!");
+                message.setSubject(subject);
 
                 // Now set the actual message
                 message.setText(messageText);
@@ -70,7 +74,7 @@ public class EmailSender {
                 // Send message
                 Transport.send(message);
                 System.out.println("Email inviata correttamente");
-                Logger.getLogger(EmailSender.class.getName()).info("Sent message successfully....");
+               // Logger.getLogger(EmailSender.class.getName()).info("Sent message successfully....");
             } catch (MessagingException mex) {
                 Logger.getLogger(EmailSender.class.getName()).severe(mex.getMessage());
             }
@@ -83,31 +87,112 @@ public class EmailSender {
         Map<String, Object> datamodel = new HashMap<>();
         Map<String, String> values = new HashMap<>();
         StringBuilder sb = new StringBuilder();
+        StringWriter writer = null;
+        Proposta proposta = null;
 
         switch (event) {
-            case RICHIESTA_REGISTRATA:
-                Richiesta richiesta = (Richiesta) obj;
+            case NUOVA_PROPOSTA:
+                 // Cast the proposal object
+                proposta = (Proposta) obj;
+                // Configure data for the template
+                datamodel.put("proposta", proposta);  // Add the proposal object to the data model
 
-                datamodel = new HashMap<>();
-                datamodel.put("richiesta", richiesta);
-              //  htmlresult = result.activate("/pdf_templates/pdf_richiesta.ftl", new StringWriter());
-                //result.activate("/home", request, response);
+                // Prepare to store the generated HTML content
+                writer = new StringWriter();  // Using StringWriter for capturing HTML output
+                // Process the template to generate the email content
+                try {
+                    // Activate the TemplateResult to generate output to the writer
+                    result.activate("/pdf/proposta.ftl", datamodel, writer);
+                    htmlresult = writer.toString();  // Convert the writer's output to a string
+                } catch (TemplateManagerException e) {
+                    e.printStackTrace();
+                    htmlresult = "";  // Ensure htmlresult is initialized even if an error occurs
+                }
 
-                sb.append("Richiesta: ").append(richiesta.getCodice()).append("\n");
-                sb.append("Data: ").append(richiesta.getCreated_at()).append("\n");
-                sb.append("Ordinante: ").append(richiesta.getOrdinante().getEmail()).append("\n");
-                sb.append("Note: ").append(richiesta.getNote()).append("\n");
-                sb.append("Caratteristiche: ").append("\n");
-//                    for ( ccv : richiesta.getCaratteristicheConValore()) {
-//                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
-//                    }
+                // Create the plain text summary for the email body (text format)
+                sb.append("Proposta: ").append(proposta.getCodiceProposta()).append("\n");
+                sb.append("Nome Prodotto: ").append(proposta.getNomeProdotto()).append("\n");
+                sb.append("Produttore: ").append(proposta.getNomeProduttore()).append("\n");
+                sb.append("Prezzo: ").append(proposta.getPrezzo()).append("\n");
 
-                values.put("filename", "richiesta_" + richiesta.getCodice());
-                values.put("subject", "Richiesta: " + richiesta.getCodice());
-                values.put("text", sb.toString());
+                // Set additional email metadata like filename, subject, etc.
+                values.put("filename", "proposta_" + proposta.getCodiceProposta());  // Dynamic filename for proposal
+                values.put("subject", "Nuova Proposta " + proposta.getCodiceProposta());  // Subject line
+                values.put("text", sb.toString());  // Plain text content for the email
 
+                // Send the email using a new email sender instance
                 newEmailSender(context, to, htmlresult, values);
                 break;
+            case RISPOSTA_PROPOSTA:
+                proposta = (Proposta) obj;  // Cast the proposal object
+
+                // Configure data for the template
+                datamodel.put("proposta", proposta);  // Add the proposal object to the data model
+
+                // Prepare to store the generated HTML content
+                writer=  new StringWriter();  // Using StringWriter for capturing HTML output
+                // Process the template to generate the email content
+                try {
+                    // Activate the TemplateResult to generate output to the writer
+                    result.activate("/pdf/proposta.ftl", datamodel, writer);
+                    htmlresult = writer.toString();  // Convert the writer's output to a string
+                } catch (TemplateManagerException e) {
+                    e.printStackTrace();
+                    htmlresult = "";  // Ensure htmlresult is initialized even if an error occurs
+                }
+
+                // Create the plain text summary for the email body (text format)
+                sb.append("La Proposta: ").append(proposta.getCodiceProposta()).append("\n");
+                sb.append("é stata: ").append(proposta.getStatoProposta()).append("\n");
+                if(proposta.getStatoProposta().equals(StatoProposta.RIFIUTATO)){
+                    sb.append("motivazione: ").append(proposta.getMotivazione()).append("\n");
+                }
+                sb.append("Nome Prodotto: ").append(proposta.getNomeProdotto()).append("\n");
+                sb.append("Produttore: ").append(proposta.getNomeProduttore()).append("\n");
+                sb.append("Prezzo: ").append(proposta.getPrezzo()).append("\n");
+
+                // Set additional email metadata like filename, subject, etc.
+                values.put("filename", "proposta_" + proposta.getCodiceProposta());  // Dynamic filename for proposal
+                values.put("subject", "Risposta Proposta: " + proposta.getCodiceProposta());  // Subject line
+                values.put("text", sb.toString());  // Plain text content for the email
+
+                // Send the email using a new email sender instance
+                newEmailSender(context, to, htmlresult, values);
+                break;
+                case INVIO_ORDINE:
+                proposta = (Proposta) obj;  // Cast the proposal object
+
+                // Configure data for the template
+                datamodel.put("proposta", proposta);  // Add the proposal object to the data model
+
+                // Prepare to store the generated HTML content
+                writer=  new StringWriter();  // Using StringWriter for capturing HTML output
+                // Process the template to generate the email content
+                try {
+                    // Activate the TemplateResult to generate output to the writer
+                    result.activate("/pdf/ordine.ftl", datamodel, writer);
+                    htmlresult = writer.toString();  // Convert the writer's output to a string
+                } catch (TemplateManagerException e) {
+                    e.printStackTrace();
+                    htmlresult = "";  // Ensure htmlresult is initialized even if an error occurs
+                }
+
+                // Create the plain text summary for the email body (text format)
+                sb.append("L'Ordine: ").append(proposta.getCodiceProposta());
+                sb.append(" é stato spedito").append("\n");
+                sb.append("Nome Prodotto: ").append(proposta.getNomeProdotto()).append("\n");
+                sb.append("Produttore: ").append(proposta.getNomeProduttore()).append("\n");
+                sb.append("Prezzo: ").append(proposta.getPrezzo()).append("\n");
+
+                // Set additional email metadata like filename, subject, etc.
+                values.put("filename", "ordine_" + proposta.getCodiceProposta());  // Dynamic filename for proposal
+                values.put("subject", "L'Ordine é stato spedito: " + proposta.getCodiceProposta());  // Subject line
+                values.put("text", sb.toString());  // Plain text content for the email
+
+                // Send the email using a new email sender instance
+                newEmailSender(context, to, htmlresult, values);
+                break;
+
 
         }
 

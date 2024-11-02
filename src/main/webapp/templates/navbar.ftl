@@ -35,7 +35,7 @@
 
         <p>${user.nome} ${user.cognome}</p>
         <img src="/images/icons/dashboardAdmin/avatarUser.svg" alt="avatar"
-             class="w-10 h-auto border border-bluScuro rounded-full">
+             class="w-10 h-auto border border-bluScuro rounded-full" />
     </div>
 </div>
 <div class="bg-griggioScuro h-1 w-full rounded-3xl mt-2"></div>

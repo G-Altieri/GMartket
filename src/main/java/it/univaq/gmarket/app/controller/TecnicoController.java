@@ -44,11 +44,13 @@ public class TecnicoController extends AppBaseController {
                 int propostaId = SecurityHelpers.checkNumeric(request.getParameter("keyProposta"));
                 action_getDettagliPropostaTec(request, response, propostaId);
             } else if (path.endsWith("/invioEmailTest")) {
-                System.out.println("invio email");
+
+                // Invia PDF con dettagli proposta via email
                 EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-                System.out.println(sender);
-                sender.sendEmail("peroniciro@gmail.com","test prima email");
-                System.out.println("email inviata");
+                Proposta newProposta = ((AppDataLayer) request.getAttribute("datalayer")).getPropostaDAO().getProposta(26);
+                String destinatario = newProposta.getRichiesta().getOrdinante().getEmail();
+                sender.sendPDFWithEmail(getServletContext(), destinatario, newProposta, EmailSender.Event.NUOVA_PROPOSTA);
+
                 response.sendRedirect("/home");
             } else {
                 action_getDashboard(request, response);

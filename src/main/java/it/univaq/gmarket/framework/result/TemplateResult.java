@@ -233,6 +233,9 @@ public class TemplateResult {
             throw new TemplateManagerException("Template error: " + ex.getMessage(), ex);
         }
     }
+    public void activate(String tplname, Map<String, Object> datamodel, Writer out) throws TemplateManagerException {
+        process(tplname, datamodel, null, out);
+    }
 
     //questa versione di activate estrae un modello dati dagli attributi della request
     //this acivate method extracts the data model from the request attributes

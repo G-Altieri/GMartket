@@ -10,7 +10,7 @@
             </div>
             <div class="">
                 <img src="/images/icons/dashboardTecnico/vectorTecnico.svg" alt="vectorTecnico"
-                     class="w-full max-w-[220px] h-auto ">
+                     class="w-full max-w-[220px] h-auto "/>
             </div>
         </div>
         <div class="col-span-2"></div>
@@ -37,7 +37,7 @@
             </#if>
             <div class="text-3xl font-semibold text-bluScuro ">Richieste Libere</div>
             <img src="/images/icons/dashboardTecnico/vectorLibere.svg" alt="vectorLibere"
-                 class="w-full max-w-[220px] h-auto -mb-4">
+                 class="w-full max-w-[220px] h-auto -mb-4"/>
         </a>
         <a href="/tecnico/lista-richiesteProprie"
            class="bg-white p-4 w-full rounded-3xl relative col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
@@ -52,7 +52,7 @@
             </#if>
             <div class="text-3xl font-semibold text-bluScuro ">Mie Richieste</div>
             <img src="/images/icons/dashboardTecnico/vectorMieRichieste.svg" alt="vectorMieRichieste"
-                 class="w-full max-w-[220px] h-auto -mb-4">
+                 class="w-full max-w-[220px] h-auto -mb-4"/>
         </a>
         <a href="/tecnico/lista-ordini"
            class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover relative duration-300 transition-all flex flex-row items-center justify-center gap-6">
@@ -67,7 +67,7 @@
             </#if>
             <div class="text-3xl font-semibold text-bluScuro ">Ordini</div>
             <img src="/images/icons/dashboardTecnico/vectorOrdini.svg" alt="vectorOrdini"
-                 class="w-full max-w-[220px] h-auto -mb-4">
+                 class="w-full max-w-[220px] h-auto -mb-4"/>
         </a>
 
     </div>

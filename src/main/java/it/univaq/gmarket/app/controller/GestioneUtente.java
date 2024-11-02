@@ -9,6 +9,7 @@ import it.univaq.gmarket.framework.data.DataException;
 import it.univaq.gmarket.framework.result.TemplateManagerException;
 import it.univaq.gmarket.framework.result.TemplateResult;
 import it.univaq.gmarket.framework.security.SecurityHelpers;
+import it.univaq.gmarket.framework.utils.EmailSender;
 
 import javax.mail.Session;
 import javax.servlet.ServletException;
@@ -59,7 +60,7 @@ public class GestioneUtente extends AppBaseController {
             } else if (action != null && action.equals("update")) {
                 int userId = SecurityHelpers.checkNumeric(request.getParameter("id"));
                 action_update(request, response, userId); // Passo l'ID all'action_update
-            }else if (action != null && action.equals("modifica")) {
+            } else if (action != null && action.equals("modifica")) {
                 int userId = SecurityHelpers.checkNumeric(request.getParameter("id"));
                 renderPageModifica(request, response, userId); // Passo l'ID all'action_update
             } else {
@@ -113,36 +114,16 @@ public class GestioneUtente extends AppBaseController {
         utenteNuovo.setRuolo(role);
 
         ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(utenteNuovo);
-        /*
-        try {
-            // Questa poi voglio spostarla ma ora funziona e rimane così
-            Properties props = new Properties();
-            props.put("mail.smtp.host", "smtp.outlook.com");
-            props.put("mail.smtp.port", "587");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
 
-            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                    return new javax.mail.PasswordAuthentication("webmarket.univaq@outlook.com", "geagiuliasamanta1");
-                }
-            });
+        //Invio email al utente creato
+        EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+        String subject = "Benvenuto in GMarket";
+        String body = "Ciao e Benvenuto in GMarket,\n\n" +
+                "Ecco le tue credenziali per accedere:\n" +
+                "Email: " + email + "\n" +
+                "Password: " + password + "\n\n";
 
-            String subject = "Benvenuto in WebMarket";
-            String body = "Ciao e Benvenuto in WebMarket,\n\n" +
-                    "Ecco le tue credenziali per accedere:\n" +
-                    "Email: " + email + "\n" +
-                    "Password temporanea: " + password + "\n\n" +
-                    "Ti consigliamo di cambiare la tua password al primo accesso.\n\n";
-
-            EmailSender.sendEmail(session, email, subject, body);
-            request.setAttribute("success", "Utente creato con successo e email inviata!");
-        } catch (Exception e) {
-            request.setAttribute("error", "Utente creato con successo, ma si è verificato un problema durante l'invio dell'email.");
-            e.printStackTrace();
-        }
-
-         */
+        sender.sendEmail(email, subject, body);
 
         // action_default(request, response);
         response.sendRedirect("/admin/utenti");

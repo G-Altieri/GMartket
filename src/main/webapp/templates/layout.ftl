@@ -3,7 +3,7 @@
 <head>
     <title>GMarket</title>
 
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
 
     <!-- CSS -->
     <#--    <link href="/styles/tailwind.css" rel="stylesheet"/>-->

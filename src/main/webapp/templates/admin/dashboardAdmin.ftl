@@ -11,7 +11,7 @@
             </div>
             <div class="">
                 <img src="/images/icons/dashboardAdmin/vectorAdmin.svg" alt="vectorAdmin"
-                     class="w-full max-w-[380px] h-auto -mb-4">
+                     class="w-full max-w-[380px] h-auto -mb-4" />
             </div>
         </div>
         <div class="col-span-2"></div>
@@ -24,14 +24,14 @@
            class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
             <div class="text-3xl font-semibold text-bluScuro ">Categorie</div>
             <img src="/images/icons/dashboardAdmin/vectorCategorie.svg" alt="vectorAdmin"
-                 class="w-full max-w-[220px] h-auto -mb-4">
+                 class="w-full max-w-[220px] h-auto -mb-4" />
         </a>
 
         <a href="/admin/utenti"
            class="bg-white p-4 w-full rounded-3xl  col-span-3 min-h-[240px] shadow-buttonBox hover:shadow-buttonBoxHover duration-300 transition-all flex flex-row items-center justify-center gap-6">
             <div class="text-3xl font-semibold text-bluScuro ">Utenti</div>
             <img src="/images/icons/dashboardAdmin/vectorUtenti.svg" alt="vectorAdmin"
-                 class="w-full max-w-[150px] h-auto -mb-4">
+                 class="w-full max-w-[150px] h-auto -mb-4" />
         </a>
 
     </div>
