@@ -38,6 +38,10 @@
             <input type="password" id="password" name="new-password" class="border border-gray-300 rounded-md px-4 py-2 flex-1" placeholder="Nuova password">
         </div>
 
+        <#if error?exists>
+            <h2 class="text-bluScuro text-sm bg-TrossoChiaro px-2 py-1 rounded-xl text-center">${error}</h2>
+        </#if>
+
         <!-- Pulsanti di azione -->
         <div class="flex flex-row items-center justify-center gap-4 w-full mt-6">
             <a href="/admin/utenti" class="flex flex-row items-center justify-center gap-2 w-full bg-rosso2 hover:bg-red-700 px-4 py-3 rounded-full shadow-buttonBox hover:shadow-buttonBoxHover text-xl font-semibold text-white">

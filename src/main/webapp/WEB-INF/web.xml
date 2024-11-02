@@ -91,7 +91,7 @@
 
     <servlet>
         <servlet-name>UpdateDati</servlet-name>
-        <servlet-class>it.univaq.gmarket.app.controller.UpdateDati</servlet-class>
+        <servlet-class>it.univaq.gmarket.app.controller.GestioneUtente</servlet-class>
     </servlet>
 
     <servlet>

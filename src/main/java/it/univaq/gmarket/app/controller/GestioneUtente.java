@@ -22,41 +22,55 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 
-public class GestioneUtente extends AppBaseController{
+public class GestioneUtente extends AppBaseController {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException {
-        TemplateResult res = new TemplateResult(getServletContext());
-        request.setAttribute("navbarTitle", "Gestione Utenti");
+        TemplateResult result = new TemplateResult(getServletContext());
 
-        res.activate("/admin/utenti/utenti.ftl", request, response);
+        try {
+            // Ottieni la lista degli utenti dal database
+            List<Utente> utenti = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getAllUtenti();
+
+            // Imposta gli utenti come attributo nella request
+            request.setAttribute("utenti", utenti);
+            request.setAttribute("navbarTitle", "Gestione Utente");
+
+            // Attiva il template
+            result.activate("/admin/utenti/utentiAggiungi.ftl", request, response);
+        } catch (DataException | TemplateManagerException ex) {
+            throw new TemplateManagerException("Errore nel recupero degli utenti", ex);
+        }
     }
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)  throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             //Check dei ruoli del utente
             Ruolo[] allowedRoles = {Ruolo.AMMINISTRATORE};
             SecurityHelpers.checkUserRole(request, response, allowedRoles);
             if (response.isCommitted()) return;
 
-
             String action = request.getParameter("action");
 
             if (action != null && action.equals("createUser")) {
-
                 action_createUser(request, response);
             } else if (action != null && action.equals("listUtenti")) {
                 action_getAllUtenti(request, response);
+            } else if (action != null && action.equals("update")) {
+                int userId = SecurityHelpers.checkNumeric(request.getParameter("id"));
+                action_update(request, response, userId); // Passo l'ID all'action_update
+            }else if (action != null && action.equals("modifica")) {
+                int userId = SecurityHelpers.checkNumeric(request.getParameter("id"));
+                renderPageModifica(request, response, userId); // Passo l'ID all'action_update
             } else {
                 action_default(request, response);
             }
 
-        } catch (IOException | TemplateManagerException | DataException | NoSuchAlgorithmException | InvalidKeySpecException ex) {
+        } catch (IOException | TemplateManagerException | DataException | NoSuchAlgorithmException |
+                 InvalidKeySpecException ex) {
             handleError(ex, request, response);
         }
     }
-
-
 
 
     private void action_createUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, TemplateManagerException, NoSuchAlgorithmException, InvalidKeySpecException, DataException {
@@ -130,7 +144,7 @@ public class GestioneUtente extends AppBaseController{
 
          */
 
-       // action_default(request, response);
+        // action_default(request, response);
         response.sendRedirect("/admin/utenti");
     }
 
@@ -154,6 +168,59 @@ public class GestioneUtente extends AppBaseController{
     }
 
 
+    private void action_update(HttpServletRequest request, HttpServletResponse response, int userId) throws IOException, ServletException, TemplateManagerException, DataException, NoSuchAlgorithmException, InvalidKeySpecException {
+
+
+        String newEmail = request.getParameter("new-email");
+        String newNome = request.getParameter("new-nome");
+        String newCognome = request.getParameter("new-cognome");
+        String newP = request.getParameter("new-password");
+
+
+        // Controllo che tutti i campi siano compilati
+        if (newP == null || newP.trim().isEmpty() || newEmail == null || newEmail.trim().isEmpty() || newNome == null || newNome.trim().isEmpty() || newCognome == null || newCognome.trim().isEmpty()) {
+            request.setAttribute("error", "Tutti i campi devono essere compilati!");
+            TemplateResult res = new TemplateResult(getServletContext());
+            Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+            request.setAttribute("utente", u);  // Aggiungi questa riga
+            String ruolo = u.getRuolo().toString();
+            request.setAttribute("ruolo", ruolo);
+            request.setAttribute("navbarTitle", "Gestione Utente ");
+
+
+            request.setAttribute("user_type", u.getRuolo().toString());
+            res.activate("/admin/utenti/utenteModifica.ftl", request, response);
+            return;
+        }
+
+        Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+
+
+        String hashedPass = SecurityHelpers.getPasswordHashPBKDF2(newP);
+        u.setEmail(newEmail);
+        u.setNome(newNome);
+        u.setCognome(newCognome);
+        u.setPassword(hashedPass);
+        ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().storeUtente(u);
+
+
+        response.sendRedirect("/admin/utenti");
+
+
+    }
+
+    private void renderPageModifica(HttpServletRequest request, HttpServletResponse response, int userId) throws IOException, ServletException, TemplateManagerException, DataException {
+        TemplateResult res = new TemplateResult(getServletContext());
+        Utente u = ((AppDataLayer) request.getAttribute("datalayer")).getUtenteDAO().getUtente(userId);
+        request.setAttribute("utente", u);  // Aggiungi questa riga
+        String ruolo = u.getRuolo().toString();
+        request.setAttribute("ruolo", ruolo);
+        request.setAttribute("navbarTitle", "Gestione Utente ");
+
+
+        request.setAttribute("user_type", u.getRuolo().toString());
+        res.activate("/admin/utenti/utenteModifica.ftl", request, response);
+    }
 
 
 }
