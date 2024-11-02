@@ -262,6 +262,11 @@ public class TemplateResult {
         boolean isOrdini = false;
         boolean isLibere = false;
 
+
+        if (requestURI.matches("^/admin/categorie/visualizza/\\d+$")) {
+            requestURI = requestURI.replaceAll("/\\d+$", "");
+        }
+
         switch (requestURI) {
             //ORDINANTE
             case "/ordinante/crea-richiesta", "/ordinante/lista-richieste", "/ordinante/lista-ordini":
@@ -303,7 +308,7 @@ public class TemplateResult {
                 return "/admin";
             case "/admin/utenti/aggiungi", "/admin/utenti/modifica":
                 return "/admin/utenti";
-            case "/admin/categorie/visualizza/", "/admin/categorie/aggiungi":
+            case "/admin/categorie/visualizza", "/admin/categorie/aggiungi":
                 return "/admin/categorie";
 
         }
