@@ -1,7 +1,7 @@
 // notifiche.js
 function markAsRead(idNotifica, redirect) {
     $.ajax({
-        url: '/tecnico/read-notifica',  // Endpoint per gestire la richiesta
+        url: '/notifiche/read-notifica',  // Endpoint per gestire la richiesta
         method: 'POST',
         data: { key: idNotifica },
         success: function (response) {
